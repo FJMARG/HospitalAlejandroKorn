@@ -1,0 +1,51 @@
+*{ /* Todos los elementos de la pagina web */
+  margin:0%; /* Inicializo el documento sin margen */
+  padding:0%; /* Inicializo el documento sin borde de relleno */
+}
+
+body{ /* Cuerpo */
+  margin:1%; /* Un margen de 1% para que no se peguen los elementos contra el costado del navegador (completa de la linea para afuera) */
+  padding:0%; /* Borde de relleno (completa de la linea para adentro) */
+}
+
+header{ /* Encabezado */
+  display:inline-block; /* Que se muestre un bloque en linea */
+  padding:1%; /* Espacios en blanco al costado */
+  width:98%; /* Anchura (98% por que con el padding se completa al 100%) */
+  background-color:lightgray; /* Color de fondo */
+  border:1px solid; /* Definicion, grosor y tipo de linea de los bordes */
+  border-color:gray; /* Color de los bordes */
+}
+
+.leftCenter{ /* Contenido izquierdo del encabezado y del footer */
+  float:left; /* Que se posicione del lado izquierdo */
+  display:flex; /* Diseño flexible */
+  align-items:center; /* Que se centren horizontalmente los elementos */
+}
+
+.rightCenter{ /* Contenido derecho del encabezado y del footer */
+  float:right; /* Que se posicione del lado derecho */
+  display:flex; /* Diseño flexible */
+  align-items:center; /* Que se centren horizontalmente los elementos */
+}
+
+section{ /* Seccion */
+  display:inline-block; /* Que se muestre un bloque en linea */
+  height:100%; /* Largo 100% */
+}
+
+.article{ /* Articulo izquierdo, central y derecho */
+  margin:6%; /* Margen de 6% */
+  float:left; /* Todos se apilan de izquierda a derecha */
+  width:20%; /* Tienen un ancho de 20% */
+  text-align:center; /* Texto centrado horizontalmente. */
+}
+
+footer{ /* Footer */
+  display:inline-block; /* Que se muestre como un bloque en linea */
+  width:98%; /* Ancho de 98% */
+  padding:1%; /* Borde de relleno de 1% */
+  background-color:lightgray; /* Color de fondo gris claro */
+  border:1px solid; /* Definicion, grosor y tipo de linea de los bordes */
+  border-color:gray; /* Color de borde gris */
+}
