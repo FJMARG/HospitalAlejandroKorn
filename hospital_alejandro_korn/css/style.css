@@ -17,6 +17,15 @@ header{ /* Encabezado */
   border-color:gray; /* Color de los bordes */
 }
 
+header a{
+	padding-top:8%;
+	padding-left:2%;
+}
+
+header form{
+	padding-top:8%;
+}
+
 .leftCenter{ /* Contenido izquierdo del encabezado y del footer */
   float:left; /* Que se posicione del lado izquierdo */
   display:flex; /* Diseño flexible */
@@ -27,11 +36,6 @@ header{ /* Encabezado */
   float:right; /* Que se posicione del lado derecho */
   display:flex; /* Diseño flexible */
   align-items:center; /* Que se centren horizontalmente los elementos */
-}
-
-section{ /* Seccion */
-  display:inline-block; /* Que se muestre un bloque en linea */
-  height:100%; /* Largo 100% */
 }
 
 .article{ /* Articulo izquierdo, central y derecho */
