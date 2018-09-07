@@ -53,3 +53,57 @@ footer{ /* Footer */
   border:1px solid; /* Definicion, grosor y tipo de linea de los bordes */
   border-color:gray; /* Color de borde gris */
 }
+
+main { /* main */ /* Estilo LOGIN */
+    width: auto;   /* largo automatico */
+    height: auto;  /* ancho automatico */
+}
+
+#login {
+    display: flex;               /* indico a la box sea flexible*/
+    flex-direction: column;      /* colocar los objetos del box agrupados horizontalmente */
+    width: auto;                 /* largo automatico */
+    justify-content: center;     /* centrar el contenido verticalmente */
+    align-items: center;         /* centrar el contenido horizontalmente */
+    padding: 11%;                /* rellenr el contenido % */
+}
+
+#loginBox {
+
+    display: flex;               /* indico a la box sea flexible*/
+    flex-direction: column;      /* colocar los objetos del box agrupados horizontalmente */
+}
+
+.label_login {
+  font-weight: bold;
+}
+
+.input_login {
+  margin-bottom: 10px;
+}
+
+#button_box {
+  display: flex;               /* indico a la box sea flexible*/
+  justify-content: center;     /* centrar el contenido verticalmente */
+  align-items: center;         /* centrar el contenido horizontalmente */
+}
+
+#button_aceptar
+{
+  display: flex;
+  border-color: #000000;       /* color del borde */
+  padding: 2%;
+  justify-content: center;
+}
+
+#message {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+#error
+{
+  font-weight: bold;
+  color: #ff0000;
+}
