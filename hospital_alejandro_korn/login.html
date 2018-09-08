@@ -2,26 +2,8 @@
 <html lang='es'>
   <head>
        <meta charset='UTF-8'/>
-       <title>Hospital Dr. Alejandro Korn - Atención de pacientes en la guardia</title>
+       <title>Hospital A.Korn - Login Pacientes-Guardia</title>
        <link rel='stylesheet' href="./css/style.css">
-       <script>
-          function llamarPage()
-          {
-              var par1 = document.getElementById("user");
-              var par2 = document.getElementById("pass");
-
-              if ( par1.value != "" )
-              {
-                  if ( par2.value != "" )
-                  {
-                    document.getElementById("error").innerHTML = "&nbsp";
-                    location.href = "https://www.w3schools.com/";
-                  }
-                  else { document.getElementById("error").innerHTML = "✖ Ingrese su contraseña ✖"; }
-              }
-              else { document.getElementById("error").innerHTML = "✖ Ingrese nombre de usuario ✖";}
-          }
-       </script>
   </head>
   <body>
         <header>
@@ -32,19 +14,15 @@
         </header>
         <main>
             <div id="login">
-                <form id="loginBox">
+                <form id="loginBox" method="post" action="./index.html">
                     <label class="label_login" for="user">Usuario</label>
-                    <input class="input_login" type="text" id="user" name="usuario"/>
+                    <input class="input_login" type="text" id="user" name="usuario" required/>
                     <label class="label_login" for="pass">Contraseña</label>
-                    <input class="input_login" type="password" id="pass" name="password"/>
+                    <input class="input_login" type="password" id="pass" name="password" required/>
                     <div id="button_box">
-                          <input type="button" id="button_aceptar" value="Aceptar"
-                           onclick="llamarPage()"/>
+                          <input type="button" id="button_aceptar" value="Aceptar"/>
                     </div>
                 </form>
-                <div id="message">
-                     <p id="error">&nbsp;</p>
-                </div>
              </div>
         </main>
         <footer>
