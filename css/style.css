@@ -2,6 +2,7 @@
 		html {
 			font-size:40px;
 		}
+
     header{ /* Encabezado */
         display: table;
 				width:98%;
@@ -26,9 +27,12 @@
 				padding-left:2%; /* Para que no se pegue el enlace de login contra el boton buscar */
 		}
 		footer{ /* Footer */
-        display:table;
-				justify-content:center;
-				width:98%;
+        position: fixed;
+    	left: 0;
+   		 bottom: 0;
+   		 width: 100%;
+   		 color: black;
+    	text-align: center;
     }
 		.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
 			border:1px solid; /* Borde de grosor de un pixel solido */
