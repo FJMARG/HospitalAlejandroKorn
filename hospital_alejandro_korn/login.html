@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang='es'>
-  <head>
-       <meta charset='UTF-8'/>
-       <title>Hospital A.Korn - Login Pacientes-Guardia</title>
-       <link rel='stylesheet' href="./css/style.css">
-  </head>
-  <body>
-        <header>
-          <div class="leftCenter">
-               <img class='logo' src='./images/logo.svg' alt='Logo_hopital'/>
-               <h3> &nbsp;Hospital Dr. Alejandro Korn</h3>
-          </div>
+    <head>
+			   <link rel="icon" href="./images/favicon.ico">
+         <meta charset='UTF-8'/>
+         <title>Hospital A.Korn - Login Pacientes-Guardia</title>
+         <link rel='stylesheet' href="./css/style.css">
+    </head>
+    <body>
+        <header class="box">
+            <div class="leftCenter">
+						    <a href="./index.html">
+                    <img src="./images/logo.svg" alt="Cruz Roja, logo del Hopital"/>
+                </a>
+								<h3>Hospital Dr. Alejandro Korn</h3>
+            </div>
         </header>
         <main>
-            <div id="login">
-                <form id="loginBox" method="post" action="./index.html">
+            <div class="contentPadding login">
+                <form class="login" method="post" action="./administracion.html">
                     <label class="label_login" for="user">Usuario</label>
                     <input class="input_login" type="text" id="user" name="usuario" required/>
                     <label class="label_login" for="pass">Contraseña</label>
                     <input class="input_login" type="password" id="pass" name="password" required/>
-                    <div id="button_box">
-                          <input type="button" id="button_aceptar" value="Aceptar"/>
-                    </div>
+                    <input class="btn" type="submit" value="Aceptar"/>
                 </form>
-             </div>
+            </div>
         </main>
-        <footer>
-           <div class="leftCenter">
+        <footer class="box">
+            <div class="leftCenter">
                 <p>Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</p>
-           </div>
-           <div class="rightCenter">
+            </div>
+            <div class="rightCenter">
                 <p>v 0.1.0</p>
-           </div>
+            </div>
         </footer>
-  </body>
+    </body>
 </html>
