@@ -17,6 +17,7 @@ header{ /* Encabezado */
   border-color:gray; /* Color de los bordes */
 }
 
+
 header a{
 	padding-top:8%;
 	padding-left:2%;
@@ -94,4 +95,59 @@ main { /* main */ /* Estilo LOGIN */
   border-color: #000000;       /* color del borde */
   padding: 2%;                 /* relleno del contenido */
   justify-content: center;     /* justificar al centro  */
+}
+
+.down{
+  height: 580px;
+  color:white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
