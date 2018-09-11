@@ -1,6 +1,6 @@
 @media only screen and (max-width: 1024px) and (min-width: 640px) { 
 		html {
-			font-size:40px;
+			font-size:60px;
 		}
     header{ /* Encabezado */
         display: table;
@@ -27,8 +27,10 @@
 		}
 		footer{ /* Footer */
         display:table;
+				position:fixed;
 				justify-content:center;
 				width:98%;
+				bottom:0;
     }
 		.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
 			border:1px solid; /* Borde de grosor de un pixel solido */
