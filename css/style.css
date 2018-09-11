@@ -2,6 +2,7 @@
 		html {
 			font-size:60px;
 		}
+
     header{ /* Encabezado */
         display: table;
 				width:98%;
@@ -31,6 +32,9 @@
 				justify-content:center;
 				width:98%;
 				bottom:0;
+    	  left: 0;
+   		  color: black;
+    	  text-align: center;
     }
 		.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
 			border:1px solid; /* Borde de grosor de un pixel solido */
