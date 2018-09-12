@@ -1,281 +1,142 @@
-@media only screen and (max-width: 1024px) and (min-width: 640px) { 
-	
-		html{
-			  font-size:60px;
-		}
+/* Hay que sobreescribir los valores de la web adaptada para movil */
 
-    header{ /* Encabezado */
-        display: table;
-				width:98%;
-    }
-		
-		header img{
-			  width: 240px;
-				height: 240px;
-		}
-		
-		input[type="text"], input[type="password"] {
-			  width: 460px;
-				height: 48px;
-				font-size:44px;
-		}
-		
-		input[type="button"], input[type="submit"] {
-			  height: 60px;
-				width: 160px;
-				font-size:44px;
-		}
-		
-		main {
-			  margin-bottom:40%;
-		}
-		
-		.leftCenter{
-        display: flex;
-	      align-items: center;
-				justify-content:center;
-				padding:2%;
-		}
-		
-		.rightCenter{
-        display: flex;
-	      align-items: center;
-				justify-content:center;
-				padding:2%;
-		}
-		
-		header h3{
-  	    padding-left:1%; /* Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
-  	    width:50%; /* Ancho maximo para que no se baje de renglon el titulo */
-    }
-		
-		header div[class="rightCenter"] a{
-				padding-left:2%; /* Para que no se pegue el enlace de login contra el boton buscar */
-		}
-		
-		footer{ /* Footer */
-        display:table;
-				position:fixed;
-				width:98%;
-				bottom:0;
-    	  left: 0;
-   		  color: black;
-    	  text-align: center;
-    }
-		
-		.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
-			border:1px solid; /* Borde de grosor de un pixel solido */
-			padding:1%; /* Espacio interno de relleno */
-			border-color:gray; /* Color de borde gris */
-			background-color:lightgray; /* Color de fondo gris claro */
-		}
-		
-		.article{ /* Articulo izquierdo, central y derecho */
-				text-align:center; /* Texto centrado horizontalmente. */
-				margin:6%; /* Margen de 6% */
-		}
-		
-		.emptySpace { /* Para rellenar espacios vacios */
-	      padding:20%; 
-    }
-		
-		.login { /* Formulario de inicio de sesion */
-				display: flex;               /* indico a la box sea flexible*/
-				flex-direction: column;      /* colocar los objetos del box agrupados horizontalmente */
-				align-items: center;         /* centrar el contenido horizontalmente */
-		}
-
-		.btn { /* El ancho de los botones van a equivaler al 50% del ancho del elemento que lo contenga */
-				width:50%;
-		}
-
-		.label_login {
-				font-weight: bold;            /* estilo=negrita para los campos level */
-		}
-
-		.input_login {
-				margin-bottom: 10px;          /* margen inferior para lo inputs */
-		}
-		.contentPadding { /* Para acomodar elementos */
-	      padding:14%;
-    }
-		
-		ul {
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
-		}
-
-		li {
-				float: left;
-		}
-
-		li a, .dropbtn {
-				display: inline-block;
-				color: black;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-		}
-
-		li a:hover, .dropdown:hover .dropbtn {
-				background-color: red;
-		}
-
-		li.dropdown {
-				display: inline-block;
-		}
-
-		.dropdown-content {
-				display: none;
-				position: absolute;
-				background-color: #f9f9f9;
-				min-width: 160px;
-				box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-				z-index: 1;
-		}
-
-		.dropdown-content a {
-				color: black;
-				padding: 12px 16px;
-				text-decoration: none;
-				display: block;
-				text-align: left;
-		}
-
-		.dropdown-content a:hover {
-				background-color: #f1f1f1;
-		}
-
-		.dropdown:hover .dropdown-content {
-				display: block;
-		}
+header{ /* Encabezado */
+		display: table;
+		width:98%;
 }
 
-@media only screen and (min-width: 1025px){
+main {
+		margin-bottom:55%;
+}
 
-		.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
-			border:1px solid; /* Borde de grosor de un pixel solido */
-			padding:1%; /* Espacio interno de relleno */
-			border-color:gray; /* Color de borde gris */
-			background-color:lightgray; /* Color de fondo gris claro */
-		}
+.leftCenter{
+		display: flex;
+		align-items: center;
+		justify-content:center;
+		padding-top:1%;
+		padding-bottom:1%;
+}
 
-		header{ /* Encabezado */
-				display:inline-block; /* Que se muestre un bloque en linea */
-				width:98%; /* Anchura (98% por que con el padding se completa al 100%) */
-		}
+.rightCenter{
+		display: flex;
+		align-items: center;
+		justify-content:center;
+		padding-top:1%;
+		padding-bottom:1%;
+}
 
-		header h3{
-				padding-left:1%; /* Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
-				width:98%; /* Ancho maximo para que no se baje de renglon el titulo */
-		}
+header h3{
+		padding-left:1%; /* Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
+}
 
-		header form, header div[class="rightCenter"] a{
-				padding-top:8%; /* Espacio interno de relleno superior para acomodar elementos horizontalmente */
-		}
-		
-		.leftCenter{ /* Contenido izquierdo del encabezado y del footer */
-				float:left; /* Que se posicione del lado izquierdo */
-				display:flex; /* Diseño flexible */
-				align-items:center; /* Que se centren horizontalmente los elementos */
-				width:50%;
-		}
+header div[class="rightCenter"] a{
+		padding-left:1%; /* Para que no se pegue el enlace de login contra el boton buscar */
+}
 
-		.rightCenter{ /* Contenido derecho del encabezado y del footer */
-				float:right; /* Que se posicione del lado derecho */
-				display:flex; /* Diseño flexible */
-				align-items:center; /* Que se centren horizontalmente los elementos */
-		}
+footer{ /* Footer */
+		display:table;
+		position:fixed;
+		width:97%;
+		bottom:0%;
+		left:0.5%;
+		right:0.5%;
+		color:black;
+		text-align:center;
+}
 
-		.article{ /* Articulo izquierdo, central y derecho */
-				margin:6%; /* Margen de 6% */
-				float:left; /* Todos se apilan de izquierda a derecha */
-				width:20%; /* Tienen un ancho de 20% */
-				text-align:center; /* Texto centrado horizontalmente. */
-		}
+.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
+	border:1px solid; /* Borde de grosor de un pixel solido */
+	padding:1%; /* Espacio interno de relleno */
+	border-color:gray; /* Color de borde gris */
+	background-color:lightgray; /* Color de fondo gris claro */
+}
 
-		footer{ /* Footer */
-				display:inline-block; /* Que se muestre como un bloque en linea */
-				width:98%; /* Ancho de 98% */
-		}
+.article{ /* Articulo izquierdo, central y derecho */
+		text-align:justify; /* Texto centrado horizontalmente. */
+		margin:4%; /* Margen de 6% */
+}
 
-		.contentPadding { /* Para acomodar elementos */
-				padding:14%;
-		}
+article h4, article a{
+		text-align:center;
+}
 
-		.emptySpace { /* Para rellenar espacios vacios */
-				padding:20%; 
-		}
+article a{
+		display:block;
+}
 
-		.login { /* Formulario de inicio de sesion */
-				display: flex;               /* indico a la box sea flexible*/
-				flex-direction: column;      /* colocar los objetos del box agrupados horizontalmente */
-				align-items: center;         /* centrar el contenido horizontalmente */
-		}
+.emptySpace { /* Para rellenar espacios vacios */
+		margin:20%; 
+}
 
-		.btn { /* El ancho de los botones van a equivaler al 50% del ancho del elemento que lo contenga */
-				width:50%;
-		}
+.login { /* Formulario de inicio de sesion */
+		display: flex;               /* indico a la box sea flexible*/
+		flex-direction: column;      /* colocar los objetos del box agrupados horizontalmente */
+		align-items: center;         /* centrar el contenido horizontalmente */
+}
 
-		.label_login {
-				font-weight: bold;            /* estilo=negrita para los campos level */
-		}
+.btn { /* El ancho de los botones van a equivaler al 50% del ancho del elemento que lo contenga */
+		width:50%;
+}
 
-		.input_login {
-				margin-bottom: 10px;          /* margen inferior para lo inputs */
-		}
+.label_login {
+		font-weight: bold;            /* estilo=negrita para los campos level */
+}
 
-		ul {
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-				overflow: hidden;
-		}
+.input_login {
+		margin-bottom: 10px;          /* margen inferior para lo inputs */
+}
+.contentMargin { /* Para acomodar elementos */
+		margin:14%;
+}
 
-		li {
-				float: left;
-		}
+ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+}
 
-		li a, .dropbtn {
-				display: inline-block;
-				color: black;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-		}
+li {
+		float: left;
+}
 
-		li a:hover, .dropdown:hover .dropbtn {
-				background-color: red;
-		}
+li a, .dropbtn {
+		display: inline-block;
+		color: black;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+}
 
-		li.dropdown {
-				display: inline-block;
-		}
+li a:hover, .dropdown:hover .dropbtn {
+		background-color: red;
+}
 
-		.dropdown-content {
-				display: none;
-				position: absolute;
-				background-color: #f9f9f9;
-				min-width: 160px;
-				box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-				z-index: 1;
-		}
+li.dropdown {
+		display: inline-block;
+}
 
-		.dropdown-content a {
-				color: black;
-				padding: 12px 16px;
-				text-decoration: none;
-				display: block;
-				text-align: left;
-		}
+.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+}
 
-		.dropdown-content a:hover {
-				background-color: #f1f1f1;
-		}
+.dropdown-content a {
+		color: black;
+		padding: 12px 16px;
+		text-decoration: none;
+		display: block;
+		text-align: left;
+}
 
-		.dropdown:hover .dropdown-content {
-				display: block;
-		}
+.dropdown-content a:hover {
+		background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+		display: block;
 }
