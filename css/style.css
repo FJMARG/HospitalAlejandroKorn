@@ -45,12 +45,14 @@ header div[class="rightCenter"] a{
 		text-align:justify; /* Texto centrado horizontalmente. */
 }
 
-article h4, article a{
-		text-align:center;
-}
-
 article a{
 		display:block;
+		width:50%;
+		margin-left:25%;
+}
+
+article h4, article a{
+		text-align:center;
 }
 
 .emptySpace { /* Para rellenar espacios vacios */
