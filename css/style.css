@@ -20,7 +20,7 @@ header form, header div[class="rightCenter"] a{
 }
 
 header div[class="rightCenter"] a{
-	  margin-left:5px; /* Se da un espacio al link de login para que no quede pegado al boton buscar */
+	  margin-left:3px; /* Se da un espacio al link de login para que no quede pegado al boton buscar */
 }
 
 .leftCenter{ /* Contenido izquierdo del encabezado y del footer */
