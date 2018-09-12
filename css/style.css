@@ -1,12 +1,14 @@
 @media only screen and (max-width: 1024px) and (min-width: 640px) { 
-		html {
-			font-size:60px;
+	
+		html{
+			  font-size:60px;
 		}
 
     header{ /* Encabezado */
         display: table;
 				width:98%;
     }
+		
 		header img{
 			  width: 240px;
 				height: 240px;
@@ -32,43 +34,51 @@
         display: flex;
 	      align-items: center;
 				justify-content:center;
-				padding:2%
+				padding:2%;
 		}
+		
 		.rightCenter{
         display: flex;
 	      align-items: center;
 				justify-content:center;
 				padding:2%;
 		}
+		
 		header h3{
   	    padding-left:1%; /* Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
   	    width:50%; /* Ancho maximo para que no se baje de renglon el titulo */
     }
+		
 		header div[class="rightCenter"] a{
 				padding-left:2%; /* Para que no se pegue el enlace de login contra el boton buscar */
 		}
+		
 		footer{ /* Footer */
         display:table;
 				position:fixed;
-				justify-content:center;
 				width:98%;
 				bottom:0;
     	  left: 0;
    		  color: black;
     	  text-align: center;
     }
+		
 		.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
 			border:1px solid; /* Borde de grosor de un pixel solido */
 			padding:1%; /* Espacio interno de relleno */
 			border-color:gray; /* Color de borde gris */
 			background-color:lightgray; /* Color de fondo gris claro */
 		}
+		
 		.article{ /* Articulo izquierdo, central y derecho */
 				text-align:center; /* Texto centrado horizontalmente. */
+				margin:6%; /* Margen de 6% */
 		}
+		
 		.emptySpace { /* Para rellenar espacios vacios */
 	      padding:20%; 
     }
+		
 		.login { /* Formulario de inicio de sesion */
 				display: flex;               /* indico a la box sea flexible*/
 				flex-direction: column;      /* colocar los objetos del box agrupados horizontalmente */
@@ -144,17 +154,6 @@
 }
 
 @media only screen and (min-width: 1025px){
-
-
-		*{ /* Todos los elementos de la pagina web */
-				margin:0%; /* Inicializo el documento sin margen */
-				padding:0%; /* Inicializo el documento sin borde de relleno */
-		}
-
-		body{ /* Cuerpo */
-				margin:1%; /* Un margen de 1% para que no se peguen los elementos contra el costado del navegador (completa de la linea para afuera) */
-				padding:0%; /* Borde de relleno (completa de la linea para adentro) */
-		}
 
 		.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
 			border:1px solid; /* Borde de grosor de un pixel solido */
