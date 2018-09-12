@@ -1,0 +1,43 @@
+/* Hay que sobreescribir los valores para adaptar elementos a los dispositivos moviles */
+
+@media screen and (max-width: 960px){
+
+		main {
+				margin-bottom:30%;
+		}
+
+		header{ /* Encabezado */
+				display: table;
+		}
+
+		header h3{
+				width:auto;
+		}
+
+		.leftCenter{
+				float:none;
+				width:auto;
+				justify-content:center;
+				padding-top:1%;
+				padding-bottom:1%;
+		}
+
+		.rightCenter{
+				float:none;
+				justify-content:center;
+				padding-top:1%;
+				padding-bottom:1%;
+		}
+
+		header div[class="rightCenter"] a{
+				padding-left:1%; /* Para que no se pegue el enlace de login contra el boton buscar */
+				padding-top:auto;
+		}
+
+		.article{ /* Articulo izquierdo, central y derecho */
+				margin:4%; /* Margen de 6% */
+				width:auto;
+				float:none;
+		}
+		
+}
