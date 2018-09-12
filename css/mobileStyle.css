@@ -18,6 +18,10 @@
 			  width:60%;
 		}
 		
+		header form, header div[class="rightCenter"] a{
+				padding-top:initial; /* Espacio interno de relleno superior para acomodar elementos horizontalmente */
+		}
+		
 		.leftCenter{
 				float:none;
 				width:auto;
