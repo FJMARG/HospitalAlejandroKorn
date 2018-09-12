@@ -12,7 +12,7 @@ header{ /* Encabezado */
 
 header h3{
 		width:98%; /* Ancho maximo para que no se baje de renglon el titulo */
-		/* padding-left:1%; Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
+		padding-left:1%; /* Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
 }
 
 header form, header div[class="rightCenter"] a{
