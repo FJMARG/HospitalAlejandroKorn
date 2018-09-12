@@ -17,7 +17,10 @@ header h3{
 
 header form, header div[class="rightCenter"] a{
 		padding-top:8%; /* Espacio interno de relleno superior para acomodar elementos horizontalmente */
-		padding-left:0%; /* Evitar que se baje el boton buscar. */
+}
+
+header div[class="rightCenter"] a{
+	  margin-left:10px; /* Se da un espacio al link de login para que no quede pegado al boton buscar */
 }
 
 .leftCenter{ /* Contenido izquierdo del encabezado y del footer */

@@ -13,7 +13,11 @@
 		header h3{
 				width:auto;
 		}
-
+    
+		header input[type="text"]{
+			  width:60%;
+		}
+		
 		.leftCenter{
 				float:none;
 				width:auto;
