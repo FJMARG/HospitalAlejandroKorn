@@ -30,7 +30,6 @@
 		}
 
 		header div[class="rightCenter"] a{
-				padding-left:1%; /* Para que no se pegue el enlace de login contra el boton buscar */
 				padding-top:auto;
 		}
 
