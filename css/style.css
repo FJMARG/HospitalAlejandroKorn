@@ -1,36 +1,57 @@
-/* Hay que sobreescribir los valores de la web adaptada para movil */
-
 header{ /* Encabezado */
-		display: table;
+		display:inline-block; /* Que se muestre un bloque en linea */
 		width:98%;
 }
 
-main {
-		margin-bottom:55%;
-}
-
-.leftCenter{
-		display: flex;
-		align-items: center;
-		justify-content:center;
-		padding-top:1%;
-		padding-bottom:1%;
-}
-
-.rightCenter{
-		display: flex;
-		align-items: center;
-		justify-content:center;
-		padding-top:1%;
-		padding-bottom:1%;
+.box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
+		border:1px solid; /* Borde de grosor de un pixel solido */
+		padding:1%; /* Espacio interno de relleno */
+		border-color:gray; /* Color de borde gris */
+		background-color:lightgray; /* Color de fondo gris claro */
 }
 
 header h3{
-		padding-left:1%; /* Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
+		width:98%; /* Ancho maximo para que no se baje de renglon el titulo */
+		/* padding-left:1%; Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
 }
 
-header div[class="rightCenter"] a{
-		padding-left:1%; /* Para que no se pegue el enlace de login contra el boton buscar */
+header form, header div[class="rightCenter"] a{
+		padding-top:8%; /* Espacio interno de relleno superior para acomodar elementos horizontalmente */
+		padding-left:0%; /* Evitar que se baje el boton buscar. */
+}
+
+.leftCenter{ /* Contenido izquierdo del encabezado y del footer */
+		float:left; /* Que se posicione del lado izquierdo */
+		display:flex; /* Diseño flexible */
+		align-items:center; /* Que se centren horizontalmente los elementos */
+		width:50%;
+		justify-content:initial;
+}
+
+.rightCenter{ /* Contenido derecho del encabezado y del footer */
+		float:right; /* Que se posicione del lado derecho */
+		display:flex; /* Diseño flexible */
+		align-items:center; /* Que se centren horizontalmente los elementos */
+		justify-content:initial;
+}
+
+.article{ /* Articulo izquierdo, central y derecho */
+		margin:6%; /* Margen de 6% */
+		float:left; /* Todos se apilan de izquierda a derecha */
+		width:20%; /* Tienen un ancho de 20% */
+		text-align:justify; /* Texto centrado horizontalmente. */
+}
+
+article h4, article a{
+		text-align:center;
+}
+
+article a{
+		display:block;
+}
+
+.emptySpace { /* Para rellenar espacios vacios */
+		margin:20%; 
 }
 
 footer{ /* Footer */
@@ -44,28 +65,8 @@ footer{ /* Footer */
 		text-align:center;
 }
 
-.box { /* Se resume el diseÃ±o de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
-	border:1px solid; /* Borde de grosor de un pixel solido */
-	padding:1%; /* Espacio interno de relleno */
-	border-color:gray; /* Color de borde gris */
-	background-color:lightgray; /* Color de fondo gris claro */
-}
-
-.article{ /* Articulo izquierdo, central y derecho */
-		text-align:justify; /* Texto centrado horizontalmente. */
-		margin:4%; /* Margen de 6% */
-}
-
-article h4, article a{
-		text-align:center;
-}
-
-article a{
-		display:block;
-}
-
-.emptySpace { /* Para rellenar espacios vacios */
-		margin:20%; 
+.contentMargin { /* Para acomodar elementos */
+		margin:12%;
 }
 
 .login { /* Formulario de inicio de sesion */
@@ -85,6 +86,7 @@ article a{
 .input_login {
 		margin-bottom: 10px;          /* margen inferior para lo inputs */
 }
+
 .contentMargin { /* Para acomodar elementos */
 		margin:14%;
 }
