@@ -10,6 +10,11 @@ header{ /* Encabezado */
 		background-color:lightgray; /* Color de fondo gris claro */
 }
 
+header img{
+	  width:62px;
+		height:62px;
+}
+
 header h3{
 		width:98%; /* Ancho maximo para que no se baje de renglon el titulo */
 		padding-left:1%; /* Espacio interno de relleno izquierdo para que no se pegue titulo con el logo */
@@ -42,7 +47,7 @@ header div[class="rightCenter"] a{
 		margin:6%; /* Margen de 6% */
 		float:left; /* Todos se apilan de izquierda a derecha */
 		width:20%; /* Tienen un ancho de 20% */
-		text-align:justify; /* Texto centrado horizontalmente. */
+		text-align:center; /* Texto centrado horizontalmente. */
 }
 
 article a{
