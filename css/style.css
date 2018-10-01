@@ -3,6 +3,15 @@ header{ /* Encabezado */
 		width:98%;
 }
 
+.lightBox {
+		border:1px solid; /* Borde de grosor de un pixel solido */
+		padding:1%; /* Espacio interno de relleno */
+		border-color:lightgray; /* Color de borde gris */
+		background-color:#F0F0F0; /* Color de fondo gris claro */
+		min-width:98%;
+		min-height:100%;
+}
+
 .box { /* Se resume el diseño de las cajas en una clase (Tanto para el header, el footer, las cajas de formularios, etc.) */
 		border:1px solid; /* Borde de grosor de un pixel solido */
 		padding:1%; /* Espacio interno de relleno */
@@ -96,18 +105,18 @@ footer{ /* Footer */
 		margin:14%;
 }
 
-ul {
+header ul {
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 		overflow: hidden;
 }
 
-li {
+header li {
 		float: left;
 }
 
-li a, .dropbtn {
+header li a, .dropbtn {
 		display: inline-block;
 		color: black;
 		text-align: center;
@@ -115,11 +124,11 @@ li a, .dropbtn {
 		text-decoration: none;
 }
 
-li a:hover, .dropdown:hover .dropbtn {
+header li a:hover, .dropdown:hover .dropbtn {
 		background-color: red;
 }
 
-li.dropdown {
+header li.dropdown {
 		display: inline-block;
 }
 

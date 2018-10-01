@@ -1,0 +1,116 @@
+FrontController
+
+/web/index.php
+/controller/
+
+$security = array(
+	'paciente' => array(
+		'index' => ['EquipoDeGuardia', 'Administrador'],
+		'destroy' => ['Administrador']
+	)
+);
+
+
+// index.php
+
+
+index.php?controller=paciente&action=index
+misitio.com/paciente/index
+
+// index.php?controller=paciente&action=index
+// index.php?controller=paciente&action=show
+// index.php?controller=usuario&action=index
+
+require_once('controller/PacienteController.php');
+require_once('controller/UsuarioController.php');
+
+
+if (!isset($_GET['controller'])){
+	// Si controller no existe
+}
+
+if (!isset($_GET['action'])){
+	// Si action no existe
+}
+
+
+if (in_array($usuarioActual->rol(), $security[$_GET['controller']][$_GET['action']]))
+
+$controller = ucfirst($_GET['controller'])."Controller";		// PacienteController
+$action = $_GET['action']."Action";								// indexAction. showAction
+
+try {
+	$objectoControlador = new $controller();
+	$objectoControlador()->$action();
+} catch {
+	// error 404
+}
+
+
+// PacienteController
+// UsuarioController
+
+
+/*
+class BaseController {
+	public __contruct() {
+		// se traen la db
+	}
+
+	public render(asdasd) {
+		se trae twig, y muestra
+	}
+}
+
+class PacienteController extends BaseController {
+	public indexAction() {
+		$this->db
+		// lista pacientes y manda a la vista
+
+		$this->render($parammetros)
+	}
+	public showAction($params) {
+		// busca el paciente y manda a la vista
+	}
+}
+
+
+class UsuarioController {
+	public indexAction() {
+		// lista usuario y manda a la vista
+	}
+	public deshabilitarAction() {
+
+	}
+}
+
+*/
+
+
+
+
+
+class Paciente() {
+	public $apellido;
+
+}
+
+
+
+
+$paciente = $orm(Paciente)->findOneBy(array('apellido'=>'pepe', 'correo'=>'asdasda');
+$paciente->setNombre('Lalala');
+$orm->persist($paciente);
+
+$paciente = new Paciente();
+$orm->persist($paciente);
+
+$turnos = $paciente->getTurnos();
+foreach ($turnos as $turno) {
+	$turno->setFecha(null);
+	$orm->persist($turno);
+}
+
+
+
+

@@ -1,0 +1,40 @@
+Resumen Doctrine
+-----------------------------------------------
+
+==> /www/proyecto es la raiz (/) del servidor php.
+
+==> /config/bootstrap.php contiene la conexion a la base de datos.
+
+==> La linea:
+
+$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/../class"), $isDevMode);
+
+es la linea por defecto, pero se utiliza la linea:
+
+$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/../class"), $isDevMode, null, null, false);
+
+Porque sino no se pueden autogenerar los getters y setters de las Entidades (que serian las clases).
+
+array(__DIR__."/../class") Es el directorio donde se van a generar los metadatos (para los getters, setters y variables de las clases).
+
+==> Para generar clases (desde una base de datos relacional al directorio del servidor) hay que pararse en el directorio raiz del servidor y escribir el siguiente comando:
+
+vendor/bin/doctrine orm:convert-mapping --force --from-database annotation ./class
+
+./class es el destino donde se van a generar las clases.
+
+==> Para generar los getters y setters hay que pararse en el directorio raiz del servidor y escribir el siguiente comando:
+
+vendor/bin/doctrine orm:generate-entities class/
+
+class/ es la carpeta que contiene las clases.
+
+==> index.php debe requerir (require_once) autoload.php.
+
+==> El archivo composer.json tiene que contener una linea autoload, que referencie a todos los directorios con las clases necesarias.
+
+==> Twig utiliza composer.
+
+==> Desde Twig 2.* ya no se usa un autoloader propio porque se considero redundante. Ahora se utiliza el autoloader de composer.
+
+==> Para renderizar (funcion render()) y proyectar una plantilla con Twig se debe hacer echo de la salida de la funcion render().
