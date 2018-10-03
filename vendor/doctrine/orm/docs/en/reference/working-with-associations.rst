@@ -2,26 +2,24 @@ Working with Associations
 =========================
 
 Associations between entities are represented just like in regular
-object-oriented PHP, with references to other objects or
-collections of objects. When it comes to persistence, it is
-important to understand three main things:
+object-oriented PHP code using references to other objects or
+collections of objects.
 
+Changes to associations in your code are not synchronized to the
+database directly, only when calling ``EntityManager#flush()``.
 
--  The :doc:`concept of owning and inverse sides <unitofwork-associations>`
-   in bidirectional associations.
+There are other concepts you should know about when working
+with associations in Doctrine:
+
 -  If an entity is removed from a collection, the association is
    removed, not the entity itself. A collection of entities always
    only represents the association to the containing entities, not the
    entity itself.
--  Collection-valued :ref:`persistent fields <architecture_persistent_fields>` have to be instances of the
+-  When a bidirectional assocation is updated, Doctrine only checks
+   on one of both sides for these changes. This is called the :doc:`owning side <unitofwork-associations>`
+   of the association.
+-  A property with a reference to many entities has to be instances of the
    ``Doctrine\Common\Collections\Collection`` interface.
-
-Changes to associations in your code are not synchronized to the
-database directly, but upon calling ``EntityManager#flush()``.
-
-To describe all the concepts of working with associations we
-introduce a specific set of example entities that show all the
-different flavors of association management in Doctrine.
 
 Association Example Entities
 ----------------------------
@@ -44,10 +42,7 @@ information about its type and if it's the owning or inverse side.
          * Bidirectional - Many users have Many favorite comments (OWNING SIDE)
          *
          * @ManyToMany(targetEntity="Comment", inversedBy="userFavorites")
-         * @JoinTable(name="user_favorite_comments",
-         *   joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-         *   inverseJoinColumns={@JoinColumn(name="favorite_comment_id", referencedColumnName="id")}
-         * )
+         * @JoinTable(name="user_favorite_comments")
          */
         private $favorites;
     
@@ -55,10 +50,7 @@ information about its type and if it's the owning or inverse side.
          * Unidirectional - Many users have marked many comments as read
          *
          * @ManyToMany(targetEntity="Comment")
-         * @JoinTable(name="user_read_comments",
-         *   joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
-         *   inverseJoinColumns={@JoinColumn(name="comment_id", referencedColumnName="id")}
-         * )
+         * @JoinTable(name="user_read_comments")
          */
         private $commentsRead;
     
@@ -246,14 +238,14 @@ the database permanently.
 
 Notice how both sides of the bidirectional association are always
 updated. Unidirectional associations are consequently simpler to
-handle. Also note that if you use type-hinting in your methods, i.e.
-``setAddress(Address $address)``, PHP will only allow null
-values if ``null`` is set as default value. Otherwise
-setAddress(null) will fail for removing the association. If you
-insist on type-hinting a typical way to deal with this is to
-provide a special method, like ``removeAddress()``. This can also
-provide better encapsulation as it hides the internal meaning of
-not having an address.
+handle.
+
+Also note that if you use type-hinting in your methods, you will 
+have to specify a nullable type, i.e. ``setAddress(?Address $address)``,
+otherwise ``setAddress(null)`` will fail to remove the association.
+Another way to deal with this is to provide a special method, like
+``removeAddress()``. This can also provide better encapsulation as
+it hides the internal meaning of not having an address.
 
 When working with collections, keep in mind that a Collection is
 essentially an ordered map (just like a PHP array). That is why the
@@ -404,53 +396,25 @@ There are two approaches to handle this problem in your code:
 
 1. Ignore updating the inverse side of bidirectional collections,
    BUT never read from them in requests that changed their state. In
-   the next Request Doctrine hydrates the consistent collection state
+   the next request Doctrine hydrates the consistent collection state
    again.
 2. Always keep the bidirectional collections in sync through
    association management methods. Reads of the Collections directly
    after changes are consistent then.
 
+.. _transitive-persistence:
+
 Transitive persistence / Cascade Operations
 -------------------------------------------
 
-Persisting, removing, detaching and merging individual entities can
-become pretty cumbersome, especially when a highly interweaved object graph
-is involved. Therefore Doctrine 2 provides a
-mechanism for transitive persistence through cascading of these
-operations. Each association to another entity or a collection of
-entities can be configured to automatically cascade certain
-operations. By default, no operations are cascaded.
+Doctrine 2 provides a mechanism for transitive persistence through cascading of certain operations.
+Each association to another entity or a collection of
+entities can be configured to automatically cascade the following operations to the associated entities:
+``persist``, ``remove``, ``merge``, ``detach``, ``refresh`` or ``all``.
 
-The following cascade options exist:
-
-
--  persist : Cascades persist operations to the associated
-   entities.
--  remove : Cascades remove operations to the associated entities.
--  merge : Cascades merge operations to the associated entities.
--  detach : Cascades detach operations to the associated entities.
--  all : Cascades persist, remove, merge and detach operations to
-   associated entities.
-
-.. note::
-
-    Cascade operations are performed in memory. That means collections and related entities
-    are fetched into memory, even if they are still marked as lazy when
-    the cascade operation is about to be performed. However this approach allows
-    entity lifecycle events to be performed for each of these operations.
-
-    However, pulling objects graph into memory on cascade can cause considerable performance
-    overhead, especially when cascading collections are large. Makes sure
-    to weigh the benefits and downsides of each cascade operation that you define.
-
-    To rely on the database level cascade operations for the delete operation instead, you can
-    configure each join column with the **onDelete** option. See the respective
-    mapping driver chapters for more information.
-
-The following example is an extension to the User-Comment example
-of this chapter. Suppose in our application a user is created
-whenever he writes his first comment. In this case we would use the
-following code:
+The main use case for ``cascade: persist`` is to avoid "exposing" associated entities to your PHP application.
+Continuing with the User-Comment example of this chapter, this is how the creation of a new user and a new
+comment might look like in your controller (without ``cascade: persist``):
 
 .. code-block:: php
 
@@ -460,36 +424,39 @@ following code:
     $user->addComment($myFirstComment);
     
     $em->persist($user);
-    $em->persist($myFirstComment);
+    $em->persist($myFirstComment); // required, if `cascade: persist` is not set
     $em->flush();
 
-Even if you *persist* a new User that contains our new Comment this
-code would fail if you removed the call to
-``EntityManager#persist($myFirstComment)``. Doctrine 2 does not
-cascade the persist operation to all nested entities that are new
-as well.
-
-More complicated is the deletion of all of a user's comments when he is
-removed from the system:
+Note that the Comment entity is instantiated right here in the controller.
+To avoid this, ``cascade: persist`` allows you to "hide" the Comment entity from the controller,
+only accessing it through the User entity:
 
 .. code-block:: php
 
-    $user = $em->find('User', $deleteUserId);
-    
-    foreach ($user->getAuthoredComments() AS $comment) {
-        $em->remove($comment);
+    <?php
+    // User entity
+    class User
+    {
+        private $id;
+        private $comments;
+
+        public function __construct()
+        {
+            $this->id = User::new();
+            $this->comments = new ArrayCollection();
+        }
+
+        public function comment(string $text, DateTimeInterface $time) : void
+        {
+            $newComment = Comment::create($text, $time);
+            $newComment->setUser($this);
+            $this->comments->add($newComment);
+        }
+
+        // ...
     }
-    $em->remove($user);
-    $em->flush();
 
-Without the loop over all the authored comments Doctrine would use
-an UPDATE statement only to set the foreign key to NULL and only
-the User would be deleted from the database during the
-flush()-Operation.
-
-To have Doctrine handle both cases automatically we can change the
-``User#commentsAuthored`` property to cascade both the "persist"
-and the "remove" operation.
+If you then set up the cascading to the ``User#commentsAuthored`` property...
 
 .. code-block:: php
 
@@ -506,10 +473,51 @@ and the "remove" operation.
         //...
     }
 
-Even though automatic cascading is convenient it should be used
-with care. Do not blindly apply cascade=all to all associations as
+...you can now create a user and an associated comment like this:
+
+.. code-block:: php
+
+    <?php
+    $user = new User();
+    $user->comment('Lorem ipsum', new DateTime());
+    
+    $em->persist($user);
+    $em->flush();
+
+.. note::
+
+    The idea of ``cascade: persist`` is not to save you any lines of code in the controller.
+    If you instantiate the comment object in the controller (i.e. don't set up the user entity as shown above),
+    even with ``cascade: persist`` you still have to call ``$myFirstComment->setUser($user);``.
+
+Thanks to ``cascade: remove``, you can easily delete a user and all linked comments without having to loop through them:
+
+.. code-block:: php
+
+    <?php
+    $user = $em->find('User', $deleteUserId);
+
+    $em->remove($user);
+    $em->flush();
+
+.. note::
+
+    Cascade operations are performed in memory. That means collections and related entities
+    are fetched into memory (even if they are marked as lazy) when
+    the cascade operation is about to be performed. This approach allows
+    entity lifecycle events to be performed for each of these operations.
+
+    However, pulling object graphs into memory on cascade can cause considerable performance
+    overhead, especially when the cascaded collections are large. Make sure
+    to weigh the benefits and downsides of each cascade operation that you define.
+
+    To rely on the database level cascade operations for the delete operation instead, you can
+    configure each join column with :doc:`the onDelete option <working-with-objects>`.
+
+Even though automatic cascading is convenient, it should be used
+with care. Do not blindly apply ``cascade=all`` to all associations as
 it will unnecessarily degrade the performance of your application.
-For each cascade operation that gets activated Doctrine also
+For each cascade operation that gets activated, Doctrine also
 applies that operation to the association, be it single or
 collection valued.
 
@@ -517,21 +525,20 @@ Persistence by Reachability: Cascade Persist
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 There are additional semantics that apply to the Cascade Persist
-operation. During each flush() operation Doctrine detects if there
+operation. During each ``flush()`` operation Doctrine detects if there
 are new entities in any collection and three possible cases can
 happen:
 
 
-1. New entities in a collection marked as cascade persist will be
+1. New entities in a collection marked as ``cascade: persist`` will be
    directly persisted by Doctrine.
-2. New entities in a collection not marked as cascade persist will
-   produce an Exception and rollback the flush() operation.
+2. New entities in a collection not marked as ``cascade: persist`` will
+   produce an Exception and rollback the ``flush()`` operation.
 3. Collections without new entities are skipped.
 
 This concept is called Persistence by Reachability: New entities
 that are found on already managed entities are automatically
-persisted as long as the association is defined as cascade
-persist.
+persisted as long as the association is defined as ``cascade: persist``.
 
 Orphan Removal
 --------------
@@ -609,10 +616,10 @@ address reference. When flush is called not only are the references removed
 but both the old standing data and the one address entity are also deleted 
 from the database.
 
+.. _filtering-collections:
+
 Filtering Collections
 ---------------------
-
-.. filtering-collections:
 
 Collections have a filtering API that allows to slice parts of data from
 a collection. If the collection has not been loaded from the database yet,
@@ -630,7 +637,7 @@ large collections.
 
     $criteria = Criteria::create()
         ->where(Criteria::expr()->eq("birthday", "1982-02-17"))
-        ->orderBy(array("username" => "ASC"))
+        ->orderBy(array("username" => Criteria::ASC))
         ->setFirstResult(0)
         ->setMaxResults(20)
     ;
@@ -708,5 +715,13 @@ methods:
 * ``isNull($field)``
 * ``in($field, array $values)``
 * ``notIn($field, array $values)``
+* ``contains($field, $value)``
+* ``startsWith($field, $value)``
+* ``endsWith($field, $value)``
 
 
+.. note::
+
+    There is a limitation on the compatibility of Criteria comparisons.
+    You have to use scalar values only as the value in a comparison or
+    the behaviour between different backends is not the same.

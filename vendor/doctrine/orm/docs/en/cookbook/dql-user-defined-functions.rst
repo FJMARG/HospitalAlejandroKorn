@@ -53,6 +53,17 @@ DQL query. ``$class`` is a string of a class-name which has to
 extend ``Doctrine\ORM\Query\Node\FunctionNode``. This is a class
 that offers all the necessary API and methods to implement a UDF.
 
+Instead of providing the function class name, you can also provide
+a callable that returns the function object:
+
+.. code-block:: php
+
+    <?php
+    $config = new \Doctrine\ORM\Configuration();
+    $config->addCustomStringFunction($name, function () {
+        return new MyCustomFunction();
+    });
+
 In this post we will implement some MySql specific Date calculation
 methods, which are quite handy in my opinion:
 
@@ -121,7 +132,7 @@ dql statement.
 
 The ``ArithmeticPrimary`` method call is the most common
 denominator of valid EBNF tokens taken from the
-`DQL EBNF grammar <http://www.doctrine-project.org/documentation/manual/2_0/en/dql-doctrine-query-language#ebnf>`_
+`DQL EBNF grammar <http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/dql-doctrine-query-language.html#ebnf>`_
 that matches our requirements for valid input into the DateDiff Dql
 function. Picking the right tokens for your methods is a tricky
 business, but the EBNF grammar is pretty helpful finding it, as is

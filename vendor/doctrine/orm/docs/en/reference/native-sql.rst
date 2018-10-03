@@ -63,7 +63,7 @@ This has several benefits:
 - The API is much simpler than the usual ``ResultSetMapping`` API.
 
 One downside is that the builder API does not yet support entities
-with inheritance hierachies.
+with inheritance hierarchies.
 
 .. code-block:: php
 
@@ -80,7 +80,7 @@ with inheritance hierachies.
 
 The builder extends the ``ResultSetMapping`` class and as such has all the functionality of it as well.
 
-..versionadded:: 2.4
+.. versionadded:: 2.4
 
 Starting with Doctrine ORM 2.4 you can generate the ``SELECT`` clause
 from a ``ResultSetMappingBuilder``. You can either cast the builder

@@ -7,9 +7,9 @@
  * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION); HOWEVER CAUSED AND ON ANY
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE); ARISING IN ANY WAY OUT OF THE USE
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
@@ -26,10 +26,19 @@ use Doctrine\ORM\Query\ResultSetMapping;
  * EntityManager interface
  *
  * @since   2.4
- * @author  Lars Strojny <lars@strojny.net
+ * @author  Lars Strojny <lars@strojny.net>
+ *
+ * @method Mapping\ClassMetadata getClassMetadata($className)
  */
 interface EntityManagerInterface extends ObjectManager
 {
+    /**
+     * Returns the cache API for managing the second level cache regions or NULL if the cache is not enabled.
+     *
+     * @return \Doctrine\ORM\Cache|null
+     */
+    public function getCache();
+
     /**
      * Gets the database connection object used by the EntityManager.
      *
@@ -141,7 +150,7 @@ interface EntityManagerInterface extends ObjectManager
      * @param string $entityName The name of the entity type.
      * @param mixed  $id         The entity identifier.
      *
-     * @return object The entity reference.
+     * @return object|null The entity reference.
      *
      * @throws ORMException
      */

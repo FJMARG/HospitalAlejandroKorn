@@ -1,6 +1,8 @@
 Transactions and Concurrency
 ============================
 
+.. _transactions-and-concurrency_transaction-demarcation:
+
 Transaction Demarcation
 -----------------------
 
@@ -26,6 +28,8 @@ and control transaction demarcation yourself.
 These are two ways to deal with transactions when using the
 Doctrine ORM and are now described in more detail.
 
+.. _transactions-and-concurrency_approach-implicitly:
+
 Approach 1: Implicitly
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -49,6 +53,8 @@ the DML operations by the Doctrine ORM and is sufficient if all the
 data manipulation that is part of a unit of work happens through
 the domain model and thus the ORM.
 
+.. _transactions-and-concurrency_approach-explicitly:
+
 Approach 2: Explicitly
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -69,8 +75,7 @@ looks like this:
         $em->flush();
         $em->getConnection()->commit();
     } catch (Exception $e) {
-        $em->getConnection()->rollback();
-        $em->close();
+        $em->getConnection()->rollBack();
         throw $e;
     }
 
@@ -81,14 +86,12 @@ require an active transaction. Such methods will throw a
 ``TransactionRequiredException`` to inform you of that
 requirement.
 
-A more convenient alternative for explicit transaction demarcation
-is the use of provided control abstractions in the form of
-``Connection#transactional($func)`` and
-``EntityManager#transactional($func)``. When used, these control
-abstractions ensure that you never forget to rollback the
-transaction or close the ``EntityManager``, apart from the obvious
-code reduction. An example that is functionally equivalent to the
-previously shown code looks as follows:
+A more convenient alternative for explicit transaction demarcation is the use
+of provided control abstractions in the form of
+``Connection#transactional($func)`` and ``EntityManager#transactional($func)``.
+When used, these control abstractions ensure that you never forget to rollback
+the transaction, in addition to the obvious code reduction. An example that is
+functionally equivalent to the previously shown code looks as follows:
 
 .. code-block:: php
 
@@ -101,11 +104,20 @@ previously shown code looks as follows:
         $em->persist($user);
     });
 
+.. warning::
+
+    For historical reasons, ``EntityManager#transactional($func)`` will return
+    ``true`` whenever the return value of ``$func`` is loosely false.
+    Some examples of this include ``array()``, ``"0"``, ``""``, ``0``, and
+    ``null``.
+
 The difference between ``Connection#transactional($func)`` and
 ``EntityManager#transactional($func)`` is that the latter
 abstraction flushes the ``EntityManager`` prior to transaction
-commit and also closes the ``EntityManager`` properly when an
-exception occurs (in addition to rolling back the transaction).
+commit and rolls back the transaction when an
+exception occurs.
+
+.. _transactions-and-concurrency_exception-handling:
 
 Exception Handling
 ~~~~~~~~~~~~~~~~~~
@@ -137,6 +149,8 @@ knowing that their state is potentially no longer accurate.
 If you intend to start another unit of work after an exception has
 occurred you should do that with a new ``EntityManager``.
 
+.. _transactions-and-concurrency_locking-support:
+
 Locking Support
 ---------------
 
@@ -144,6 +158,8 @@ Doctrine 2 offers support for Pessimistic- and Optimistic-locking
 strategies natively. This allows to take very fine-grained control
 over what kind of locking is required for your Entities in your
 application.
+
+.. _transactions-and-concurrency_optimistic-locking:
 
 Optimistic Locking
 ~~~~~~~~~~~~~~~~~~
@@ -171,30 +187,68 @@ has been modified by someone else already.
 You designate a version field in an entity as follows. In this
 example we'll use an integer.
 
-.. code-block:: php
+.. configuration-block::
 
-    <?php
-    class User
-    {
-        // ...
-        /** @Version @Column(type="integer") */
-        private $version;
-        // ...
-    }
+    .. code-block:: php
+
+        <?php
+        class User
+        {
+            // ...
+            /** @Version @Column(type="integer") */
+            private $version;
+            // ...
+        }
+
+    .. code-block:: xml
+
+        <doctrine-mapping>
+          <entity name="User">
+            <field name="version" type="integer" version="true" />
+          </entity>
+        </doctrine-mapping>
+
+    .. code-block:: yaml
+
+        User:
+          type: entity
+          fields:
+            version:
+              type: integer
+              version: true
 
 Alternatively a datetime type can be used (which maps to a SQL
 timestamp or datetime):
 
-.. code-block:: php
+.. configuration-block::
 
-    <?php
-    class User
-    {
-        // ...
-        /** @Version @Column(type="datetime") */
-        private $version;
-        // ...
-    }
+    .. code-block:: php
+
+        <?php
+        class User
+        {
+            // ...
+            /** @Version @Column(type="datetime") */
+            private $version;
+            // ...
+        }
+
+    .. code-block:: xml
+
+        <doctrine-mapping>
+          <entity name="User">
+            <field name="version" type="datetime" version="true" />
+          </entity>
+        </doctrine-mapping>
+
+    .. code-block:: yaml
+
+        User:
+          type: entity
+          fields:
+            version:
+              type: datetime
+              version: true
 
 Version numbers (not timestamps) should however be preferred as
 they can not potentially conflict in a highly concurrent
@@ -307,6 +361,8 @@ And the change headline action (POST Request):
     $postVersion = (int)$_GET['version'];
     
     $post = $em->find('BlogPost', $postId, \Doctrine\DBAL\LockMode::OPTIMISTIC, $postVersion);
+
+.. _transactions-and-concurrency_pessimistic-locking:
 
 Pessimistic Locking
 ~~~~~~~~~~~~~~~~~~~

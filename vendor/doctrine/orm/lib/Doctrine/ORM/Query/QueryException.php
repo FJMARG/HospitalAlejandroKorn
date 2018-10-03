@@ -19,6 +19,8 @@
 
 namespace Doctrine\ORM\Query;
 
+use Doctrine\ORM\Query\AST\PathExpression;
+
 /**
  * Description of QueryException.
  *
@@ -93,11 +95,25 @@ class QueryException extends \Doctrine\ORM\ORMException
     }
 
     /**
+     * @param integer $expected
+     * @param integer $received
+     *
      * @return QueryException
      */
-    public static function invalidParameterNumber()
+    public static function tooManyParameters($expected, $received)
     {
-        return new self("Invalid parameter number: number of bound variables does not match number of tokens");
+        return new self('Too many parameters: the query defines ' . $expected . ' parameters and you bound ' . $received);
+    }
+
+    /**
+     * @param integer $expected
+     * @param integer $received
+     *
+     * @return QueryException
+     */
+    public static function tooFewParameters($expected, $received)
+    {
+        return new self('Too few parameters: the query defines ' . $expected . ' parameters but you only bound ' . $received);
     }
 
     /**
@@ -190,13 +206,15 @@ class QueryException extends \Doctrine\ORM\ORMException
     }
 
     /**
+     * @param PathExpression $pathExpr
+     *
      * @return QueryException
      */
-    public static function associationPathInverseSideNotSupported()
+    public static function associationPathInverseSideNotSupported(PathExpression $pathExpr)
     {
         return new self(
-            "A single-valued association path expression to an inverse side is not supported".
-            " in DQL queries. Use an explicit join instead."
+            'A single-valued association path expression to an inverse side is not supported in DQL queries. ' .
+            'Instead of "' . $pathExpr->identificationVariable . '.' . $pathExpr->field . '" use an explicit join.'
         );
     }
 
@@ -234,7 +252,7 @@ class QueryException extends \Doctrine\ORM\ORMException
     public static function instanceOfUnrelatedClass($className, $rootClass)
     {
         return new self("Cannot check if a child of '" . $rootClass . "' is instanceof '" . $className . "', " .
-                "inheritance hierarchy exists between these two classes.");
+            "inheritance hierarchy does not exists between these two classes.");
     }
 
     /**

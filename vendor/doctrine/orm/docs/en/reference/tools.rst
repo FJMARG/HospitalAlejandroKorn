@@ -33,8 +33,8 @@ already registers all the commands that currently ship with
 Doctrine DBAL and ORM. If you want to use additional commands you
 have to register them yourself.
 
-All the commands of the Doctrine Console require access to the EntityManager
-or DBAL Connection. You have to inject them into the console application
+All the commands of the Doctrine Console require access to the ``EntityManager``
+or ``DBAL`` Connection. You have to inject them into the console application
 using so called Helper-Sets. This requires either the ``db``
 or the ``em`` helpers to be defined in order to work correctly.
 
@@ -205,7 +205,7 @@ tables of the current model to clean up with orphaned tables.
 You can also use database introspection to update your schema
 easily with the ``updateSchema()`` method. It will compare your
 existing database schema to the passed array of
-``ClassMetdataInfo`` instances.
+``ClassMetadataInfo`` instances.
 
 .. code-block:: php
 
@@ -385,7 +385,7 @@ First you need to retrieve the metadata instances with the
         )
     );
     
-    $cmf = new DisconnectedClassMetadataFactory();
+    $cmf = new \Doctrine\ORM\Tools\DisconnectedClassMetadataFactory();
     $cmf->setEntityManager($em);
     $metadata = $cmf->getAllMetadata();
 
@@ -395,6 +395,7 @@ to yml:
 .. code-block:: php
 
     <?php
+    $cme = new \Doctrine\ORM\Tools\Export\ClassMetadataExporter();
     $exporter = $cme->getExporter('yml', '/path/to/export/yml');
     $exporter->setMetadata($metadata);
     $exporter->export();
@@ -476,7 +477,7 @@ To include a new command on Doctrine Console, you need to do modify the
 
     <?php
     // doctrine.php
-    use Symfony\Component\Console\Helper\Application;
+    use Symfony\Component\Console\Application;
 
     // as before ...
 
@@ -507,3 +508,22 @@ defined ones) is possible through the command:
         new \MyProject\Tools\Console\Commands\AnotherCommand(),
         new \MyProject\Tools\Console\Commands\OneMoreCommand(),
     ));
+
+
+Re-use console application
+--------------------------
+
+You are also able to retrieve and re-use the default console application.
+Just call ``ConsoleRunner::createApplication(...)`` with an appropriate
+HelperSet, like it is described in the configuration section.
+
+.. code-block:: php
+
+    <?php
+
+    // Retrieve default console application
+    $cli = ConsoleRunner::createApplication($helperSet);
+
+    // Runs console application
+    $cli->run();
+

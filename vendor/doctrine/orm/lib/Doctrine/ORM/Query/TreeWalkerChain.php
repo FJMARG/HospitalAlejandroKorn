@@ -25,7 +25,7 @@ namespace Doctrine\ORM\Query;
  * the AST to influence the final output produced by the last walker.
  *
  * @author Roman Borschel <roman@code-factory.org>
- * @since 2.0
+ * @since  2.0
  */
 class TreeWalkerChain implements TreeWalker
 {
@@ -34,7 +34,7 @@ class TreeWalkerChain implements TreeWalker
      *
      * @var TreeWalker[]
      */
-    private $_walkers = array();
+    private $_walkers;
 
     /**
      * The original Query.
@@ -72,7 +72,7 @@ class TreeWalkerChain implements TreeWalker
      */
     public function setQueryComponent($dqlAlias, array $queryComponent)
     {
-        $requiredKeys = array('metadata', 'parent', 'relation', 'map', 'nestingLevel', 'token');
+        $requiredKeys = ['metadata', 'parent', 'relation', 'map', 'nestingLevel', 'token'];
 
         if (array_diff($requiredKeys, array_keys($queryComponent))) {
             throw QueryException::invalidQueryComponent($dqlAlias);
@@ -89,6 +89,7 @@ class TreeWalkerChain implements TreeWalker
         $this->_query = $query;
         $this->_parserResult = $parserResult;
         $this->_queryComponents = $queryComponents;
+        $this->_walkers = new TreeWalkerChainIterator($this, $query, $parserResult);
     }
 
     /**
@@ -100,7 +101,7 @@ class TreeWalkerChain implements TreeWalker
      */
     public function addTreeWalker($walkerClass)
     {
-        $this->_walkers[] = new $walkerClass($this->_query, $this->_parserResult, $this->_queryComponents);
+        $this->_walkers[] = $walkerClass;
     }
 
     /**
@@ -428,7 +429,7 @@ class TreeWalkerChain implements TreeWalker
     /**
      * {@inheritdoc}
      */
-    function walkInstanceOfExpression($instanceOfExpr)
+    public function walkInstanceOfExpression($instanceOfExpr)
     {
         foreach ($this->_walkers as $walker) {
             $walker->walkInstanceOfExpression($instanceOfExpr);

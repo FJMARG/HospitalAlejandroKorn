@@ -20,9 +20,19 @@
 use Symfony\Component\Console\Helper\HelperSet;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
-(@include_once __DIR__ . '/../vendor/autoload.php') || @include_once __DIR__ . '/../../../autoload.php';
+$autoloadFiles = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+];
 
-$directories = array(getcwd(), getcwd() . DIRECTORY_SEPARATOR . 'config');
+foreach ($autoloadFiles as $autoloadFile) {
+    if (file_exists($autoloadFile)) {
+        require_once $autoloadFile;
+        break;
+    }
+}
+
+$directories = [getcwd(), getcwd() . DIRECTORY_SEPARATOR . 'config'];
 
 $configFile = null;
 foreach ($directories as $directory) {
@@ -43,7 +53,7 @@ if ( ! is_readable($configFile)) {
     exit(1);
 }
 
-$commands = array();
+$commands = [];
 
 $helperSet = require $configFile;
 
@@ -56,4 +66,4 @@ if ( ! ($helperSet instanceof HelperSet)) {
     }
 }
 
-\Doctrine\ORM\Tools\Console\ConsoleRunner::run($helperSet, $commands);
+ConsoleRunner::run($helperSet, $commands);

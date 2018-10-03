@@ -35,7 +35,7 @@ abstract class AbstractExporter
     /**
      * @var array
      */
-    protected $_metadata = array();
+    protected $_metadata = [];
 
     /**
      * @var string|null
@@ -134,8 +134,8 @@ abstract class AbstractExporter
         }
 
         foreach ($this->_metadata as $metadata) {
-            //In case output is returned, write it to a file, skip otherwise
-            if($output = $this->exportClassMetadata($metadata)){
+            // In case output is returned, write it to a file, skip otherwise
+            if ($output = $this->exportClassMetadata($metadata)) {
                 $path = $this->_generateOutputPath($metadata);
                 $dir = dirname($path);
                 if ( ! is_dir($dir)) {
@@ -198,6 +198,25 @@ abstract class AbstractExporter
 
             case ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS:
                 return 'PER_CLASS';
+        }
+    }
+
+    /**
+     * @param int $mode
+     *
+     * @return string
+     */
+    protected function _getFetchModeString($mode)
+    {
+        switch ($mode) {
+            case ClassMetadataInfo::FETCH_EAGER:
+                return 'EAGER';
+
+            case ClassMetadataInfo::FETCH_EXTRA_LAZY:
+                return 'EXTRA_LAZY';
+
+            case ClassMetadataInfo::FETCH_LAZY:
+                return 'LAZY';
         }
     }
 
