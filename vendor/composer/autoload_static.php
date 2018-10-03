@@ -30,7 +30,6 @@ class ComposerStaticInit9543bf4d1702abd90556d73ff5993492
         ),
         'D' => 
         array (
-            'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
@@ -66,10 +65,6 @@ class ComposerStaticInit9543bf4d1702abd90556d73ff5993492
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Doctrine\\Common\\Inflector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
-        ),
         'Doctrine\\Common\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
@@ -80,7 +75,7 @@ class ComposerStaticInit9543bf4d1702abd90556d73ff5993492
         ),
         'Doctrine\\Common\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+            0 => __DIR__ . '/..' . '/doctrine/event-manager/lib/Doctrine/Common',
         ),
     );
 
