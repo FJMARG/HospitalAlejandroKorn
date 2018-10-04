@@ -1,6 +1,0 @@
-ReWriteEngine On
-
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php?accion=$1 [L]
