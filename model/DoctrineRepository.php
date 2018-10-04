@@ -22,7 +22,7 @@ abstract class DoctrineRepository {
 	const CONFIG = array('driver' => 'pdo_mysql', 'user' => 'grupo11', 'password' => 'ZDc1MjY5MTBlNjQ2', 'dbname' => 'grupo11',);
 	
     protected function getConnection(){
-        $conn = Setup::createAnnotationMetadataConfiguration(array (__DIR__."../class"), true, null, null, false); /* (Array Directorios, Boolean ModoDesarrollador, null, null, Boolean SimpleAnnotationReader) */
+        $conn = Setup::createAnnotationMetadataConfiguration(array (__DIR__."../model/class"), true, null, null, false); /* (Array Directorios, Boolean ModoDesarrollador, null, null, Boolean SimpleAnnotationReader) */
         return $this::createEntityManager($conn);
     }
 

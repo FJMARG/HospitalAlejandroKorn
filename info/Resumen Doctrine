@@ -38,3 +38,148 @@ class/ es la carpeta que contiene las clases.
 ==> Desde Twig 2.* ya no se usa un autoloader propio porque se considero redundante. Ahora se utiliza el autoloader de composer.
 
 ==> Para renderizar (funcion render()) y proyectar una plantilla con Twig se debe hacer echo de la salida de la funcion render().
+
+
+###################################################################################################
+
+En base al proyecto (Creacion de entidades, getters/setters y config necesaria para esto):
+
+En la raiz del servidor apache, se debe crear una carpeta con el nombre "config" que debe contener 2 archivos: bootstrap.php y cli-config.php:
+
+-------------
+bootstrap.php
+-------------
+
+<?php
+
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
+
+require_once "vendor/autoload.php";
+
+// Create a simple "default" Doctrine ORM configuration for Annotations
+$isDevMode = true;
+$config = Setup::createAnnotationMetadataConfiguration(array (__DIR__."/../model/class"), true, null, null, false); /* (Array Directorios, Boolean ModoDesarrollador, null, null, Boolean SimpleAnnotationReader) 
+Se setea de esta manera para crear las Entidades y los getters/setters
+
+*/
+
+// database configuration parameters
+$conn = array(
+    'driver' => 'pdo_mysql',
+    'user' => 'grupo11',
+    'password' => 'ZDc1MjY5MTBlNjQ2',
+    'dbname' => 'grupo11',
+);
+
+// obtaining the entity manager
+$entityManager = EntityManager::create($conn, $config);
+
+?>
+
+--------------
+cli-config.php
+--------------
+
+<?php
+// cli-config.php
+require_once "bootstrap.php";
+
+return \Doctrine\ORM\Tools\Console\ConsoleRunner::createHelperSet($entityManager);
+
+
+==================================================================================================
+
+
+Luego se deben ejecutar los siguientes comandos parado desde la raiz del servidor apache:
+
+==> Creacion de entidades:
+
+vendor/bin/doctrine orm:convert-mapping --force --from-database annotation ./model/class
+
+==> Creacion de getters/setters:
+
+vendor/bin/doctrine orm:generate-entities ./model/class/
+
+
+##################################################################################################
+##################################################################################################
+##################################################################################################
+
+-------------------------------------
+Arbol de carpetas del servidor apache
+-------------------------------------
+
+.
+├── composer.json
+├── composer.lock
+├── composer.phar
+├── config
+│   ├── bootstrap.php
+│   ├── cli-config.php
+│   └── Leeme
+├── controller
+│   ├── FrontController.php
+│   └── UsuarioController.php
+├── css
+│   ├── mobileStyle.css
+│   └── style.css
+├── documentos
+│   └── estandares.odt
+├── images
+│   ├── favicon.ico
+│   └── logo.svg
+├── index.php
+├── info
+│   ├── FrontController
+│   └── Resumen Doctrine
+├── model
+│   ├── class
+│   │   ├── Acompanamiento.php
+│   │   ├── Acompanamiento.php~
+│   │   ├── Configuracion.php
+│   │   ├── Configuracion.php~
+│   │   ├── Consulta.php
+│   │   ├── Consulta.php~
+│   │   ├── Genero.php
+│   │   ├── Genero.php~
+│   │   ├── Institucion.php
+│   │   ├── Institucion.php~
+│   │   ├── Localidad.php
+│   │   ├── Localidad.php~
+│   │   ├── MotivoConsulta.php
+│   │   ├── MotivoConsulta.php~
+│   │   ├── ObraSocial.php
+│   │   ├── ObraSocial.php~
+│   │   ├── Paciente.php
+│   │   ├── Paciente.php~
+│   │   ├── Partido.php
+│   │   ├── Partido.php~
+│   │   ├── Permiso.php
+│   │   ├── Permiso.php~
+│   │   ├── RegionSanitaria.php
+│   │   ├── RegionSanitaria.php~
+│   │   ├── Rol.php
+│   │   ├── Rol.php~
+│   │   ├── TipoDocumento.php
+│   │   ├── TipoDocumento.php~
+│   │   ├── TipoInstitucion.php
+│   │   ├── TipoInstitucion.php~
+│   │   ├── TratamientoFarmacologico.php
+│   │   ├── TratamientoFarmacologico.php~
+│   │   ├── Usuario.php
+│   │   └── Usuario.php~
+│   ├── DoctrineRepository.php
+│   └── UsuarioRepository.php
+|
+|__ Vendor/*
+|
+|
+└── view
+    ├── templates
+    │   ├── administracion.html.twig
+    │   ├── index.html.twig
+    │   ├── listaUsuarios.html.twig
+    │   └── login.html.twig
+    └── TwigView.php
+
