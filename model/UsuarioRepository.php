@@ -29,4 +29,11 @@ class UsuarioRepository extends DoctrineRepository {
         return $usuarios;
     }
 
+    public function find($user){
+        $entityManager = $this->getConnection();
+        $usuarioRepository = $entityManager->getRepository('Usuario');
+        $usuario = $usuarioRepository->findOneBy(array('username' => $user));
+        return $usuario;
+    }
+
 }

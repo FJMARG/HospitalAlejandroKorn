@@ -22,10 +22,10 @@ class UsuarioController {
         
     }
     
-    public function listarUsuarios(){
+    public function listarUsuarios($usr){
         $arrayUsuarios = UsuarioRepository::getInstance()->listAll();
         $vista = TwigView::getTwig();
-        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios));
+        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr));
     }
    
 }

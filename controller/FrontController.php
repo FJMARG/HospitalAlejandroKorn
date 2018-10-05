@@ -22,9 +22,9 @@ class FrontController {
         
     }
     
-    public function mostrar($string){
+    public function mostrar($string,$msg, $usr){
         $vista = TwigView::getTwig();
-    	echo $vista->render($string.'.html.twig');
+    	echo $vista->render($string.'.html.twig',array('mensaje'=>$msg,'user'=>$usr));
     }
     
 }
