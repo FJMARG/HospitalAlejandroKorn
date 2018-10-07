@@ -14,39 +14,36 @@ class Router {
 		elseif (($accion == 'index') || ($accion == 'login')){
 			FrontController::getInstance()->mostrar($accion,'','');
 		}
-		elseif (self::verificarSesion()){
-			if($accion=='listarUsuarios'){
-				UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername());
-			}
-			elseif ($accion=='administracion'){
+		elseif (SessionController::verifySession()){
+			if ($accion=='administracion'){
 				FrontController::getInstance()->mostrar($accion,'',$_SESSION['sesion']->getUsername());
 			}
-			elseif($accion='logout'){
-				self::cerrarSesion();
+			elseif($accion=='logout'){
+				SessionController::logout();
 				FrontController::getInstance()->mostrar('index','','');
+			}
+			else { 
+				if(($accion=='listarUsuarios')&&(SessionController::havePermission('usuario_index'))){
+					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername());
+				}
+				else{
+					FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
+				}
 			}
 		}
 		else{
-			FrontController::getInstance()->mostrar('login','No tienes permisos para acceder a esta funcionalidad.','');
+			FrontController::getInstance()->mostrar('login','Tienes que iniciar sesion y tener permisos para acceder a esta funcionalidad.','');
 		}
 	}
 
 	private static function iniciarSesion ($user,$pass){
-		$sesion = new SessionController();
-		if(SessionController::login ($user,$pass)){
+		$response = SessionController::login ($user,$pass);
+		if($response == 'ok'){
 			FrontController::getInstance()->mostrar('administracion','',$user);
 		}
 		else{
-			FrontController::getInstance()->mostrar('login','Datos Erroneos.','');
+			FrontController::getInstance()->mostrar('login',$response,'');
 		}
-	}
-
-	private static function verificarSesion (){
-		return (SessionController::verifySession());
-	}
-
-	private static function cerrarSesion(){
-		return (SessionController::logout());
 	}
 }
 

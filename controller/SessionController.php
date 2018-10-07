@@ -54,17 +54,17 @@ class SessionController extends DoctrineRepository {
 	static function login ($user, $pass){	/* Metodo comparacion de datos */
 		$dbuser=UsuarioRepository::getInstance()->find($user);
 		try {	/* 	Excepcion en caso de que existan datos erroneos */
-			if (empty ($dbuser)){
-				throw new Exception ('Error',1);
-			}elseif (!(self::verifyPassword ($dbuser,$pass))){
-				throw new Exception ('Error',1);
+			if ((empty ($dbuser)) || !(self::verifyPassword ($dbuser,$pass))){
+				throw new Exception ('Datos erroneos.',1);
+			}elseif ($dbuser->getActivo() == false){
+				throw new Exception ('Usuario bloqueado.',2);
 			}
 		}
 		catch (Exception $e){
-			return false;
+			return $e->getMessage();
 		}
 		self::generateSession($dbuser);
-		return true;
+		return 'ok';
 	}
 
 	private static function generateSession ($dbuser){
@@ -80,6 +80,7 @@ class SessionController extends DoctrineRepository {
 		*/
 
 		$_SESSION['sesion']=$dbuser;
+		$_SESSION['permisos']=UsuarioRepository::getInstance()->obtenerPermisos($dbuser);
 	}
 
 	private static function verifyPassword ($dbuser, $pass){
@@ -89,6 +90,10 @@ class SessionController extends DoctrineRepository {
 	static function logout (){							/* Funcion para el cierre de sesion */
 		session_unset ();
 		return session_destroy();
+	}
+
+	static function havePermission($permission){
+		return in_array($permission,$_SESSION['permisos']);
 	}
 
 	static function verifySession (){
