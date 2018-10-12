@@ -31,22 +31,37 @@
                     </ul>
                 </nav>
             </div>
-                <div class="rightCenter" >
-                    <form action="#">
-                        <input type="text" placeholder="Buscar..." title="Ingrese texto aqui para buscar por algun criterio." required>
-                        <input type="submit" value="Buscar" title="Clickee aqui para buscar el texto ingresado.">
-                    </form>
-                    <a>{{user}}</a>
-                    <a href='./index.php?accion=logout'>Cerrar Sesion</a>
-                </div>
+            <div class="rightCenter" >
+                <form action="#">
+                    <input type="text" placeholder="Buscar..." title="Ingrese texto aqui para buscar por algun criterio." required>
+                    <input type="submit" value="Buscar" title="Clickee aqui para buscar el texto ingresado.">
+                </form>
+                <a>{{user}}</a>
+                <a href='./index.php?accion=logout'>Cerrar Sesion</a>
+            </div>
         </header>
             <main class="lightBox">
-                <h1>Usuarios</h1>
-                <ul>
-                    {% for usuario in usuarios %}
-                    <li><a href="{{ usuario.id }}">{{ usuario.username }}</a></li>
-                    {% endfor %}
-                </ul>
+                <h3>Crear Usuario</h3>
+                <span>{{ mensaje }}</span>
+                <form method="post" action="./index.php?categoria=crearUsuario&accion=crear">
+                    <label for="user">Usuario</label>
+                    <input type="text" name="user">
+                    <label for="confirmUser">Confirmar Usuario</label>
+                    <input type="text" name="confirmUser">
+                    <label for="pass">Password</label>
+                    <input type="password" name="pass">
+                    <label for="confirmPass">Confirmar Password</label>
+                    <input type="password" name="confirmPass">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" name="apellido">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email">
+                    <label for="confirmEmail">Confirmar E-mail</label>
+                    <input type="email" name="confirmEmail">
+                    <input type="submit">
+                </form>
             </main>
             <footer class="box">
                 <span class="leftCenter">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>

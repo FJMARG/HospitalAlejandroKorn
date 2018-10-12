@@ -81,6 +81,7 @@ class SessionController extends DoctrineRepository {
 
 		$_SESSION['sesion']=$dbuser;
 		$_SESSION['permisos']=UsuarioRepository::getInstance()->obtenerPermisos($dbuser);
+		$_SESSION['roles']=UsuarioRepository::getInstance()->obtenerRoles($dbuser);
 	}
 
 	private static function verifyPassword ($dbuser, $pass){
@@ -90,6 +91,10 @@ class SessionController extends DoctrineRepository {
 	static function logout (){							/* Funcion para el cierre de sesion */
 		session_unset ();
 		return session_destroy();
+	}
+
+	static function haveRol ($rol){
+		return in_array ($rol,$_SESSION['roles']);
 	}
 
 	static function havePermission($permission){

@@ -1,5 +1,5 @@
 <?php
-
+use \Doctrine\Common\Collections\Criteria;
 /**
  * Description of UsuarioRepository
  *
@@ -36,6 +36,22 @@ class UsuarioRepository extends DoctrineRepository {
         return $usuario;
     }
 
+    public function findById($id){
+        $entityManager = $this->getConnection();
+        $usuarioRepository = $entityManager->getRepository('Usuario');
+        $usuario = $usuarioRepository->findOneBy(array('id' => $id));
+        return $usuario;
+    }
+
+    public function obtenerRoles($usuario){
+        $dbuserrol = $usuario->getRol();
+        $arrayNombresRol= array();
+        foreach ($dbuserrol as $rol){
+            $arrayNombresRol[] = $rol->getNombre();
+        }
+        return $arrayNombresRol;
+    }
+
     public function obtenerPermisos ($usuario){
     	$dbuserrol= $usuario->getRol();
     	$arraysPermisosUsuario=array();
@@ -51,6 +67,147 @@ class UsuarioRepository extends DoctrineRepository {
 		}
 		return array_unique($permisos);
     }
+
+    public function crearUsuario ($user, $pass, $nombre, $apellido, $email){
+        $entityManager = $this->getConnection();
+        $usuarioRepository = $entityManager->getRepository('Usuario');
+        $dbuser = $usuarioRepository->findOneBy(array('username' => $user));
+        if (!empty ($dbuser)){
+            return "El nombre de usuario ya existe.";
+        }
+        $dbemail = $usuarioRepository->findOneBy(array('email' => $email));
+        if (!empty ($dbemail)){
+            return "El email ingresado ya ha sido registrado para algun usuario.";
+        }
+        $dbuser = $usuarioRepository->findOneBy(array('firstName' => $nombre, 'lastName' => $apellido));
+        if (!empty ($dbuser)){
+            return "La persona a la cual desea crearle la cuenta ya tiene una cuenta registrada a su nombre.";
+        }
+
+        $objeto = new Usuario();
+
+        $rolRepository = $entityManager->getRepository('Rol');
+        $rol = $rolRepository->findOneBy(array('nombre' => 'EquipoDeGuardia'));
+
+        $objeto -> setFirstName($nombre);
+        $objeto -> setLastName($apellido);
+        $objeto -> setUsername($user);
+        $objeto -> setPassword($pass);
+        $objeto -> setEmail($email);
+        $objeto -> setUpdatedAt(date_create());
+        $objeto -> setCreatedAt(date_create());
+        $objeto -> setActivo(true);
+        $objeto -> addRol($rol);
+
+        $entityManager->persist($objeto);
+        $entityManager->flush();
+
+        return "El usuario ".$user." se ha creado correctamente.";
+    }
+
+    public function actualizarUsuario ($id, $user, $pass, $nombre, $apellido, $email, $roles, $activo){
+        $em = $this->getConnection();
+        $string = "select u
+        from Usuario u
+        where u.id != :iden
+        and u.username = :usuar";
+        $query = $em->createQuery($string);
+        $query->setParameter('iden', $id);
+        $query->setParameter('usuar', $user);
+        $dbuser = $query->getResult();
+
+        if (!empty ($dbuser)){
+            return "El nombre de usuario ya existe.";
+        }
+
+        $string = "select u
+        from Usuario u
+        where u.id != :iden
+        and u.email = :em";
+        $query = $em->createQuery($string);
+        $query->setParameter('iden', $id);
+        $query->setParameter('em', $email);
+        $dbemail = $query->getResult();
+        if (!empty ($dbemail)){
+            return "El email ingresado ya ha sido registrado para algun usuario.";
+        }
+        $string = "select u
+        from Usuario u
+        where u.id != :iden
+        and u.firstName = :fn and u.lastName = :ln";
+        $query = $em->createQuery($string);
+        $query->setParameter('iden', $id);
+        $query->setParameter('fn', $nombre);
+        $query->setParameter('ln', $apellido);
+        $dbuser = $query->getResult();
+        if (!empty ($dbuser)){
+            return "La persona a la cual desea crearle la cuenta ya tiene una cuenta registrada a su nombre.";
+        }
+
+        $em = $this->getConnection();
+
+        $dbuser = $em->getRepository('Usuario')->find($id);
+
+        if (empty ($dbuser)){
+            return "El usuario que intentas editar no existe en el sistema.";
+        }
+
+        $rols=array();
+        foreach($dbuser->getRol() as $rol){
+            $rols[]=$rol->getNombre();
+        }
+        foreach ($roles as $rol){
+            $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
+            if(!in_array($rol, $rols)){
+                $dbuser -> addRol($r);
+            }
+        }
+
+        foreach ($rols as $rol){
+            $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
+            if(!in_array($rol, $roles)){
+                $dbuser -> removeRol($r);
+            }
+        }
+
+        $dbuser -> setFirstName($nombre);
+        $dbuser -> setLastName($apellido);
+        $dbuser -> setUsername($user);
+        $dbuser -> setPassword($pass);
+        $dbuser -> setEmail($email);
+        $dbuser -> setUpdatedAt(date_create());
+
+        if ($activo == 'on')
+            $dbuser -> setActivo(true);
+        else
+            $dbuser -> setActivo(false);
+
+        $em->persist($dbuser);
+        $em->flush();
+
+        return "El usuario ".$user." se ha modificado correctamente.";
+    }
+
+    public function eliminarUsuario (){
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	function array_flatten($array) {
    		$return = array();

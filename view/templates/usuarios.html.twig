@@ -41,11 +41,11 @@
                 </div>
         </header>
             <main class="lightBox">
-                <h1>Usuarios</h1>
                 <ul>
-                    {% for usuario in usuarios %}
-                    <li><a href="{{ usuario.id }}">{{ usuario.username }}</a></li>
-                    {% endfor %}
+                    <li><a href="./index.php?categoria=listarUsuarios&accion=listarUsuarios">Listar Usuarios</a></li>
+                    <li><a href="./index.php?categoria=crearUsuario">Crear Usuario</a></li>
+                    <li><a href="./index.php?categoria=actualizarUsuarios">Actualizar Usuarios</a></li>
+                    <li><a href="./index.php?categoria=eliminarUsuarios">Eliminar Usuarios</a></li>
                 </ul>
             </main>
             <footer class="box">

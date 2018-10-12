@@ -83,6 +83,10 @@ footer{ /* Footer */
 		margin:12%;
 }
 
+input[type="text"], input[type="email"], input[type="checkbox"], input[type="password"], input[type="submit"] {
+	margin:3px;
+}
+
 .login { /* Formulario de inicio de sesion */
 		display: flex;               /* indico a la box sea flexible*/
 		flex-direction: column;      /* colocar los objetos del box agrupados horizontalmente */

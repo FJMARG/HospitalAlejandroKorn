@@ -41,10 +41,10 @@
                 </div>
         </header>
             <main class="lightBox">
-                <h1>Usuarios</h1>
+                <h1>Actualizar Usuarios</h1>
                 <ul>
                     {% for usuario in usuarios %}
-                    <li><a href="{{ usuario.id }}">{{ usuario.username }}</a></li>
+                    <li><a href="./index.php?categoria=modificarUsuario&id={{ usuario.id }}">{{ usuario.username }}</a></li>
                     {% endfor %}
                 </ul>
             </main>
