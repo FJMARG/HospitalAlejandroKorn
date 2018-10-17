@@ -22,16 +22,18 @@ class UsuarioController {
         
     }
     
-    public function listarUsuarios($usr){
-        $arrayUsuarios = UsuarioRepository::getInstance()->listAll();
+    public function listarUsuarios($usr, $filtros, $msg){
+        if ((!empty($filtros['username']))&&(($filtros['activo']==1)||($filtros['activo']==2))){
+            $arrayUsuarios = UsuarioRepository::getInstance()->listBy($filtros['username'],$filtros['activo']);
+        }
+        elseif((!empty($filtros['username']))||(($filtros['activo']==1)||($filtros['activo']==2))){
+            $arrayUsuarios = UsuarioRepository::getInstance()->listByArray($filtros);
+        }
+        else{
+            $arrayUsuarios = UsuarioRepository::getInstance()->listAll();
+        }
         $vista = TwigView::getTwig();
-        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr));
-    }
-
-    public function actualizarUsuarios($usr){
-        $arrayUsuarios = UsuarioRepository::getInstance()->listAll();
-        $vista = TwigView::getTwig();
-        echo $vista->render('actualizarUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr));
+        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr, 'mensaje' => $msg));
     }
 
     public function modificarUsuario($usr, $msg, $id){
@@ -44,6 +46,16 @@ class UsuarioController {
         $roles=UsuarioRepository::getInstance() -> obtenerRoles($usuarioModificar); 
         $vista = TwigView::getTwig();
         echo $vista->render('modificarUsuario.html.twig', array('usuario' => $usuarioModificar, 'mensaje'=>$msg, 'user' => $usr, 'arrayRolesUsuario' => $roles, 'arrayRoles' => $rols));
+    }
+
+    public function eliminarUsuario($usr,$id){
+        $filtros=array();
+        $filtros['activo']='';
+        $filtros['username']='';
+        if (UsuarioRepository::getInstance()->eliminarUsuario($id))
+        	$this::getInstance()->listarUsuarios($usr,$filtros,'El usuario con id:'.$id.' se elimino correctamente.');
+        else
+        	$this::getInstance()->listarUsuarios($usr,$filtros,'Error al eliminar el usuario con id:'.$id.'.');
     }
    
 }

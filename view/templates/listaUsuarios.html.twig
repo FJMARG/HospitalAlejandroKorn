@@ -32,21 +32,48 @@
                 </nav>
             </div>
                 <div class="rightCenter" >
-                    <form action="#">
-                        <input type="text" placeholder="Buscar..." title="Ingrese texto aqui para buscar por algun criterio." required>
-                        <input type="submit" value="Buscar" title="Clickee aqui para buscar el texto ingresado.">
+                    <form action="./index.php?categoria=listarUsuarios&accion=listarUsuarios" method="post">
+                        <input type="text" name="uname" placeholder="Nombre de usuario" title="Ingrese texto aqui para filtrar por nombre de usuario.">
+                        <select name="act" title="Seleccione una opcion para filtrar por activo/bloqueado">
+                        	<option disabled select>Seleccione una opcion</option>
+                        	<option value="-1">Activos y bloqueados</option>
+							<option value="1">Solo inactivos</option>
+							<option value="2">Solo activos</option>
+						</select>
+                        <input type="submit" value="Buscar" title="Clickee aqui para filtrar segun los criterios ingresados.">
                     </form>
                     <a>{{user}}</a>
                     <a href='./index.php?accion=logout'>Cerrar Sesion</a>
                 </div>
         </header>
             <main class="lightBox">
-                <h1>Usuarios</h1>
-                <ul>
-                    {% for usuario in usuarios %}
-                    <li><a href="{{ usuario.id }}">{{ usuario.username }}</a></li>
-                    {% endfor %}
-                </ul>
+            	<p>{{ mensaje }}</p>
+                <table>
+					<tr>
+					    <th>Nombre</th>
+					    <th>Apellido</th> 
+					    <th>Nombre de Usuario</th>
+					    <th>E-mail</th>
+					    <th>Activo</th>
+					    <th>Fecha creacion</th>
+					    <th>Fecha actualizacion</th>
+					    <th>Modificar</th>
+					    <th>Eliminar</th>
+					</tr>
+					{% for usuario in usuarios %}
+			  			<tr>
+							<td>{{ usuario.firstname }}</td>
+							<td>{{ usuario.lastname }}</td>
+							<td>{{ usuario.username }}</td>
+							<td>{{ usuario.email }}</td>
+							<td>{{ usuario.activo }}</td>
+							<td>{{ usuario.createdat|date("d/m/Y H:i") }}</td>
+							<td>{{ usuario.updatedat|date("d/m/Y H:i") }}</td>
+							<td><a href="./index.php?categoria=modificarUsuario&id={{ usuario.id }}">Modificar</a></td>
+							<td><a href="./index.php?categoria=eliminarUsuario&id={{ usuario.id }}">Eliminar</a></td>
+						</tr>
+            		{% endfor %}
+				</table>
             </main>
             <footer class="box">
                 <span class="leftCenter">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>

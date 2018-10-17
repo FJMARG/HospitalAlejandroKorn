@@ -7,7 +7,7 @@ require_once ('vendor/autoload.php'); /* Carga todas las clases especificadas en
 
 class Router {
 
-	static function start ($categoria, $user, $pass, $accion){
+	static function start ($categoria, $user, $pass, $accion, $filtrosUsuario){
 		if (($user != -1) && ($pass != -1)){
 			self::iniciarSesion ($user,$pass);
 		}
@@ -27,7 +27,7 @@ class Router {
 					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']->getUsername());
 				}
 				elseif(($categoria=='listarUsuarios') && ($accion=='listarUsuarios') && (SessionController::havePermission('usuario_index'))){
-					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername());
+					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername(), $filtrosUsuario, '');
 				}
 				elseif(($categoria=='crearUsuario') && (SessionController::havePermission('usuario_new'))){
 					$mensaje='';
@@ -36,24 +36,15 @@ class Router {
 					}
 					FrontController::getInstance()->mostrar($categoria,$mensaje,$_SESSION['sesion']->getUsername());
 				}
-				elseif((($categoria=='actualizarUsuarios')||($categoria=='modificarUsuario')) && (SessionController::havePermission('usuario_update'))){
-					if($categoria=="actualizarUsuarios"){
-						UsuarioController::getInstance()->actualizarUsuarios($_SESSION['sesion']->getUsername());
-					}
-					elseif($categoria=='modificarUsuario'){
-						$mensaje='';
-						if($accion=="modificar"){
-							$mensaje=UsuarioRepository::getInstance()->actualizarUsuario($_POST['id'], $_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['rls'], $_POST['activo']);
-						}
-						UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion']->getUsername(),$mensaje,$_GET['id']);
-					}
-				}
-				elseif(($categoria=='eliminarUsuarios') && (SessionController::havePermission('usuario_destroy'))){
+				elseif(($categoria=='modificarUsuario')&&(SessionController::havePermission('usuario_update'))){
 					$mensaje='';
-					if ($accion='eliminar'){
-						$mensaje=UsuarioRepository::getInstance()->eliminarUsuario('parametros necesarios');
+					if($accion=="modificar"){
+						$mensaje=UsuarioRepository::getInstance()->actualizarUsuario($_POST['id'], $_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['rls'], $_POST['activo']);
 					}
-					FrontController::getInstance()->mostrar($categoria,$mensaje,$_SESSION['sesion']->getUsername());
+					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion']->getUsername(),$mensaje,$_GET['id']);
+				}
+				elseif(($categoria=='eliminarUsuario') && (SessionController::havePermission('usuario_destroy'))){
+					UsuarioController::getInstance()->eliminarUsuario($_SESSION['sesion']->getUsername(), $_GET['id']);
 				}
 				else{
 					FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
@@ -117,6 +108,16 @@ if(!isset($_POST['rls'])){
 if(!isset($_POST['activo'])){
 	$_POST['activo']='';
 }
+if (!isset($_POST['uname'])){
+	$_POST['uname']='';
+}
+if (!isset($_POST['act'])){
+	$_POST['act']='';
+}
+
+$filtrosUsuario=array();
+$filtrosUsuario['username']=$_POST['uname'];
+$filtrosUsuario['activo']=$_POST['act'];
 
 Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
-$_GET['accion']);
+$_GET['accion'], $filtrosUsuario);
