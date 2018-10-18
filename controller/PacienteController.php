@@ -103,7 +103,8 @@ class PacienteController extends DoctrineRepository {
        $json = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento");
        #$documentos = json_decode($json,true);
        $datos['documentos'] = json_decode($json,true); */
-
+       
+       $em = DoctrineRepository::getConnection();
        $docuRepository = $em->getRepository('TipoDocumento'); 
        $datos['documentos'] = $docuRepository->findAll();
 
