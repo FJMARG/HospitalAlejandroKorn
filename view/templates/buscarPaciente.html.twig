@@ -26,7 +26,7 @@
                                            <select class="form-control" name="tipoDocumento" id="tipoDocumento">
                                             <option> </option> 
                                             {% for documento in documentos%}
-                                                <option value="{{documento["id"]}}">{{ documento["nombre"] }}</option>
+                                                <option value="{{ documento.getId() }}">{{ documento.getNombre() }}</option>
                                             {% endfor %} 
                                           </select>
                                      </div>
