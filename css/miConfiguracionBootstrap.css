@@ -1,0 +1,15 @@
+.navbar, .navbar-default {
+    background-color: #BFB5B3;
+    font-family: "Arial Black";
+    color: #fff;
+}
+
+.page-footer{
+	padding: 22px;
+    background-color:#BFB5B3;
+    font-family: "Arial Black";
+}
+
+.footer-confg {
+    padding-left: 15px;
+}

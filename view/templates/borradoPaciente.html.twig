@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block Script %}
+<script type="text/javascript" src="mi_js/misScripts.js"/></script>
+{% endblock %}  
+{% block contenido %}
+<main>
+    <div class="container">
+	    <div class="row">
+		    <div class="panel panel-primary">
+		      <div class="panel-heading" style="background-color:red;">Se Procedera a borrar el siguiente Paciente</div>
+		        	<div class="panel-body">
+		        	    <table class="table">
+		        	        <tbody>
+		        	           <tr>
+		        	    	       <td>Nombre:<td>
+		        	    	       <td>{{ paciente.nombre }}<td>
+		        	    	   <tr> 
+		        	    	   <tr>
+		        	    	       <td>Apellido:<td>
+		        	    	       <td>{{ paciente.apellido }}<td>
+		        	    	   <tr>
+		        	    	   <tr>
+		        	    	       <td>Genero:<td>
+		        	    	       <td>{{ paciente.genero.nombre }}<td>
+		        	    	   <tr> 
+		        	    	   <tr>
+		        	    	       <td>Tipo Documento:<td>
+		        	    	       <td>{{ paciente.getTipoDoc.getNombre()  }}<td>
+		        	    	   <tr> 
+		        	    	   <tr>
+		        	    	       <td>Numero Documento:<td>
+		        	    	       <td>{{ paciente.getNumero }}<td>
+		        	    	   <tr> 
+		        	    	</tbody>
+		        	   	</table> 	
+		        	</div>
+		      </div>   
+	    </div>
+		 <div class="row justify-content-center">
+	          <form name=tuformulario action="./index.php?categoria=paciente&accion=paciente_borrar&id={{ paciente.getId }}" role="form" method="post"> 
+	          	 <div class="form-group">	
+	                <button type="submit" class="btn btn-primary btn-danger">
+	                <span class="glyphicon glyphicon-trash"></span> Borrar Paciente</button>
+	         	</div>
+	         </form> 
+		 </div> 	
+    </div>
+</main>
+{% endblock %} 

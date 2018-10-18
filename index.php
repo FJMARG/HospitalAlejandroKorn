@@ -12,6 +12,7 @@ class Router {
 			self::iniciarSesion ($user,$pass);
 		}
 		elseif (($categoria == 'index') || ($categoria == 'login')){
+			echo "aca";
 			FrontController::getInstance()->mostrar($categoria,'','');
 		}
 		elseif (SessionController::verifySession()){
@@ -22,6 +23,48 @@ class Router {
 				SessionController::logout();
 				FrontController::getInstance()->mostrar('index','','');
 			}
+			# +++++++++++++++++++++  categoria pacientes ++++++++++++++++++++++++ #
+			elseif($categoria=='paciente') {
+				    # Modulo de pacientes y acciones a realizar
+				    if (($accion=='paciente_buscar') && (SessionController::havePermission('paciente_index')) ) {
+				        PacienteController::getInstance()->realizaAccion("buscar"); /* pagina de buscar pacientes en el sitema*/
+			        }
+					elseif (($accion=='paciente_verResultado') && (SessionController::havePermission('paciente_index')) ) {
+					  	PacienteController::getInstance()->realizaAccion("verBusqueda"); /* pagina de buscar pacientes sitema*/	
+					}
+					elseif (($accion=='paciente_verTodos') && (SessionController::havePermission('paciente_index')) ) {
+					  	PacienteController::getInstance()->realizaAccion("verTodos"); /* pagina de buscar pacientes sitema*/ 	
+					}	
+					elseif (($accion=='paciente_crear') && (SessionController::havePermission('paciente_new')) ) {						
+					  	PacienteController::getInstance()->realizaAccion("crear");	/* Crear Paciente en sitema*/
+					}
+				    elseif (($accion=='paciente_insertar') && (SessionController::havePermission('paciente_new')) ) {   	
+					  	PacienteController::getInstance()->realizaAccion("insertar"); 	/* Commit el paciente en el sitema*/
+					}
+					elseif (($accion=='informar_alta') && (SessionController::havePermission('paciente_new')) ) {				    	
+					  	PacienteController::getInstance()->realizaAccion("confirmacionAlta"); /* Ver detella de un paciente */
+					}
+					elseif (($accion=='paciente_ver') && (SessionController::havePermission('paciente_show')) ) {		    	
+					  	PacienteController::getInstance()->realizaAccion("verPaciente"); /* Ver detella de un paciente */	
+					}
+					elseif (($accion=='paciente_pantallaBorrado') && (SessionController::havePermission('paciente_destroy')) ) { 	
+					  	PacienteController::getInstance()->realizaAccion("pantallaBorrar"); /* Ver detella de un paciente */	
+					}
+					elseif (($accion=='paciente_borrar') && (SessionController::havePermission('paciente_destroy')) ) { 
+				    	PacienteController::getInstance()->realizaAccion("borrar"); /* Ver detella de un paciente */
+					}
+					elseif (($accion=='informar_baja') && (SessionController::havePermission('paciente_destroy')) ) { 
+				    	PacienteController::getInstance()->realizaAccion("confirmacionBaja"); /* Ver detella de un paciente */
+					}
+					elseif (($accion=='paciente_pantallaEditar') && (SessionController::havePermission('paciente_update')) ) { 	
+				    	PacienteController::getInstance()->realizaAccion("pantallaEditar"); /* Ver detella de un paciente */
+					}
+                    # Sin permisos
+			        else{
+				 	  FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
+				    }	
+			}
+			# ++++++++++++++++++++++++  fin pacientes  ++++++++++++++++++++++++ #
 			else { 
 				if (($categoria=='usuarios') && ($accion == '') && (SessionController::haveRol('Administrador'))){
 					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']->getUsername());

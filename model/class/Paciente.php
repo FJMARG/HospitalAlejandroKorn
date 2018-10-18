@@ -43,9 +43,9 @@ class Paciente
     private $fechaNac;
 
     /**
-     * @var \DateTime|null
+     * @var string
      *
-     * @ORM\Column(name="lugar_nac", type="date", nullable=true)
+     * @ORM\Column(name="lugar_nac", type="string", nullable=false)
      */
     private $lugarNac;
 
@@ -228,11 +228,11 @@ class Paciente
     /**
      * Set lugarNac.
      *
-     * @param \DateTime|null $lugarNac
+     * @param string|null $lugarNac
      *
      * @return Paciente
      */
-    public function setLugarNac($lugarNac = null)
+    public function setLugarNac($lugarNac)
     {
         $this->lugarNac = $lugarNac;
 
@@ -242,7 +242,7 @@ class Paciente
     /**
      * Get lugarNac.
      *
-     * @return \DateTime|null
+     * @return string|null
      */
     public function getLugarNac()
     {

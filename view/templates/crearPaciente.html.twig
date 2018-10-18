@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+{% block Script %}
+   <script type="text/javascript" src="mi_js/misScripts.js"/></script>
+{% endblock %}    
+{% block contenido %}
+    <main>
+          <h4>Crear Paciente</h4>  
+          <form class="form-horizontal" role="form" method="post" 
+            action="./index.php?categoria=paciente&accion=paciente_insertar">
+                <div class="form-group"> <!-- Nombre -->
+                  <label for="nombre" class="col-sm-2 control-label">Nombre</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" name="nombre" id="nombre" requerid size="100">
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Apellido -->
+                  <label for="apellido" class="col-sm-2 control-label">Apellido</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" name="apellido" id="apellido"required size="100">
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Fecha Nacimiento -->
+                  <label for="fechaNacimineto" class="col-sm-2 control-label">Fecha Nacimineto</label>
+                  <div class="col-sm-2">
+                      <input type="date" class="form-control" name="fechaNacimineto" 
+                      id="fechaNacimineto" required>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Lugar de Nacimiento -->
+                  <label for="lugarNacimineto" class="col-sm-2 control-label">Nacimineto</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" name="lugarNacimineto" 
+                      id="lugarNacimineto" size="100">
+                  </div>
+                </div>
+                <div class="form-group">  <!-- Partido -->
+                   <label for="partido" class="col-sm-2 control-label">Partido</label>
+                   <div class="col-sm-2">
+                       <select class="form-control" name="partido" id="partido" onchange='seleccionarInfoPartido();'>
+                          <option value="0">Vacio</option>
+                          {% for partido in partidos %}
+                              <option value="{{partido.getId()}}">{{partido.getNombre()}}</option>
+                          {% endfor %} 
+                       </select>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Region Sanitaria -->
+                  <label for="regionSanitaria" class="col-sm-2 control-label">Region Sanitaria</label>
+                  <div class="col-sm-2">
+                      <input type="text" class="form-control" name="regionSanitaria" 
+                      id="regionSanitaria" readonly>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Localidad -->
+                   <label for="localidad" class="col-sm-2 control-label">Localidad</label>
+                   <div class="col-sm-2">
+                       <select class="form-control" name="localidad" id="localidad">
+                          <option value="0">Vacio</option> 
+                       </select>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Domicilio -->
+                  <label for="domicilio" class="col-sm-2 control-label">Domilicio</label>
+                  <div class="col-sm-4">
+                      <input type="text" class="form-control" name="domicilio" id="domicilio" required>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Genero -->
+                  <label for="genero" class="col-sm-2 control-label">Genero</label>
+                   <div class="col-sm-2">
+                       <select class="form-control" name="genero" id="genero" required> 
+                          {% for genero in generos %}
+                              <option value="{{genero.getId()}}">{{genero.getNombre()}}</option>
+                          {% endfor %} 
+                       </select>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Tiene Documento -->
+                  <label for="tieneDoc" class="col-sm-2 control-label">Tiene Documento ?</label>
+                  <div class="col-sm-1">
+                       <select class="form-control" name="tieneDoc" id="tieneDoc" onchange='tieneDocumento();' required>
+                          <option value="1">SI</option> 
+                          <option value="0">NO</option>
+                       </select>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Tipo Documento -->
+                  <label for="tipoDocumento" class="col-sm-2 control-label">Tipo de Documento</label>
+                    <div class="col-sm-2">
+                      <select class="form-control" name="tipoDocumento" id="tipoDocumento" requerid>
+                            {% for documento in documentos %}
+                              <option value="{{ documento.id }}">{{ documento.nombre }}</option>
+                            {% endfor %} 
+                      </select>
+                    </div>
+                </div>
+                <div class="form-group"> <!-- Numero de Documento -->
+                  <label for="nroDocumento" class="col-sm-2 control-label">Numero Documento</label>
+                  <div class="col-sm-4">
+                      <input type="number" class="form-control" name="nroDocumento" id="nroDocumento" min="0" max="99999999999" required>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Historia Clinica -->
+                   <label for="nroHistClinica" class="col-sm-2 control-label">
+                   Numero Historia Clinica</label>
+                   <div class="col-sm-4">
+                       <input type="number" class="form-control" name="nroHistClinica" 
+                       id="nroHistClinica" min="0" max="999999">
+                   </div>
+                </div>
+                <div class="form-group"> <!-- Numero de Carpeta -->
+                     <label for="nroCarpeta" class="col-sm-2 control-label">Numero Carpeta</label>
+                     <div class="col-sm-4">
+                         <input type="number" class="form-control" name="nroCarpeta" id="nroCarpeta"  min="0" max="99999">
+                    </div>
+                </div>
+                <div class="form-group"> <!-- Numero de Telefono -->
+                  <label for="telefono" class="col-sm-2 control-label">Telefono</label>
+                  <div class="col-sm-4">
+                      <input type="tel" class="form-control" name="telefono" id="telefono">
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Obra social -->
+                  <label for="obraSocial" class="col-sm-2 control-label">Obra Social</label>
+                   <div class="col-sm-2">
+                       <select class="form-control" name="obraSocial" id="obraSocial">
+                          <option value="0">Vacio</option>
+                          {% for obraSocial in obraSociales %}
+                              <option value="{{ obraSocial.id }}">{{ obraSocial.nombre }}</option>
+                          {% endfor %} 
+                       </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                   <div method="post" class="col-sm-offset-3 col-sm-3">
+                        <button type="submit" class="btn btn-info" >
+                        <span class="glyphicon glyphicon-user"></span> Crear Paciente</button>
+                        </div>
+                   </div>
+                <div class="form-group">
+            </form> 
+            <!-- Alentar de mensajes -->    
+              {% if mensaje is defined %}  
+              <div class="alert alert-danger alert-dismissable">
+                  <button type="button" data-dismiss="alert" class="close">&times;</button>
+                     <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
+              </div>
+             {% endif %}      
+        </main>
+{% endblock %}     

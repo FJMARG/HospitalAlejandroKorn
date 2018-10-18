@@ -18,7 +18,13 @@
 					<ul>
 						<li><a href="./index.php?categoria=administracion" >Inicio</a></li>
 						<li><a href="">Consultas</a></li>
-						<li><a href="">Pacientes</a></li>
+						<li class="dropdown">
+							<a href="javascript:void(0)" class="dropbtn">Pacientes</a>
+							<div class="dropdown-content">
+								<a href="./index.php?categoria=paciente&accion=paciente_buscar">Buscar</a>
+								<a href="./index.php?categoria=paciente&accion=paciente_crear">Crear</a>
+							</div>
+						</li>
 						<li class="dropdown">
 							<a href="javascript:void(0)" class="dropbtn">Administracion</a>
 							<div class="dropdown-content">

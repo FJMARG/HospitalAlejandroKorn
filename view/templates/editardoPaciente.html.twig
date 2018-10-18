@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+{% block Script %}
+<script type="text/javascript" src="mi_js/misScripts.js"/></script>
+{% endblock %}  
+{% block contenido %}
+<main>
+<div class="container">
+<form>
+	  <div class="form-group">
+         <h2>Editar Paciente:</h2> 
+	  <div>	
+	  <div class="form-group">
+		   <label for="nombre">Nombre</label>
+	       <input type="text" class="form-control" name="nombre" id="nombre" requerid size="100" value="{{ paciente.getNombre }}">
+	  </div>
+	  <div class="form-group">
+	  	   <label for="apellido">Apellido</label>
+	  	   <input type="text" class="form-control" name="apellido" id="apellido"required size="100" value="{{ paciente.getApellido }}">  
+	  </div>
+	  <div class="form-group">
+ 		   <label for="fechaNacimineto">Fecha Nacimineto</label>
+ 		   <input type="date" class="form-control" name="fechaNacimineto" 
+                  id="fechaNacimineto" value="{{ paciente.getFechaNac()|date }}" required>
+	  </div>
+	  <div class="form-group">
+	  	   <label for="lugarNacimineto">Lugar de Nacimineto</label>
+	  	   <input type="text" class="form-control" name="lugarNacimineto" id="lugarNacimineto" size="100" value="{{ paciente.getLugarNac() }}">	
+	  </div>	
+	  <div class="form-group">
+	  	 	<label for="partido">Partido</label>
+		 	<select class="form-control" name="partido" id="partido" onchange='seleccionarInfoPartido();'>
+             <option value="0">Vacio</option>
+             {% for partido in partidos %}
+                <option value="{{ partido.getId() }}">{{partido.getNombre()}}</option>
+             {% endfor %} 
+             </select>
+	  </div>
+	  <div class="form-group"> <!-- Region Sanitaria -->
+            <label for="regionSanitaria">Region Sanitaria</label>
+			<input type="text" class="form-control" name="regionSanitaria" id="regionSanitaria"  value="{{ paciente.getRegionSanitaria().getNombre() }}" readonly>
+      </div>
+      <div class="form-group"> <!-- Localidad -->
+            <label for="localidad">Localidad</label>
+			<select class="form-control" name="localidad" id="localidad" value="{{ paciente.getLocalidad().getNombre() }}">
+               <option value="0">Vacio</option> 
+            </select>
+      </div>	
+	  <div class="form-group"> <!-- Domicilio -->
+            <label for="domicilio">Domilicio</label>
+            <input type="text" class="form-control" name="domicilio" id="domicilio" value="{{ paciente.getDomicilio() }}" required>
+      </div>
+      <div class="form-group"> <!-- Genero -->
+           <label for="genero">Genero</label>
+ 		   <select class="form-control" name="genero" id="genero" value="{{ paciente.getGenero().getNombre() }}" required> 
+           {% for genero in generos %}
+              <option value="{{genero.getId()}}">{{genero.getNombre()}}</option>
+           {% endfor %} 
+           </select>
+      </div>
+      <div class="form-group"> <!-- Tiene Documento -->
+            <label for="tieneDoc">Tiene Documento ?</label>
+            <select class="form-control" name="tieneDoc" id="tieneDoc" onchange='tieneDocumento();' value= required>
+            	<option value="{{ paciente.getTieneDocumento() }}" selected>{{ paciente.getTieneDocumento() }}
+            	</option> 
+                <option value="1">SI</option> 
+                <option value="0">NO</option>
+            </select>
+	  </div>
+	  <div class="form-group"> <!-- Tipo Documento -->
+            <label for="tipoDocumento">Tipo de Documento</label>
+            <select class="form-control" name="tipoDocumento" id="tipoDocumento" requerid>
+            <option selected value="{{ paciente.getTipoDoc().getId() }}">{{ paciente.getTipoDoc().getNombre() }}</option>	
+            {% for documento in documentos %} 
+               <option value="{{ documento.id }}">{{ documento.nombre }}</option>
+            {% endfor %} 
+            </select>
+      </div>
+      <div class="form-group"> <!-- Numero de Documento -->
+           <label for="nroDocumento">Numero Documento</label>
+           <input type="number" class="form-control" name="nroDocumento" id="nroDocumento" min="0" max="99999999999" required>
+      </div>
+      <div class="form-group"> <!-- Historia Clinica -->
+           <label for="nroHistClinica">Numero Historia Clinica</label>
+           <input type="number" class="form-control" name="nroHistClinica" 
+                      id="nroHistClinica" min="0" max="999999">
+      </div>
+      <div class="form-group"> <!-- Numero de Carpeta -->
+           <label for="nroCarpeta">Numero Carpeta</label>
+           <input type="number" class="form-control" name="nroCarpeta" id="nroCarpeta" min="0" max="99999">
+      </div>
+      <div class="form-group"> <!-- Numero de Telefono -->
+           <label for="telefono">Telefono</label>
+           <input type="tel" class="form-control" name="telefono" id="telefono">
+	  </div>
+	  <div class="form-group"> <!-- Obra social -->
+           <label for="obraSocial">Obra Social</label>
+           <select class="form-control" name="obraSocial" id="obraSocial">
+           <option value="0">Vacio</option>
+           {% for obraSocial in obraSociales %}
+               <option value="{{ obraSocial.id }}">{{ obraSocial.nombre }}</option>
+           {% endfor %} 
+           </select>
+      </div>
+      <!-- Boton Guardado -->
+	  <div class="form-group">
+	  	   <button type="submit" class="btn btn-primary">Guardar</button>
+	  </div>
+</form>
+</div>
+</main>
+{% endblock %} 
