@@ -67,8 +67,14 @@ class UsuarioController {
     }
 
     public function crearUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail){
-        $this->validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail);
-        return UsuarioRepository::getInstance()->crearUsuario($user, $pass, $nombre, $apellido, $email);
+        $msg = '';
+        $msg = $this->validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail);
+        if ($msg != ''){
+            return $msg;
+        }
+        else{
+            return UsuarioRepository::getInstance()->crearUsuario($user, $pass, $nombre, $apellido, $email);
+        }
     }
 
     public function modificarUsuario($usr, $msg, $id){
@@ -84,8 +90,14 @@ class UsuarioController {
     }
 
     public function actualizarUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail, $roles, $activo, $id){
-        $this->validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail);
-        return UsuarioRepository::getInstance()->actualizarUsuario($user, $pass, $nombre, $apellido, $email, $roles, $activo, $id);
+        $msg = '';
+        $msg = $this->validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail);
+        if ($msg != ''){
+            return $msg;
+        }
+        else {
+            return UsuarioRepository::getInstance()->actualizarUsuario($user, $pass, $nombre, $apellido, $email, $roles, $activo, $id);
+        }
     }
 
     public function eliminarUsuario($usr,$id){
