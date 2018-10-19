@@ -202,7 +202,7 @@ class UsuarioRepository extends DoctrineRepository {
             }
         }
     
-        if (!empty($rols)){
+        if (sizeof($rols) != 0){
             foreach ($rols as $rol){
                 $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
                 if(!in_array($rol, $roles)){
