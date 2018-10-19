@@ -289,16 +289,34 @@ class PacienteController extends DoctrineRepository {
       
     # Buscar los datos del paciente a mostrar
     $paciente = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
+
     
     if ( $paciente != NULL )
     {
+        
         $datos['paciente'] = $paciente;
 
+        # Levantar datos para mostrar en pantalla  correspondiente paciente
+        $em = DoctrineRepository::getConnection(); 
+
+        $partidoRepository = $em->getRepository('Partido');
+        $datos['partidos'] = $partidoRepository->findAll();
+
+        $localidadRepository = $em->getRepository('Localidad');
+        $datos['localidades'] = $localidadRepository->findAll();
+
+        $generoRepository = $em->getRepository('Genero');
+        $datos['generos'] = $generoRepository->findAll();
+
+        $obraSocialRepository = $em->getRepository('ObraSocial'); 
+        $datos['obraSociales'] = $obraSocialRepository->findAll();
+
+        $docuRepository = $em->getRepository('TipoDocumento'); 
+        $datos['documentos'] = $docuRepository->findAll();
 
         $vista = TwigView::getTwig();
         echo $vista->render('editardoPaciente.html.twig',$datos);      
     }
   }
-   
 
 }

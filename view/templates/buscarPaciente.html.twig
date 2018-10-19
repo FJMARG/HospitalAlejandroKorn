@@ -2,73 +2,63 @@
 {% block Script %}
 {% endblock %} 
 {% block contenido %}
-    <main>
-        <h4>Busqueda con Filtros</h4>  
-            <div class="container-fluid">
-                <div class="row">
-                     <div class="col">
-                         <form class="form-horizontal" method="post" action="./index.php?categoria=paciente&accion=paciente_verResultado">
-                              <div class="form-group">
-                                     <label for="nombrePaciente" class="col-sm-4 control-label">Nombre Paciente</label>
-                                      <div class="col-sm-4">
-                                          <input type="text" class="form-control" name="nombrePaciente" id="nombrePaciente">
-                                     </div>
-                              </div>
-                              <div class="form-group">
-                                     <label for="apellidoPaciente" class="col-sm-4 control-label">Apellido Paciente</label>
-                                     <div class="col-sm-4">
-                                         <input type="text" class="form-control" name="apellidoPaciente" id="apellidoPaciente">
-                                     </div>
-                              </div>
-                              <div class="form-group">
-                                     <label for="tipoDocumento" class="col-sm-4 control-label">Tipo Documento</label>
-                                     <div class="col-sm-2">
-                                           <select class="form-control" name="tipoDocumento" id="tipoDocumento">
-                                            <option> </option> 
-                                            {% for documento in documentos%}
-                                                <option value="{{ documento.getId() }}">{{ documento.getNombre() }}</option>
-                                            {% endfor %} 
-                                          </select>
-                                     </div>
-                              </div>
-                              <div class="form-group">
-                                     <label for="numeroDocumento" class="col-sm-4 control-label">Numero Documento</label>
-                                     <div class="col-sm-3">
-                                         <input type="number" class="form-control" name="numeroDocumento" id="numeroDocumento">
-                                     </div>
-                              </div>
-                              <div class="form-group">
-                                     <label for="numeroHistoriaClinica" class="col-sm-4 control-label">Numero Historia Clinica</label>
-                                     <div class="col-sm-3">
-                                          <input type="number" class="form-control" name="numeroHistoriaClinica" id="numeroHistoriaClinica">
-                                     </div>
-                              </div>
-                              <div class="form-group">
-                                 <div method="post" class="col-sm-offset-4 col-sm-3">
-                                     <button type="submit" class="btn btn-info">
-                                     <span class="glyphicon glyphicon-search"></span> Buscar</button>
-                                 </div>
-                              </div>
-                         </form> 
-                      </div>  
-                      <div class="col"> 
-                            <form class="form-horizontal" method="post" action="./index.php?categoria=paciente&accion=paciente_verTodos">
-                               <div class="form-group">
-                                 <div method="post" class="col-sm-offset-4 col-sm-3">
-                                      <button type="submit" class="btn btn-info">  
-                                      <span class="glyphicon glyphicon-arrow-right"></span> Recuperar todos</button>
-                                 </div>
-                               </div> 
-                            </form>
-                      </div>
-                 </div> 
-              </div>   
-              <!-- Alentar de mensajes -->    
-              {% if mensaje is defined %}  
-              <div class="alert alert-danger alert-dismissable">
-                     <button type="button" data-dismiss="alert" class="close">&times;</button>
-                     <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
+<main>
+<div class="container">
+<div class="col-sm-offset-2 col-sm-8">  
+        <form class="form-horizontal" method="post" action="./index.php?categoria=paciente&accion=paciente_verResultado">
+              <div class="form-group">
+                   <div class="col-sm-offset-4 col-sm-4">
+                        <h4>Busqueda con Filtros</h4>
+                   </div>
+              </div>  
+              <div class="form-group">
+                   <label for="nombrePaciente">Nombre Paciente</label>
+                   <input type="text" class="form-control" name="nombrePaciente" id="nombrePaciente">
               </div>
-              {% endif %}                      
-    </main>  
+              <div class="form-group">
+                   <label for="apellidoPaciente">Apellido Paciente</label>
+                   <input type="text" class="form-control" name="apellidoPaciente" id="apellidoPaciente">
+              </div>
+              <div class="form-group">
+                   <label for="tipoDocumento">Tipo Documento</label>
+                   <select class="form-control" name="tipoDocumento" id="tipoDocumento">
+                           <option> </option> 
+                           {% for documento in documentos%}
+                               <option value="{{ documento.getId() }}">{{ documento.getNombre() }}</option>
+                           {% endfor %} 
+                   </select>
+              </div>
+              <div class="form-group">
+                   <label for="numeroDocumento">Numero Documento</label>
+                   <input type="number" class="form-control" name="numeroDocumento" id="numeroDocumento">
+              </div>
+              <div class="form-group">
+                  <label for="numeroHistoriaClinica">Numero Historia Clinica</label>
+                  <input type="number" class="form-control" name="numeroHistoriaClinica" id="numeroHistoriaClinica">
+              </div>
+              <div class="form-group">
+                  <div method="post" class="col-sm-offset-4 col-sm-8">
+                        <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search"></span> Buscar</button>
+                  </div>
+              </div>
+        </form> 
+        <form class="form-horizontal" method="post" action="./index.php?categoria=paciente&accion=paciente_verTodos">
+              <div class="form-group">
+                    <div method="post" class="col-sm-offset-4 col-sm-3">
+                        <button type="submit" class="btn btn-info">  
+                        <span class="glyphicon glyphicon-arrow-right"></span> Recuperar todos</button>
+                    </div>
+              </div> 
+         </form>
+         <!-- Alentar de mensajes -->    
+         {% if mensaje is defined %}  
+          <div class="alert alert-danger alert-dismissable">
+                <button type="button" data-dismiss="alert" class="close">&times;</button>
+                <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
+          </div>
+         {% endif %} 
+</div>               
+</div>                                   
+</main>  
 {% endblock %}     

@@ -4,9 +4,12 @@ $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
 $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
 
 # Region
-$query = $pdo->prepare("SELECT nombre FROM region_sanitaria where id=?");
-$query->execute(array($_GET["id"]));
+$query = $pdo->prepare("SELECT region_sanitaria.nombre 
+						FROM region_sanitaria inner join partido 
+						ON region_sanitaria.id = partido.region_sanitaria_id 
+						where partido.id=?");
 
+$query->execute(array($_GET["id"]));
 for($i=1; $row = $query->fetch(); $i++)
 {
    $region["$i"] = $row['nombre'];

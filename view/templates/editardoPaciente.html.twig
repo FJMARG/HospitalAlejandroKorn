@@ -5,9 +5,12 @@
 {% block contenido %}
 <main>
 <div class="container">
+<div class="col-sm-offset-2 col-sm-8">  
 <form>
 	  <div class="form-group">
-         <h2>Editar Paciente:</h2> 
+         <div class="col-sm-offset-4">
+              <h2>Editar Paciente:</h2> 
+         </div>
 	  <div>	
 	  <div class="form-group">
 		   <label for="nombre">Nombre</label>
@@ -53,25 +56,38 @@
            <label for="genero">Genero</label>
  		   <select class="form-control" name="genero" id="genero" value="{{ paciente.getGenero().getNombre() }}" required> 
            {% for genero in generos %}
-              <option value="{{genero.getId()}}">{{genero.getNombre()}}</option>
+              {% if genero.getId() == paciente.getGenero().getNombre() %}
+                   <option value="{{genero.getId()}}" selected>{{genero.getNombre()}}</option>
+              {% else %}
+                   <option value="{{genero.getId()}}">{{genero.getNombre()}}</option>
+              {% endif %} 
            {% endfor %} 
            </select>
       </div>
       <div class="form-group"> <!-- Tiene Documento -->
             <label for="tieneDoc">Tiene Documento ?</label>
             <select class="form-control" name="tieneDoc" id="tieneDoc" onchange='tieneDocumento();' value= required>
-            	<option value="{{ paciente.getTieneDocumento() }}" selected>{{ paciente.getTieneDocumento() }}
-            	</option> 
-                <option value="1">SI</option> 
-                <option value="0">NO</option>
+                 {% if paciente.getTieneDocumento() == true %} 
+                       <option value="1" selected>SI</option> 
+                 {% else %}
+                       <option value="1">SI</option>
+                 {% endif %} 
+                 {% if paciente.getTieneDocumento() == false %}
+                       <option value="0" selected>NO</option> 
+                 {% else %}
+                       <option value="0">NO</option>
+                 {% endif %}
             </select>
 	  </div>
 	  <div class="form-group"> <!-- Tipo Documento -->
             <label for="tipoDocumento">Tipo de Documento</label>
             <select class="form-control" name="tipoDocumento" id="tipoDocumento" requerid>
-            <option selected value="{{ paciente.getTipoDoc().getId() }}">{{ paciente.getTipoDoc().getNombre() }}</option>	
             {% for documento in documentos %} 
-               <option value="{{ documento.id }}">{{ documento.nombre }}</option>
+                {% if documento.getId() == paciente.getTipoDoc().getId() %}
+                    <option value="{{ documento.id }}" selected=>{{ documento.nombre }}</option>
+                {% else %}
+                    <option value="{{ documento.id }}">{{ documento.nombre }}</option>
+                {% endif %}
             {% endfor %} 
             </select>
       </div>
@@ -93,19 +109,27 @@
            <input type="tel" class="form-control" name="telefono" id="telefono">
 	  </div>
 	  <div class="form-group"> <!-- Obra social -->
-           <label for="obraSocial">Obra Social</label>
-           <select class="form-control" name="obraSocial" id="obraSocial">
-           <option value="0">Vacio</option>
-           {% for obraSocial in obraSociales %}
-               <option value="{{ obraSocial.id }}">{{ obraSocial.nombre }}</option>
-           {% endfor %} 
-           </select>
-      </div>
-      <!-- Boton Guardado -->
+            <label for="obraSocial">Obra Social</label>
+            <select class="form-control" name="obraSocial" id="obraSocial">
+            <option value="0">Vacio</option>
+            {% for obraSocial in obraSociales %}
+                {% if documento.getId() == paciente.getObraSocial().getId() %}
+                   <option value="{{ obraSocial.id }}" selected>{{ obraSocial.nombre }}</option>
+                {% else %}
+                   <option value="{{ obraSocial.id }}">{{ obraSocial.nombre }}</option>
+                {% endif %}
+            {% endfor %} 
+            </select>
+    </div>
+    <!-- Boton Guardado -->
 	  <div class="form-group">
-	  	   <button type="submit" class="btn btn-primary">Guardar</button>
+         <div class="col-sm-offset-5">
+	  	        <button type="submit" class="btn btn-primary">Guardar</button>
+              <a href="javascript:history.back()"><img src="images/boton.jpg" height="33" width="100" alt="Botón"</a>
+         </div>
 	  </div>
 </form>
+</div>
 </div>
 </main>
 {% endblock %} 
