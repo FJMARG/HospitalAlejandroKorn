@@ -192,10 +192,13 @@ class UsuarioRepository extends DoctrineRepository {
         foreach($dbuser->getRol() as $rol){
             $rols[]=$rol->getNombre();
         }
-        foreach ($roles as $rol){
-            $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
-            if(!in_array($rol, $rols)){
-                $dbuser -> addRol($r);
+        
+        if(!empty($roles)){
+            foreach ($roles as $rol){
+                $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
+                if(!in_array($rol, $rols)){
+                    $dbuser -> addRol($r);
+                }
             }
         }
 
