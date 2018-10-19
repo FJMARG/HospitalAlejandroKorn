@@ -193,23 +193,24 @@ class UsuarioRepository extends DoctrineRepository {
             $rols[]=$rol->getNombre();
         }
         
-        if(!empty($roles)){
-            foreach ($roles as $rol){
-                $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
-                if(!in_array($rol, $rols)){
-                    $dbuser -> addRol($r);
-                }
+        if(empty($roles)){
+            $roles = array();
+        }
+        
+        foreach ($roles as $rol){
+            $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
+            if(!in_array($rol, $rols)){
+                $dbuser -> addRol($r);
             }
         }
-    
-        if (sizeof($rols) != 0){
-            foreach ($rols as $rol){
-                $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
-                if(!in_array($rol, $roles)){
-                    $dbuser -> removeRol($r);
-                }
+        
+        foreach ($rols as $rol){
+            $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
+            if(!in_array($rol, $roles)){
+                $dbuser -> removeRol($r);
             }
         }
+        
 
         $dbuser -> setFirstName($nombre);
         $dbuser -> setLastName($apellido);
