@@ -12,7 +12,7 @@ class Router {
 			self::iniciarSesion ($user,$pass);
 		}
 		elseif (($categoria == 'index') || ($categoria == 'login')){
-			echo "aca";
+			/*echo "aca";*/
 			FrontController::getInstance()->mostrar($categoria,'','');
 		}
 		elseif (SessionController::verifySession()){
@@ -75,14 +75,14 @@ class Router {
 				elseif(($categoria=='crearUsuario') && (SessionController::havePermission('usuario_new'))){
 					$mensaje='';
 					if ($accion=='crear'){
-						$mensaje=UsuarioRepository::getInstance()->crearUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email']);
+						$mensaje=UsuarioController::getInstance()->crearUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail']);
 					}
 					FrontController::getInstance()->mostrar($categoria,$mensaje,$_SESSION['sesion']->getUsername());
 				}
 				elseif(($categoria=='modificarUsuario')&&(SessionController::havePermission('usuario_update'))){
 					$mensaje='';
 					if($accion=="modificar"){
-						$mensaje=UsuarioRepository::getInstance()->actualizarUsuario($_POST['id'], $_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['rls'], $_POST['activo']);
+						$mensaje=UsuarioController::getInstance()->actualizarUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_POST['rls'], $_POST['activo'], $_POST['id']);
 					}
 					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion']->getUsername(),$mensaje,$_GET['id']);
 				}
@@ -138,6 +138,15 @@ if(!isset($_POST['apellido'])){
 }
 if(!isset($_POST['email'])){
 	$_POST['email']='';
+}
+if(!isset($_POST['confirmUser'])){
+	$_POST['confirmUser']='';
+}
+if(!isset($_POST['confirmPass'])){
+	$_POST['confirmPass']='';
+}
+if(!isset($_POST['confirmEmail'])){
+	$_POST['confirmEmail']='';
 }
 if(!isset($_GET['id'])){
 	$_GET['id']='';

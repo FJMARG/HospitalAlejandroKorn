@@ -141,7 +141,7 @@ class UsuarioRepository extends DoctrineRepository {
         return "El usuario ".$user." se ha creado correctamente.";
     }
 
-    public function actualizarUsuario ($id, $user, $pass, $nombre, $apellido, $email, $roles, $activo){
+    public function actualizarUsuario ($user, $pass, $nombre, $apellido, $email, $roles, $activo, $id){
         $em = $this->getConnection();
         $string = "select u
         from Usuario u

@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="./css/mobileStyle.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-3.3.1.js"></script>
+        <script src="js/confirmarEliminarUsuario.js"></script>
     </head>
     <body>
         <header class="box">
@@ -70,7 +72,7 @@
 							<td>{{ usuario.createdat|date("d/m/Y H:i") }}</td>
 							<td>{{ usuario.updatedat|date("d/m/Y H:i") }}</td>
 							<td><a href="./index.php?categoria=modificarUsuario&id={{ usuario.id }}">Modificar</a></td>
-							<td><a href="./index.php?categoria=eliminarUsuario&id={{ usuario.id }}">Eliminar</a></td>
+							<td><a href="./index.php?categoria=eliminarUsuario&id={{ usuario.id }}" class="eliminarUsuario">Eliminar</a></td>
 						</tr>
             		{% endfor %}
 				</table>
