@@ -201,11 +201,13 @@ class UsuarioRepository extends DoctrineRepository {
                 }
             }
         }
-
-        foreach ($rols as $rol){
-            $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
-            if(!in_array($rol, $roles)){
-                $dbuser -> removeRol($r);
+    
+        if (!empty($rols)){
+            foreach ($rols as $rol){
+                $r = $em->getRepository('Rol')->findOneBy(array('nombre' => $rol));
+                if(!in_array($rol, $roles)){
+                    $dbuser -> removeRol($r);
+                }
             }
         }
 
