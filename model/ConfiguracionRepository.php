@@ -1,8 +1,5 @@
-<<?php 
+<?php 
 
-/**
- * 
- */
 class ConfiguracionRepository extends DoctrineRepository
 {
 	

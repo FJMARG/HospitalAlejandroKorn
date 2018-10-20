@@ -22,7 +22,7 @@ class UsuarioController {
         
     }
     
-    public function listarUsuarios($usr, $filtros, $msg){
+    public function listarUsuarios($usr, $filtros, $msg, $pagActual){
         if ((!empty($filtros['username']))&&(($filtros['activo']==1)||($filtros['activo']==2))){
             $arrayUsuarios = UsuarioRepository::getInstance()->listBy($filtros['username'],$filtros['activo']);
         }
@@ -33,7 +33,26 @@ class UsuarioController {
             $arrayUsuarios = UsuarioRepository::getInstance()->listAll();
         }
         $vista = TwigView::getTwig();
-        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr, 'mensaje' => $msg));
+
+        $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
+
+        $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
+
+        $cantXPag = $config['paginado']->getValor();
+        $cantUsuarios = sizeof($arrayUsuarios);
+        $cantDePags = intdiv($cantUsuarios,$cantXPag);
+        $offset = ($pagActual-1) * $cantXPag;
+        $limit = ($pagActual * $cantXPag)-1;
+
+        if ($limit >= $cantUsuarios){
+        	$limit = $cantUsuarios-1;
+        }
+
+        if (($cantUsuarios % $cantXPag)!= 0){
+        	$cantDePags=$cantDePags+1;
+        }
+
+        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr, 'mensaje' => $msg, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset, 'busqueda' => $filtros));
     }
 
     private function validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail){

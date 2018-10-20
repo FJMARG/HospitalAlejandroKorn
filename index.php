@@ -85,7 +85,7 @@ class Router {
 					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']->getUsername());
 				}
 				elseif(($categoria=='listarUsuarios') && ($accion=='listarUsuarios') && (SessionController::havePermission('usuario_index'))){
-					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername(), $filtrosUsuario, '');
+					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername(), $filtrosUsuario, '', $_GET['pag']);
 				}
 				elseif(($categoria=='crearUsuario') && (SessionController::havePermission('usuario_new'))){
 					$mensaje='';
@@ -175,16 +175,20 @@ if(!isset($_POST['rls'])){
 if(!isset($_POST['activo'])){
 	$_POST['activo']='';
 }
-if (!isset($_POST['uname'])){
-	$_POST['uname']='';
+if (!isset($_GET['uname'])){
+	$_GET['uname']='';
 }
-if (!isset($_POST['act'])){
-	$_POST['act']='';
+if (!isset($_GET['act'])){
+	$_GET['act']='';
+}
+
+if (!isset($_GET['pag'])){
+	$_GET['pag']=1;
 }
 
 $filtrosUsuario=array();
-$filtrosUsuario['username']=$_POST['uname'];
-$filtrosUsuario['activo']=$_POST['act'];
+$filtrosUsuario['username']=$_GET['uname'];
+$filtrosUsuario['activo']=$_GET['act'];
 
 Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
 $_GET['accion'], $filtrosUsuario);

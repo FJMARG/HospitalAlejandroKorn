@@ -34,7 +34,9 @@
                 </nav>
             </div>
                 <div class="rightCenter" >
-                    <form action="./index.php?categoria=listarUsuarios&accion=listarUsuarios" method="post">
+                    <form action="./index.php" method="get">
+                        <input type="hidden" name="categoria" value="listarUsuarios">
+                        <input type="hidden" name="accion" value="listarUsuarios">
                         <input type="text" name="uname" placeholder="Nombre de usuario" title="Ingrese texto aqui para filtrar por nombre de usuario.">
                         <select name="act" title="Seleccione una opcion para filtrar por activo/bloqueado">
                         	<option disabled select>Seleccione una opcion</option>
@@ -62,20 +64,24 @@
 					    <th>Modificar</th>
 					    <th>Eliminar</th>
 					</tr>
-					{% for usuario in usuarios %}
+
+					{% for i in despl..limite %}
 			  			<tr>
-							<td>{{ usuario.firstname }}</td>
-							<td>{{ usuario.lastname }}</td>
-							<td>{{ usuario.username }}</td>
-							<td>{{ usuario.email }}</td>
-							<td>{{ usuario.activo }}</td>
-							<td>{{ usuario.createdat|date("d/m/Y H:i") }}</td>
-							<td>{{ usuario.updatedat|date("d/m/Y H:i") }}</td>
-							<td><a href="./index.php?categoria=modificarUsuario&id={{ usuario.id }}">Modificar</a></td>
-							<td><a href="./index.php?categoria=eliminarUsuario&id={{ usuario.id }}" class="eliminarUsuario">Eliminar</a></td>
+							<td>{{ usuarios[i].firstname }}</td>
+							<td>{{ usuarios[i].lastname }}</td>
+							<td>{{ usuarios[i].username }}</td>
+							<td>{{ usuarios[i].email }}</td>
+							<td>{{ usuarios[i].activo }}</td>
+							<td>{{ usuarios[i].createdat|date("d/m/Y H:i") }}</td>
+							<td>{{ usuarios[i].updatedat|date("d/m/Y H:i") }}</td>
+							<td><a href="./index.php?categoria=modificarUsuario&id={{ usuarios[i].id }}">Modificar</a></td>
+							<td><a href="./index.php?categoria=eliminarUsuario&id={{ usuarios[i].id }}" class="eliminarUsuario">Eliminar</a></td>
 						</tr>
             		{% endfor %}
 				</table>
+                {% for i in 1..cantPags %}
+                    <a {% if pag != i %} href="./index.php?categoria=listarUsuarios&accion=listarUsuarios&pag={{ i }}{% if busqueda['username'] and busqueda['activo'] %} &uname={{ busqueda['username'] }}&act={{ busqueda['activo'] }} {% endif %}" {% endif %}><{{ i }}></a>
+                {% endfor %}
             </main>
             <footer class="box">
                 <span class="leftCenter">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>
