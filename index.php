@@ -12,7 +12,7 @@ class Router {
 		if (($user != -1) && ($pass != -1)){
 			self::iniciarSesion ($user,$pass);
 		}
-		elseif (($categoria == 'index') || ($categoria == 'login')){
+		elseif ((($categoria == 'index') || ($categoria == 'login'))&&(empty($accion))){
 			FrontController::getInstance()->mostrar($categoria,'','');
 		}
 		# +++++++++++++++++++++  Fin seccion publica ++++++++++++++++++++++++ #
@@ -21,7 +21,7 @@ class Router {
 			if ($categoria=='administracion'){
 				FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']->getUsername());
 			}
-			elseif($categoria=='logout'){
+			elseif($accion=='logout'){
 				SessionController::logout();
 				FrontController::getInstance()->mostrar('index','','');
 			}
