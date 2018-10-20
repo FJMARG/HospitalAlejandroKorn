@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% block Script %}
+   <script type="text/javascript" src="mi_js/misScripts.js"/></script>
+{% endblock %}    
+{% block contenido %}
+    <main>
+          <h4>Cambiar configuracion</h4>  
+          <form class="form-horizontal" role="form" method="post" 
+            action="./index.php?categoria=configuracion&accion=configuracion_modificacion">
+                <div class="form-group"> <!-- TITULO -->
+                  <label for="titulo" class="col-sm-2 control-label">Titulo</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" name="titulo" id="titulo" requerid size="100"
+                       value="{{ titulo.getValor }}">
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Descripcion -->
+                  <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" name="descripcion" id="descripcion"required size="100" 
+                      value="{{ descripcion.getValor }}">
+                  </div>
+                </div>
+                <div class="form-group"> <!-- mail -->
+                  <label for="mail" class="col-sm-2 control-label">Mail de contacto</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control" name="mail" id="mail" size="100" 
+                      value="{{ mail.getValor }}">
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Paginado -->
+                  <label for="paginado" class="col-sm-2 control-label">Paginado</label>
+                  <div class="col-sm-4">
+                      <input type="text" class="form-control" name="paginado" id="paginado" required 
+                      value="{{ paginado.getValor }}">
+                  </div>
+                </div>
+                <div class="form-group"> <!-- Sitio habilitado -->
+                  <label for="habilitado" class="col-sm-2 control-label">Habilitado</label>
+                   <div class="col-sm-2">
+                       <select class="form-control" name="habilitado" id="habilitado" required value="{{ habilitado.getValor }}"> 
+                         	  <option value="true">Si</option>
+                              <option value="false">No</option>
+                       </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                   <div method="post" class="col-sm-offset-3 col-sm-3">
+                        <button type="submit" class="btn btn-info" >
+                        <span class="glyphicon glyphicon-user"></span> Guardar cambios</button>
+                        </div>
+                   </div>
+                <div class="form-group">
+            </form> 
+            <!-- Alentar de mensajes -->    
+              {% if mensaje is defined %}  
+              <div class="alert alert-danger alert-dismissable">
+                  <button type="button" data-dismiss="alert" class="close">&times;</button>
+                     <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
+              </div>
+             {% endif %}      
+        </main>
+{% endblock %}     

@@ -65,6 +65,21 @@ class Router {
 				    }	
 			}
 			# ++++++++++++++++++++++++  fin pacientes  ++++++++++++++++++++++++ #
+
+			# ++++++++++++++++++++++++  comienzo configuracion ++++++++++++++++++++++++ #
+			elseif ($categoria== 'configuracion') {
+			if ( ($accion== 'configuracion_ver') && (SessionController::havePermission('configuracion_ver'))) {
+				ConfiguracionController::getInstance()->VerConfiguracion();
+			}
+			elseif ($accion== 'configuracion_modificacion') {
+				ConfiguracionController::getInstance()->ModificarConfiguracion($_POST['titulo'], $_POST['descripcion'], $_POST['mail'], $_POST['paginado'], $_POST['habilitado']);
+				}
+				else{
+					FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
+				}
+			}
+
+			# ++++++++++++++++++++++++  fin configuracion ++++++++++++++++++++++++ #
 			else { 
 				if (($categoria=='usuarios') && ($accion == '') && (SessionController::haveRol('Administrador'))){
 					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']->getUsername());
