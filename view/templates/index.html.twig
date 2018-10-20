@@ -15,7 +15,7 @@
 			    <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital.">
 			</a>
 	        <h3>
-		        Hospital Dr. Alejandro Korn
+		        {{ dato['titulo'].valor }}
 	        </h3>
         </div>
             <div class="rightCenter">
@@ -50,8 +50,8 @@
 				</article>
 				</main>
         <footer class="box">
-            <span class="leftCenter">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>
-            <span class="rightCenter">v 0.1.0</span>
+            <span class="leftCenter">Proyecto de Software 2018 - {{dato['titulo'].valor}}</span>
+            <span class="rightCenter"> {{ dato['mail'].valor }}</span>
         </footer>
     </body>
 </html>

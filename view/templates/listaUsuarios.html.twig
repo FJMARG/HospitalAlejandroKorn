@@ -1,87 +1,62 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <link rel="icon" href="./images/favicon.ico">
-        <title>Hospital Dr. Alejandro Korn - Administración</title>
-        <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/mobileStyle.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="js/jquery-3.3.1.js"></script>
-        <script src="js/confirmarEliminarUsuario.js"></script>
-    </head>
-    <body>
-        <header class="box">
-            <div class="leftCenter">
-                <a href="./index.php?categoria=administracion">
-                    <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital.">
-                </a>
-                <nav>
-                    <ul>
-                        <li><a href="./index.php?categoria=administracion" >Inicio</a></li>
-                        <li><a href="">Consultas</a></li>
-                        <li><a href="">Pacientes</a></li>
-                        <li class="dropdown">
-                            <a href="javascript:void(0)" class="dropbtn">Administracion</a>
-                            <div class="dropdown-content">
-                                <a href="./index.php?categoria=usuarios">Usuarios</a>
-                                <a href="#">Roles</a>
-                                <a href="#">Permisos</a>
-                                <a href="#">Configuracions</a>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-                <div class="rightCenter" >
-                    <form action="./index.php" method="get">
+{% extends 'base.html.twig' %}
+{% block Script %}
+{% endblock %}  
+{% block contenido %}
+        <main>
+
+
+
+          <form action="./index.php" method="get" class="col-md-3 col-md-offset-3">
+            
                         <input type="hidden" name="categoria" value="listarUsuarios">
                         <input type="hidden" name="accion" value="listarUsuarios">
-                        <input type="text" name="uname" placeholder="Nombre de usuario" title="Ingrese texto aqui para filtrar por nombre de usuario.">
-                        <select name="act" title="Seleccione una opcion para filtrar por activo/bloqueado">
-                        	<option disabled select>Seleccione una opcion</option>
-                        	<option value="-1">Activos y bloqueados</option>
-							<option value="1">Solo inactivos</option>
-							<option value="2">Solo activos</option>
-						</select>
-                        <input type="submit" value="Buscar" title="Clickee aqui para filtrar segun los criterios ingresados.">
-                    </form>
-                    <a>{{user}}</a>
-                    <a href='./index.php?accion=logout'>Cerrar Sesion</a>
-                </div>
-        </header>
-            <main class="lightBox">
-            	<p>{{ mensaje }}</p>
-                <table>
-					<tr>
-					    <th>Nombre</th>
-					    <th>Apellido</th> 
-					    <th>Nombre de Usuario</th>
-					    <th>Estado de la cuenta:</th>
-					    <th>Modificar</th>
-					    <th>Eliminar</th>
-                        <th>Ver</th>
-					</tr>
+                        <input type="text"  class="form-control"  name="uname" placeholder="Nombre de usuario" title="Ingrese texto aqui para filtrar por nombre de usuario.">
 
-					{% for i in despl..limite %}
-			  			<tr>
-							<td>{{ usuarios[i].firstname }}</td>
-							<td>{{ usuarios[i].lastname }}</td>
-							<td>{{ usuarios[i].username }}</td>
-							<td>{% if usuarios[i].activo == 1 %} Activo {% else %} Inactivo {% endif %}</td>
-							<td><a href="./index.php?categoria=usuarios&accion=modificarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Modificar</a></td>
-							<td><a href="./index.php?categoria=usuarios&accion=eliminarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}" class="eliminarUsuario">Eliminar</a></td>
-                            <td><a href="./index.php?categoria=usuarios&accion=verUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Ver</a></td>
-						</tr>
-            		{% endfor %}
-				</table>
-                {% for i in 1..cantPags %}
-                    <a {% if pag != i %} href="./index.php?categoria=usuarios&accion=listarUsuarios&pag={{ i }}{% if busqueda['username'] and busqueda['activo'] %} &uname={{ busqueda['username'] }}&act={{ busqueda['activo'] }} {% endif %}" {% endif %}><{{ i }}></a>
-                {% endfor %}
-            </main>
-            <footer class="box">
-                <span class="leftCenter">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>
-                <span class="rightCenter">v 0.1.0</span>
-            </footer>
-    </body>
-</html>
+
+                        <select class="form-control" name="act" title="Seleccione una opcion para filtrar por activo/bloqueado">
+                          <option disabled select>Seleccione una opcion</option>
+                          <option value="-1">Activos y bloqueados</option>
+              <option value="1">Solo inactivos</option>
+              <option value="2">Solo activos</option>
+            </select>
+            <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search"></span> Buscar</button>
+                    </form>
+
+
+        <div class="container">   
+            <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Apellido</th>
+                      <th scope="col">Nombre de Usuario</th>
+                      <th scope="col">Estado de la cuenta:</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+          {% for i in despl..limite %}
+              <tr>
+              <td>{{ usuarios[i].firstname }}</td>
+              <td>{{ usuarios[i].lastname }}</td>
+              <td>{{ usuarios[i].username }}</td>
+              <td>{% if usuarios[i].activo == 1 %} Activo {% else %} Inactivo {% endif %}</td>
+               <td>
+                             <a href="./index.php?categoria=usuarios&accion=verUsuario&pag={{ pag }}&id={{ usuarios[i].id }}"" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver</a>   
+                              <a href="./index.php?categoria=usuarios&accion=modificarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}"title="Editar datos" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a>
+                              <a href="./index.php?categoria=usuarios&accion=eliminarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}" title="Eliminar" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</a>
+                          </td>
+
+
+            </tr>
+                {% endfor %}  
+                  </tbody> 
+            </table> 
+            </div>   
+             {% for i in 1..cantPags %}
+                 <ul class="pagination">
+                    <li><a {% if pag != i %} href="./index.php?categoria=usuarios&accion=listarUsuarios&pag={{ i }}{% if busqueda['username'] and busqueda['activo'] %} &uname={{ busqueda['username'] }}&act={{ busqueda['activo'] }} {% endif %}" {% endif %}>{{ i }}</a></li>
+                 </ul>
+                 {% endfor %}
+        </main>
+{% endblock %}         

@@ -26,22 +26,13 @@ class ConfiguracionController extends DoctrineRepository
 
     public function VerConfiguracion(){
 
-    	$titulo = DoctrineRepository::getConnection()->getRepository('Configuracion')->find(1);
-    	$descripcion = DoctrineRepository::getConnection()->getRepository('Configuracion')->find(2);
-    	$mail = DoctrineRepository::getConnection()->getRepository('Configuracion')->find(3);
-    	$paginado = DoctrineRepository::getConnection()->getRepository('Configuracion')->find(4);
-    	$habilitado = DoctrineRepository::getConnection()->getRepository('Configuracion')->find(5);
-    	
+    	$confi = ConfiguracionRepository::getInstance();
 
-    	$datos['titulo'] = $titulo;
-    	$datos['descripcion'] = $descripcion;
-    	$datos['mail'] = $mail;
-    	$datos['paginado'] = $paginado;
-    	$datos['habilitado'] = $habilitado;
+        $datos = $confi-> recuperarConfiguracion();
 
 
-    	 $vista = TwigView::getTwig();
-       	 echo $vista->render('configuracion.html.twig',$datos); 
+         $vista = TwigView::getTwig();
+         echo $vista->render('configuracion.html.twig', $datos); 
 
     }
 
@@ -58,7 +49,6 @@ class ConfiguracionController extends DoctrineRepository
         $confi-> updateConfiguracion( 4 ,'paginado', $paginado);
         $confi-> updateConfiguracion( 5 ,'habilitado', $habilitado);
 
-        echo "los datos se cambiaron con exito";
         $vista = TwigView::getTwig();
         echo $vista->render('administracion.html.twig');
 

@@ -13,6 +13,9 @@ class Router {
 			self::iniciarSesion ($user,$pass);
 		}
 		elseif (($categoria == 'index') || ($categoria == 'login')){
+
+
+
 			FrontController::getInstance()->mostrar($categoria,'','');
 		}
 		# +++++++++++++++++++++  Fin seccion publica ++++++++++++++++++++++++ #

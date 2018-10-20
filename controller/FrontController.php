@@ -23,8 +23,9 @@ class FrontController {
     }
     
     public function mostrar($string,$msg, $usr){
+        $datos = ConfiguracionRepository::getInstance()-> recuperarConfiguracion();
         $vista = TwigView::getTwig();
-    	echo $vista->render($string.'.html.twig',array('mensaje'=>$msg,'user'=>$usr));
+    	echo $vista->render($string.'.html.twig',array('mensaje'=>$msg,'user'=>$usr, 'dato'=> $datos));
     }
     
 }
