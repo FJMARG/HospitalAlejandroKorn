@@ -68,8 +68,8 @@ class PacienteController extends DoctrineRepository {
            break;    
            case 'guardar':
               # Pantalla de edicion
-              #$id= ($_GET['id']);
-              #$this->pacienteBorrar($id);
+              $id= ($_GET['id']);
+              $this->pacienteGuardar($id);
            break;       
            case 'confirmacionAlta':
               # Confirmar la creacion de paciente confirmacionBaja
@@ -122,18 +122,18 @@ class PacienteController extends DoctrineRepository {
 
     public function verResultadoPaciente(){
 
-          $nombre                = ($_POST["nombrePaciente"]);
-          $apellido              = ($_POST["apellidoPaciente"]);
-          $tipoDocumento         = ($_POST["tipoDocumento"]);
-          $numeroDocumento       = ($_POST["numeroDocumento"]);
-          $numeroHistoriaClinica = ($_POST["numeroHistoriaClinica"]); 
+          $nombre                = ($_GET["nombrePaciente"]);
+          $apellido              = ($_GET["apellidoPaciente"]);
+          $tipoDocumento         = ($_GET["tipoDocumento"]);
+          $numeroDocumento       = ($_GET["numeroDocumento"]);
+          $numeroHistoriaClinica = ($_GET["numeroHistoriaClinica"]); 
           
           # Verificar que al menos un campo este cargado
           if ((empty($nombre)) 
           &&  (empty($apellido)) 
           &&  (empty($tipoDocumento))
-          &&  (empty($numeroDocumento))
-          &&  (empty($numeroHistoriaClinica)) )  
+          &&  (strlen($numeroDocumento) == 0)
+          &&  (strlen($numeroHistoriaClinica) == 0))  
           {
               # Para el caso de que lleguen parametros vacios
               $mensaje = new Mensaje("E","Error","Debe completar al menos un parametro de busqueda");
@@ -318,5 +318,65 @@ class PacienteController extends DoctrineRepository {
         echo $vista->render('editardoPaciente.html.twig',$datos);      
     }
   }
+
+
+  public function pacienteGuardar($id)
+  {
+
+       # Realizar el commit del paciente 
+
+      /* Valdiar si los campos estan o no desabilidatos para Tipo documento */
+      if (isset($_POST['tipoDocumento'])){ $tipoDocumento = ($_POST['tipoDocumento']); }       
+      else { $tipoDocumento = '99'; /*SIN DOCUMENTO*/ } 
+      
+      /* Valdiar si los campos estan o no desabilidatosd para Nro documento*/
+      if (isset($_POST['nroDocumento'])){ $nroDocumento = ($_POST['nroDocumento']); }       
+      else { $nroDocumento = 0;}
+
+
+             /* Leer las variables */
+       $respuesta = PacienteRepository::getInstance()->guardarPaciente($id
+                                                       ($_POST["nombre"]),
+                                                       ($_POST["apellido"]),
+                                                       ($_POST["fechaNacimineto"]),
+                                                       ($_POST["lugarNacimineto"]),
+                                                       ($_POST["partido"]),
+                                                       ($_POST["regionSanitaria"]),
+                                                       ($_POST["localidad"]),
+                                                       ($_POST["domicilio"]),
+                                                       ($_POST["genero"]),
+                                                       ($_POST["tieneDoc"]),
+                                                       $tipoDocumento,
+                                                       $nroDocumento,
+                                                       ($_POST["nroHistClinica"]),
+                                                       ($_POST["nroCarpeta"]),
+                                                       ($_POST["telefono"]),
+                                                       ($_POST["obraSocial"]) ); 
+
+       # Mostrar la alerta del en pantalla
+       switch ($respuesta) {
+           case 0: # Es correcto voy a la pantalla de correcto
+                header('Location: ./index.php?categoria=paciente&accion=informar_guardado');
+           break;
+           case 1: # Error en parametros obligatorios
+              $mensaje = new Mensaje("E","Error","Campos Obligatorios Vacios");
+              $this->crearPaciente($mensaje);
+           break;
+           case 2: #Deben Completar Tipo y Numero de Documento
+              $mensaje = new Mensaje("E","Error","El Tipo y Numero de documento no estan completos");
+              $this->crearPaciente($mensaje);
+           break; 
+           case 3: #Ya hiciste un Paciente registrado con ese Tipo y Nro Documento
+              $mensaje = new Mensaje("E","Error","Ya hiciste un Paciente registrado con ese Tipo y Nro Documento");
+              $this->crearPaciente($mensaje);
+           break;
+           case 4: #Ya existe un paciente con la historia clinica ingresada
+              $mensaje = new Mensaje("E","Error","Ya existe un paciente con la historia clinica ingresada");
+              $this->crearPaciente($mensaje);
+           break;
+
+   }
+
+ }
 
 }

@@ -39,7 +39,7 @@ class UsuarioController {
         $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
 
         $cantXPag = $config['paginado']->getValor();
-        $cantUsuarios = sizeof($arrayUsuarios);
+        $cantUsuarios = sizeof($arrayUsuarios); /* Aca debe ir el total de elementos a listar */
         $cantDePags = intdiv($cantUsuarios,$cantXPag);
 
         if (($cantUsuarios % $cantXPag)!= 0){
@@ -53,7 +53,7 @@ class UsuarioController {
         $offset = ($pagActual-1) * $cantXPag;
         $limit = ($pagActual * $cantXPag)-1;
 
-        if ($limit >= $cantUsuarios){
+        if ($limit >= $cantUsuarios){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
         	$limit = $cantUsuarios-1;
         }
 
@@ -66,6 +66,9 @@ class UsuarioController {
         }
         if (strlen($user)<6){
             return "La longitud del nombre de usuario debe ser de al menos 6 caracteres.";
+        }
+        if (str_replace(' ', '', $user)!= $user){
+            return "El nombre de usuario no debe contener espacios en blanco.";
         }
         if (strlen($pass)<6){
             return "La longitud de la contrasena debe ser de al menos 6 caracteres.";

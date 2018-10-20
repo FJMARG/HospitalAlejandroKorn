@@ -4,11 +4,20 @@
 {% block contenido %}
         <main>
         <div class="container">   
+          <div class="col-sm-12 text-center">  
+            {% if pacientes|length == 0 %}
+                <div class="col-sm-offset-3 col-sm-4"> 
+                    <h4>"No hay resultados para la busqueda"</h4>  
+                </div>
+                <div class="col-sm-offset-3 col-sm-4">
+                    <a href="./index.php?categoria=paciente&accion=paciente_buscar" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Nueva Busqueda</a> 
+                </div>  
+            {% else %}
             <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th scope="col">Apellido</th>
                       <th scope="col">Nombre</th>
+                      <th scope="col">Apellido</th>
                       <th scope="col">Tipo Doc.</th>
                       <th scope="col">Nro. Doc.</th>
                       <th scope="col">Nro. H.Clinica</th>
@@ -17,11 +26,11 @@
                   </thead>
                   <tbody>
                     {% for paciente in pacientes %}
-                     <tr>   
-                          <td>{{ paciente.apellido }}</td>
-                          
+                     <tr> 
                           <td>{{ paciente.nombre }}</td>
-                          
+
+                          <td>{{ paciente.apellido }}</td>
+                                                
                           <td>{{ paciente.getTipoDoc().nombre() }}</td>
                           
                           <td> 
@@ -35,14 +44,16 @@
                                {% endif %}
                           </td>
                           <td>
-                             <a href="index.php?categoria=paciente&accion=paciente_ver&id={{ paciente.id }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver</a>   
+                              <a href="index.php?categoria=paciente&accion=paciente_ver&id={{ paciente.id }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver</a>   
                               <a href="index.php?categoria=paciente&accion=paciente_pantallaEditar&id={{ paciente.id }}" title="Editar datos" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a>
                               <a href="index.php?categoria=paciente&accion=paciente_pantallaBorrado&id={{ paciente.id }}" title="Eliminar" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</a>
                           </td>
                       </tr>
                     {% endfor %}    
                   </tbody> 
-            </table> 
+              </table> 
+              {% endif %}
             </div>   
+          </div>
         </main>
 {% endblock %}         

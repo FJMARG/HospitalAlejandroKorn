@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% block Script %}
-<script type="text/javascript" src="mi_js/misScripts.js"/></script>
 {% endblock %}  
 {% block contenido %}
 <main>
@@ -38,9 +37,10 @@
 	    </div>
 		 <div class="row justify-content-center">
 	          <form name=tuformulario action="./index.php?categoria=paciente&accion=paciente_borrar&id={{ paciente.getId }}" role="form" method="post"> 
-	          	 <div class="form-group">	
+	          	 <div class="form-group col-sm-offset-4">	
 	                <button type="submit" class="btn btn-primary btn-danger">
 	                <span class="glyphicon glyphicon-trash"></span> Borrar Paciente</button>
+	                 <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
 	         	</div>
 	         </form> 
 		 </div> 	

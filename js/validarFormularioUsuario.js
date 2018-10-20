@@ -16,6 +16,10 @@ $(function(){
 			alert("El campo de usuario no coincide con el campo de confirmacion de usuario.");
 			return false;
 		}
+		if (user.replace(/ /g, "") != user){
+			alert("El campo de usuario no puede contener espacios vacios.");
+			return false;
+		}
 		if (pass != confirmPass){
 			alert("El campo de contrasena no coincide con el campo de confirmacion de contrasena.");
 			return false;
