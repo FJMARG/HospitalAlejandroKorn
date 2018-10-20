@@ -87,6 +87,9 @@ class Router {
 				elseif(($categoria=='listarUsuarios') && ($accion=='listarUsuarios') && (SessionController::havePermission('usuario_index'))){
 					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername(), $filtrosUsuario, '', $_GET['pag']);
 				}
+				elseif(($categoria=='verUsuario') && (SessionController::havePermission('usuario_show'))){
+					UsuarioController::getInstance()->mostrarUsuario($_SESSION['sesion']->getUsername(), $_GET['id'], $filtrosUsuario, $_GET['pag']);
+				}
 				elseif(($categoria=='crearUsuario') && (SessionController::havePermission('usuario_new'))){
 					$mensaje='';
 					if ($accion=='crear'){
@@ -99,10 +102,10 @@ class Router {
 					if($accion=="modificar"){
 						$mensaje=UsuarioController::getInstance()->actualizarUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_POST['rls'], $_POST['activo'], $_POST['id']);
 					}
-					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion']->getUsername(),$mensaje,$_GET['id']);
+					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion']->getUsername(),$mensaje,$_GET['id'], $_GET['pag'], $filtrosUsuario);
 				}
 				elseif(($categoria=='eliminarUsuario') && (SessionController::havePermission('usuario_destroy'))){
-					UsuarioController::getInstance()->eliminarUsuario($_SESSION['sesion']->getUsername(), $_GET['id']);
+					UsuarioController::getInstance()->eliminarUsuario($_SESSION['sesion']->getUsername(), $_GET['id'], $filtrosUsuario, $_GET['pag']);
 				}
 				else{
 					FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());

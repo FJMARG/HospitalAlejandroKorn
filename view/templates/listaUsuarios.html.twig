@@ -57,12 +57,10 @@
 					    <th>Nombre</th>
 					    <th>Apellido</th> 
 					    <th>Nombre de Usuario</th>
-					    <th>E-mail</th>
-					    <th>Activo</th>
-					    <th>Fecha creacion</th>
-					    <th>Fecha actualizacion</th>
+					    <th>Estado de la cuenta:</th>
 					    <th>Modificar</th>
 					    <th>Eliminar</th>
+                        <th>Ver</th>
 					</tr>
 
 					{% for i in despl..limite %}
@@ -70,12 +68,10 @@
 							<td>{{ usuarios[i].firstname }}</td>
 							<td>{{ usuarios[i].lastname }}</td>
 							<td>{{ usuarios[i].username }}</td>
-							<td>{{ usuarios[i].email }}</td>
-							<td>{{ usuarios[i].activo }}</td>
-							<td>{{ usuarios[i].createdat|date("d/m/Y H:i") }}</td>
-							<td>{{ usuarios[i].updatedat|date("d/m/Y H:i") }}</td>
-							<td><a href="./index.php?categoria=modificarUsuario&id={{ usuarios[i].id }}">Modificar</a></td>
-							<td><a href="./index.php?categoria=eliminarUsuario&id={{ usuarios[i].id }}" class="eliminarUsuario">Eliminar</a></td>
+							<td>{% if usuarios[i].activo == 1 %} Activo {% else %} Inactivo {% endif %}</td>
+							<td><a href="./index.php?categoria=modificarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Modificar</a></td>
+							<td><a href="./index.php?categoria=eliminarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}" class="eliminarUsuario">Eliminar</a></td>
+                            <td><a href="./index.php?categoria=verUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Ver</a></td>
 						</tr>
             		{% endfor %}
 				</table>

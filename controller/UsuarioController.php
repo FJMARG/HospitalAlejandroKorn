@@ -41,15 +41,20 @@ class UsuarioController {
         $cantXPag = $config['paginado']->getValor();
         $cantUsuarios = sizeof($arrayUsuarios);
         $cantDePags = intdiv($cantUsuarios,$cantXPag);
+
+        if (($cantUsuarios % $cantXPag)!= 0){
+            $cantDePags=$cantDePags+1;
+        }
+
+        if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
+            $pagActual = $cantDePags;
+        }
+
         $offset = ($pagActual-1) * $cantXPag;
         $limit = ($pagActual * $cantXPag)-1;
 
         if ($limit >= $cantUsuarios){
         	$limit = $cantUsuarios-1;
-        }
-
-        if (($cantUsuarios % $cantXPag)!= 0){
-        	$cantDePags=$cantDePags+1;
         }
 
         echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr, 'mensaje' => $msg, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset, 'busqueda' => $filtros));
@@ -71,7 +76,7 @@ class UsuarioController {
         if (strlen($apellido)<3){
             return "La longitud del apellido debe ser de al menos de 3 caracteres.";
         }
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+        if (!(filter_var($email, FILTER_VALIDATE_EMAIL))){
             return "El e-mail ingresado no es un e-mail valido.";
         }
         if ($user != $confirmUser){
@@ -82,6 +87,18 @@ class UsuarioController {
         }
         if ($email != $confirmEmail){
             return "El e-mail no coincide con el ingresado en el campo de confirmacion de e-mail.";
+        }
+    }
+
+    public function mostrarUsuario($usr,$id,$filtros, $pag){
+        $usuarioMostrar=UsuarioRepository::getInstance()->findById($id);
+        if (!empty ($usuarioMostrar)){
+            $rolesUsuario= UsuarioRepository::getInstance() -> obtenerRoles($usuarioMostrar);
+            $vista = TwigView::getTwig();
+            echo $vista->render('mostrarUsuario.html.twig', array('user' => $usr, 'usuario' => $usuarioMostrar, 'roles' => $rolesUsuario));
+        }
+        else{
+            $this::getInstance()->listarUsuarios($usr,$filtros,'Error al intentar mostrar el usuario con id:'.$id.'. Posiblemente no exista.', $pag);
         }
     }
 
@@ -96,16 +113,21 @@ class UsuarioController {
         }
     }
 
-    public function modificarUsuario($usr, $msg, $id){
+    public function modificarUsuario($usr, $msg, $id, $pag, $filtros){
         $usuarioModificar = UsuarioRepository::getInstance()->findById($id);
-        $roles=RolRepository::getInstance()->listAll();
-        $rols=array();
-        foreach ($roles as $nombrerol){
-            $rols[]=$nombrerol->getNombre();
+        if (!empty($usuarioModificar)){
+            $roles=RolRepository::getInstance()->listAll();
+            $rols=array();
+            foreach ($roles as $nombrerol){
+                $rols[]=$nombrerol->getNombre();
+            }
+            $roles=UsuarioRepository::getInstance() -> obtenerRoles($usuarioModificar); 
+            $vista = TwigView::getTwig();
+            echo $vista->render('modificarUsuario.html.twig', array('usuario' => $usuarioModificar, 'mensaje'=>$msg, 'user' => $usr, 'arrayRolesUsuario' => $roles, 'arrayRoles' => $rols));
         }
-        $roles=UsuarioRepository::getInstance() -> obtenerRoles($usuarioModificar); 
-        $vista = TwigView::getTwig();
-        echo $vista->render('modificarUsuario.html.twig', array('usuario' => $usuarioModificar, 'mensaje'=>$msg, 'user' => $usr, 'arrayRolesUsuario' => $roles, 'arrayRoles' => $rols));
+        else{
+            $this::getInstance()->listarUsuarios($usr,$filtros,'Error al intentar modificar el usuario con id:'.$id.'. Posiblemente no exista.', $pag);
+        }
     }
 
     public function actualizarUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail, $roles, $activo, $id){
@@ -119,14 +141,11 @@ class UsuarioController {
         }
     }
 
-    public function eliminarUsuario($usr,$id){
-        $filtros=array();
-        $filtros['activo']='';
-        $filtros['username']='';
+    public function eliminarUsuario($usr,$id,$filtros, $pag){
         if (UsuarioRepository::getInstance()->eliminarUsuario($id))
-        	$this::getInstance()->listarUsuarios($usr,$filtros,'El usuario con id:'.$id.' se elimino correctamente.');
+        	$this::getInstance()->listarUsuarios($usr,$filtros,'El usuario con id:'.$id.' se elimino correctamente.', $pag);
         else
-        	$this::getInstance()->listarUsuarios($usr,$filtros,'Error al eliminar el usuario con id:'.$id.'.');
+        	$this::getInstance()->listarUsuarios($usr,$filtros,'Error al eliminar el usuario con id:'.$id.'.', $pag);
     }
    
 }
