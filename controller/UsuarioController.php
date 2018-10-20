@@ -102,15 +102,12 @@ class UsuarioController {
         }
     }
 
-    public function crearUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail){
-        $msg = '';
+    public function crearUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail, $sessionUser){
         $msg = $this->validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail);
-        if ($msg != ''){
-            return $msg;
+        if (empty($msg)){
+            $msg=UsuarioRepository::getInstance()->crearUsuario($user, $pass, $nombre, $apellido, $email);
         }
-        else{
-            return UsuarioRepository::getInstance()->crearUsuario($user, $pass, $nombre, $apellido, $email);
-        }
+            FrontController::getInstance()->mostrar('crearUsuario',$msg,$sessionUser);
     }
 
     public function modificarUsuario($usr, $msg, $id, $pag, $filtros){
@@ -130,15 +127,12 @@ class UsuarioController {
         }
     }
 
-    public function actualizarUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail, $roles, $activo, $id){
-        $msg = '';
+    public function actualizarUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail, $roles, $activo, $id, $pag, $filtros, $sessionUser){
         $msg = $this->validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail);
-        if ($msg != ''){
-            return $msg;
+        if (empty($msg)){
+            $msg=UsuarioRepository::getInstance()->actualizarUsuario($user, $pass, $nombre, $apellido, $email, $roles, $activo, $id);
         }
-        else {
-            return UsuarioRepository::getInstance()->actualizarUsuario($user, $pass, $nombre, $apellido, $email, $roles, $activo, $id);
-        }
+        UsuarioController::getInstance()->modificarUsuario($sessionUser,$msg,$id, $pag, $filtros);
     }
 
     public function eliminarUsuario($usr,$id,$filtros, $pag){

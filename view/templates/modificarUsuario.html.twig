@@ -41,7 +41,7 @@
             <main class="lightBox">
                 <h3>Modificar Usuario</h3>
                 <span>{{ mensaje }}</span>
-                <form method="post" action="./index.php?categoria=modificarUsuario&accion=modificar&id={{ usuario.id }}" id="userForm">
+                <form method="post" action="./index.php?categoria=usuarios&accion=modificar&id={{ usuario.id }}" id="userForm">
                     <label for="user">Usuario:</label>
                     <input type="text" name="user" id="user" value="{{ usuario.username }}" minlength="6" required>
                     <br>

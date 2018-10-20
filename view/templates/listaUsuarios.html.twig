@@ -69,14 +69,14 @@
 							<td>{{ usuarios[i].lastname }}</td>
 							<td>{{ usuarios[i].username }}</td>
 							<td>{% if usuarios[i].activo == 1 %} Activo {% else %} Inactivo {% endif %}</td>
-							<td><a href="./index.php?categoria=modificarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Modificar</a></td>
-							<td><a href="./index.php?categoria=eliminarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}" class="eliminarUsuario">Eliminar</a></td>
-                            <td><a href="./index.php?categoria=verUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Ver</a></td>
+							<td><a href="./index.php?categoria=usuarios&accion=modificarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Modificar</a></td>
+							<td><a href="./index.php?categoria=usuarios&accion=eliminarUsuario&pag={{ pag }}&id={{ usuarios[i].id }}" class="eliminarUsuario">Eliminar</a></td>
+                            <td><a href="./index.php?categoria=usuarios&accion=verUsuario&pag={{ pag }}&id={{ usuarios[i].id }}">Ver</a></td>
 						</tr>
             		{% endfor %}
 				</table>
                 {% for i in 1..cantPags %}
-                    <a {% if pag != i %} href="./index.php?categoria=listarUsuarios&accion=listarUsuarios&pag={{ i }}{% if busqueda['username'] and busqueda['activo'] %} &uname={{ busqueda['username'] }}&act={{ busqueda['activo'] }} {% endif %}" {% endif %}><{{ i }}></a>
+                    <a {% if pag != i %} href="./index.php?categoria=usuarios&accion=listarUsuarios&pag={{ i }}{% if busqueda['username'] and busqueda['activo'] %} &uname={{ busqueda['username'] }}&act={{ busqueda['activo'] }} {% endif %}" {% endif %}><{{ i }}></a>
                 {% endfor %}
             </main>
             <footer class="box">
