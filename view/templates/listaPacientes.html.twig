@@ -55,5 +55,14 @@
               {% endif %}
             </div>   
           </div>
+          <div>  
+            {% if cantPags != 0 %}
+              {% for i in 1..cantPags %}
+                   <ul class="pagination">
+                      <li><a {% if pag != i %} href="index.php?categoria=paciente&accion=paciente_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
+                   </ul>
+              {% endfor %}
+            {% endif %} 
+          </div>
         </main>
 {% endblock %}         
