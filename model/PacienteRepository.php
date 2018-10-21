@@ -202,24 +202,30 @@ class PacienteRepository extends DoctrineRepository {
                                     $telefono,
                                     $obraSocial)
     {
-
-      # Buscar el $id del paciente
-      $paciente  = $em->getRepository('Paciente')->find($id);   
+      
+      $em = DoctrineRepository::getConnection(); 
 
       # Verificar si el ID pasado por parametro es valido
       $paciente  = $em->getRepository('Paciente')->find($id);              
+
       if ($paciente == NULL )
       {
-           # No es un ID VALIDO
-           return 5;  
+         # No es un ID VALIDO
+         return 5;  
       }
 
       # Validar los campos que son obligatorios
       if ( (empty($nombre)) || (empty($apellido)) || (empty($fechaNac)) || (empty($domicilio)) || (empty($genero)) )
       { 
-           return 1; # Campos obligatorios sin completar
+        return 1; # Campos obligatorios sin completar
       }  
 
+      # Validar logitudes para campos nombre, apellido, domicilio, 
+      if ( (strlen($nombre) > 20 ) || (strlen($apellido) > 20 ) || (strlen($domicilio) > 70 ) || (strlen($telefono) > 70 ) ) 
+      {
+        # Un campo es demasiado largo
+        return 7;  
+      } 
 
       if ($tieneDoc == 1)  # Validad que tenga documento 
       {
@@ -230,22 +236,21 @@ class PacienteRepository extends DoctrineRepository {
                 return 2; # Campos obligatorios sin completar
             } 
 
-            else 
+            else  
             
             {
                 # Validar que el Nro y Tipo de Documento ya no estan registrados
                 # Obtener ID de documento tipoDoc numero
 
-                $em = DoctrineRepository::getConnection(); 
                 $array = $em->getRepository('Paciente')->findBy((array('tipoDoc' => $tipoDoc,
                                                                         'numero' => $nroDoc )));
                 if (!empty($array)) 
                 {  
 
-                    # Recupero pacientes para 
+                    # Recupero pacientes para validar que todavia no esta registrado 
                     foreach ($array as $pac) {
                         
-                       if ( $pac->getId != $id )
+                       if ( $pac->getId() != $id )
                        { 
                            # Ya hiciste un Paciente registrado con ese Tipo y Nro Documento
                            return 3;
@@ -256,65 +261,71 @@ class PacienteRepository extends DoctrineRepository {
 
             } 
       }
-      elseif ($tieneDoc != 0) 
-      {
-          return 1; # Campos obligatorios sin completar     
-      }
+      elseif ($tieneDoc != 0) { return 1;  } # Campos obligatorios sin completar
 
-      # Sin documento no puede tener asociando un nro de documento  
-      if (( $tipoDoc == 'S/D' ) && ( $nroDoc != 0 ) )
-      {
-          return 6;   
-      } 
+      # Sin documento (S/D) no puede tener asociando un nro de documento  
+      if (( $tipoDoc == '99' ) && ( $nroDoc != 0 ) ) { return 6; } 
 
       #Validar Historia Clinica
       if (!empty($nro_hist_clinica))
       {
-            $em = DoctrineRepository::getConnection(); 
-            $array = $em->getRepository('Paciente')->findBy((array('nroHistoriaClinica' => $nro_hist_clinica)));
-
-            if (!empty($array))
-            {    
+          $array = $em->getRepository('Paciente')->findBy((array('nroHistoriaClinica' => $nro_hist_clinica)));
+          if (!empty($array))
+          {    
 
                # Recupero pacientes para 
                foreach ($array as $pac) 
                {
                         
-                   if ( $pac->getId != $id )
+                   if ( $pac->getId() != $id )
                    { 
-                         # Ya existe un paciente con la historia clinica ingresada
-                         return 4;  
+                        # Ya existe un paciente con la historia clinica ingresada
+                        return 4;  
                    } 
-              }
+               }
 
-            }    
-       }
+          }    
+      }
 
-        # Si pasa todas la validacion procedemos 
-        # Setar los parametros para la creacion
-        $paciente->setNombre($nombre);
-        $paciente->setApellido($apellido);
-        $paciente->setFechaNac(date_create($fechaNac));
-        $paciente->setLugarNac($lugarNac);
-        $paciente->setDomicilio($domicilio);
-        $paciente->setTieneDocumento($tieneDoc);
-        $paciente->setTipoDoc($tipoDocumento);
-        $paciente->setNumero($nroDoc);
-        $paciente->setTel($telefono);
-        $paciente->setNroHistoriaClinica($nro_hist_clinica);
-        $paciente->setNroCarpeta($nro_carpeta);
-        $paciente->setGenero($tipoGenero);
-        $paciente->setLocalidad($tipoLocalidad);;
-        $paciente->setObraSocial($tipoSocial);
-        $paciente->setRegionSanitaria($tipoRegion);
+      # Verificamos los objetos a instanciar
+                            
+      # Buscar objeto Tipo de Documento           
+      $tipoDocumento         = $em->getRepository('TipoDocumento')->find($tipoDoc);
+      # Buscar objeto Genero
+      $tipoGenero            = $em->getRepository('Genero')->find($genero);
+      # Buscar objeto Localidad
+      $tipoLocalidad         = $em->getRepository('Localidad')->find($localidad);
+      # Buscar objeto Obra Social
+      $tipoSocial            = $em->getRepository('ObraSocial')->find($obraSocial);
+      # Buscar objeto Region Sanitaria
+      $arrayRegion['nombre'] = $regionSanitaria;   
+      $tipoRegion            = $em->getRepository('RegionSanitaria')->findOneBy($arrayRegion);
 
-        $em->persist($paciente);
-        $em->flush();
+      # Si pasa todas la validacion procedemos 
+      # Setar los parametros para la creacion
+      $paciente->setNombre($nombre);
+      $paciente->setApellido($apellido);
+      $paciente->setFechaNac(date_create($fechaNac));
+      $paciente->setLugarNac($lugarNac);
+      $paciente->setDomicilio($domicilio);
+      $paciente->setTieneDocumento($tieneDoc);
+      $paciente->setTipoDoc($tipoDocumento);
+      $paciente->setNumero($nroDoc);
+      $paciente->setTel($telefono);
+      $paciente->setNroHistoriaClinica($nro_hist_clinica);
+      $paciente->setNroCarpeta($nro_carpeta);
+      $paciente->setGenero($tipoGenero);
+      $paciente->setLocalidad($tipoLocalidad);;
+      $paciente->setObraSocial($tipoSocial);
+      $paciente->setRegionSanitaria($tipoRegion);
+
+      # Actualizar datos  
+      $em->persist($paciente); 
+      $em->flush();
 
         return 0;
 
-    }
-
+  }
 
 } # FIN CLASE 
 

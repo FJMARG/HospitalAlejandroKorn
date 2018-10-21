@@ -87,21 +87,19 @@ function tieneDocumento()
   	  // Desactivar los campos y limpiar las variables
 
   	  // para nro documento
-      nroDoc.readOnly  = true;
       nroDoc.value     = "";
-      nroDoc.required  = !nroDoc.required;
+      nroDoc.disabled  = true;
 
       // tipo de documento 
-      tipoDoc.disabled = !tipoDoc.disabled;
+      tipoDoc.disabled = true;
       tipoDoc.value    = "";
 
   }
   else 
   {
   	 // se vuelve a habilitar las opciones de edicion 
-     nroDoc.readOnly  = false;
-     nroDoc.required  = !nroDoc.required;
-     tipoDoc.disabled = !tipoDoc.disabled;
+     nroDoc.disabled  = false;
+     tipoDoc.disabled = false;
   } 	
 
 }
