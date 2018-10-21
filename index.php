@@ -97,7 +97,7 @@ class Router {
 					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']); 
 				}
 				elseif(($accion=='listarUsuarios') && (SessionController::havePermission('usuario_index'))){ /* Categoria donde se muestra un listado de los usuarios */
-					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion'], $filtrosUsuario, $_GET['pag']);
+					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion'], $filtrosUsuario, '', $_GET['pag']);
 				}
 				elseif(($accion=='verUsuario') && (SessionController::havePermission('usuario_show'))){
 					UsuarioController::getInstance()->mostrarUsuario($_SESSION['sesion'], $_GET['id'], $filtrosUsuario, $_GET['pag']);
