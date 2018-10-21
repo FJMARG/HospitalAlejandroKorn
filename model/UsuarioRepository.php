@@ -29,25 +29,26 @@ class UsuarioRepository extends DoctrineRepository {
         return $usuarios;
     }
 
-    public function listByArray ($filtros){
+    public function listByActivo ($ac){
         $em = $this->getConnection();
-        if (($filtros['activo']==2)||($filtros['activo']==1)){
-            $activo=$filtros['activo']-1;
-            $string = "select u
-            from Usuario u
-            where u.activo = :act";
-            $query = $em->createQuery($string);
-            $query->setParameter('act', $activo);
-            $usuarioRepository = $query->getResult();
-        }
-        else{
-            $string = "select u
-            from Usuario u
-            where u.username LIKE :uname";
-            $query = $em->createQuery($string);
-            $query->setParameter('uname', '%'.$filtros['username'].'%');
-            $usuarioRepository = $query->getResult();
-        }
+        $activo=$ac-1;
+        $string = "select u
+        from Usuario u
+        where u.activo = :act";
+        $query = $em->createQuery($string);
+        $query->setParameter('act', $activo);
+        $usuarioRepository = $query->getResult();
+        return $usuarioRepository;
+    }
+
+    public function listByUsername($username){
+        $em = $this->getConnection();
+        $string = "select u
+        from Usuario u
+        where u.username LIKE :uname";
+        $query = $em->createQuery($string);
+        $query->setParameter('uname', '%'.$username.'%');
+        $usuarioRepository = $query->getResult();
         return $usuarioRepository;
     }
 

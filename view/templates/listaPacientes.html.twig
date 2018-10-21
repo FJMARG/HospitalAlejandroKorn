@@ -25,6 +25,7 @@
                     </tr>
                   </thead>
                   <tbody>
+                    {% if cantPags != 0 %}
                     {% for i in despl..limite %}
                      <tr> 
                           <td>{{ pacientes[i].nombre }}</td>
@@ -49,7 +50,10 @@
                               <a href="index.php?categoria=paciente&accion=paciente_pantallaBorrado&id={{ pacientes[i].id }}" title="Eliminar" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</a>
                           </td>
                       </tr>
-                    {% endfor %}    
+                    {% endfor %}
+                    {% else %}
+                      <p>No hay pacientes o no existen pacientes que cumplan con el criterio de busqueda.</p> 
+                    {% endif %}    
                   </tbody> 
               </table> 
               {% endif %}

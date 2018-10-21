@@ -23,40 +23,56 @@ class UsuarioController {
     }
     
     public function listarUsuarios($usr, $filtros, $msg, $pagActual){
-        if ((!empty($filtros['username']))&&(($filtros['activo']==1)||($filtros['activo']==2))){
+        if ((!empty($filtros['username']))&&(($filtros['activo']==1)||($filtros['activo']==2))){ /* Activo y Username Seteados */
             $arrayUsuarios = UsuarioRepository::getInstance()->listBy($filtros['username'],$filtros['activo']);
         }
-        elseif((!empty($filtros['username']))||(($filtros['activo']==1)||($filtros['activo']==2))){
-            $arrayUsuarios = UsuarioRepository::getInstance()->listByArray($filtros);
+        elseif(($filtros['activo']==1)||($filtros['activo']==2)){ /* Activo Seteado */
+            $arrayUsuarios = UsuarioRepository::getInstance()->listByActivo($filtros['activo']);
         }
-        else{
+        elseif(!empty($filtros['username'])){ /* Username Seteado */
+            $arrayUsuarios = UsuarioRepository::getInstance()->listByUsername($filtros['username']);
+        }
+        else{ /* Nada seteado. */
             $arrayUsuarios = UsuarioRepository::getInstance()->listAll();
         }
-        $vista = TwigView::getTwig();
 
-        $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
+        /* ++++++++++++++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
 
-        $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
-
-        $cantXPag = $config['paginado']->getValor();
         $cantUsuarios = sizeof($arrayUsuarios); /* Aca debe ir el total de elementos a listar */
-        $cantDePags = intdiv($cantUsuarios,$cantXPag);
 
-        if (($cantUsuarios % $cantXPag)!= 0){
-            $cantDePags=$cantDePags+1;
+        if (!empty($cantUsuarios)){
+            $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
+
+            $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
+
+            $cantXPag = $config['paginado']->getValor();
+
+            $cantDePags = intdiv($cantUsuarios,$cantXPag);
+
+            if (($cantUsuarios % $cantXPag)!= 0){
+                $cantDePags=$cantDePags+1;
+            }
+
+            if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
+                $pagActual = $cantDePags;
+            }
+
+            $offset = ($pagActual-1) * $cantXPag;
+            $limit = ($pagActual * $cantXPag)-1;
+
+            if ($limit > $cantUsuarios){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
+            	$limit = $cantUsuarios-1;
+            }
+        }
+        else{
+            $limit=0;
+            $offset=0;
+            $cantDePags=0;
         }
 
-        if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
-            $pagActual = $cantDePags;
-        }
+        /* ++++++++++++++++++++++++++++++++ Fin Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
 
-        $offset = ($pagActual-1) * $cantXPag;
-        $limit = ($pagActual * $cantXPag)-1;
-
-        if ($limit >= $cantUsuarios){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
-        	$limit = $cantUsuarios-1;
-        }
-
+        $vista = TwigView::getTwig();
         echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr, 'mensaje' => $msg, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset, 'busqueda' => $filtros));
     }
 
