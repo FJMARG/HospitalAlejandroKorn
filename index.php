@@ -21,7 +21,7 @@ class Router {
 		# +++++++++++++++++++++  Seccion Usuario Logueado ++++++++++++++++++++++++ #
 		elseif (SessionController::verifySession()){
 			if ($categoria=='administracion'){
-				FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']);
+				FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']->getUsername());
 			}
 			elseif($accion=='logout'){
 				SessionController::logout();
@@ -38,9 +38,6 @@ class Router {
 				}
 				elseif (($accion=='paciente_verTodos') && (SessionController::havePermission('paciente_index')) ) {
 				  	PacienteController::getInstance()->realizaAccion("verTodos"); /* pagina de buscar pacientes sitema*/ 	
-				}
-				elseif (($accion=='paciente_verNoRegistrados') && (SessionController::havePermission('paciente_index')) ) {
-				  	PacienteController::getInstance()->realizaAccion('verNoRegistrados'); /* pacientes que no esta en el sist*/ 
 				}	
 				elseif (($accion=='paciente_crear') && (SessionController::havePermission('paciente_new')) ) {						
 				  	PacienteController::getInstance()->realizaAccion("crear");	/* Crear Paciente en sitema*/
@@ -66,12 +63,6 @@ class Router {
 				elseif (($accion=='paciente_pantallaEditar') && (SessionController::havePermission('paciente_update')) ) { 	
 			    	PacienteController::getInstance()->realizaAccion("pantallaEditar"); /* Ver detella de un paciente */
 				}
-				elseif (($accion=='paciente_editar') && (SessionController::havePermission('paciente_update')) ) { 	
-			    	PacienteController::getInstance()->realizaAccion("editar"); /* Pantalla editar */
-				}
-				elseif (($accion=='informar_guardado') && (SessionController::havePermission('paciente_update')) ) { 	
-			    	PacienteController::getInstance()->realizaAccion("confirmacionGuardado"); /* confirmar operacion */
-				}
                 # Sin permisos
 		        else{
 			 		FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
@@ -87,39 +78,39 @@ class Router {
 					ConfiguracionController::getInstance()->ModificarConfiguracion($_POST['titulo'], $_POST['descripcion'], $_POST['mail'], $_POST['paginado'], $_POST['habilitado']);
 				}
 				else{
-					FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']);
+					FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
 				}
 			}
 			# ++++++++++++++++++++++++  fin configuracion ++++++++++++++++++++++++ #
 			# ++++++++++++++++++++++++  Inicio Seccion Usuarios ++++++++++++++++++++++++ #
 			elseif(($categoria=='usuarios')&&(SessionController::haveRol('Administrador'))){ 
 				if ($accion == ''){ # Seccion donde se muestran las funcionalidades disponibles para los usuarios. #
-					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']); 
+					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']->getUsername()); 
 				}
 				elseif(($accion=='listarUsuarios') && (SessionController::havePermission('usuario_index'))){ /* Categoria donde se muestra un listado de los usuarios */
-					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion'], $filtrosUsuario, '', $_GET['pag']);
+					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion']->getUsername(), $filtrosUsuario, '', $_GET['pag']);
 				}
 				elseif(($accion=='verUsuario') && (SessionController::havePermission('usuario_show'))){
-					UsuarioController::getInstance()->mostrarUsuario($_SESSION['sesion'], $_GET['id'], $filtrosUsuario, $_GET['pag']);
+					UsuarioController::getInstance()->mostrarUsuario($_SESSION['sesion']->getUsername(), $_GET['id'], $filtrosUsuario, $_GET['pag']);
 				}
 				elseif(($accion=='crearUsuario') && (SessionController::havePermission('usuario_new'))){ /* Categoria donde se crea usuario. */
-					FrontController::getInstance()->mostrar($accion,'',$_SESSION['sesion']);
+					FrontController::getInstance()->mostrar($accion,'',$_SESSION['sesion']->getUsername());
 				}
 				elseif (($accion=='crear') && (SessionController::havePermission('usuario_new'))){
-					UsuarioController::getInstance()->crearUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_SESSION['sesion']);
+					UsuarioController::getInstance()->crearUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_SESSION['sesion']->getUsername());
 				}
 				elseif(($accion=='modificarUsuario')&&(SessionController::havePermission('usuario_update'))){ /* Accion que muestra la seccion donde se modifica a un usuario */
-					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion'],'',$_GET['id'], $_GET['pag'], $filtrosUsuario);
+					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion']->getUsername(),'',$_GET['id'], $_GET['pag'], $filtrosUsuario);
 				}
 				elseif(($accion=="modificar")&&(SessionController::havePermission('usuario_update'))){ /* Accion de modificar a un usuario. */
-					UsuarioController::getInstance()->actualizarUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_POST['rls'], $_POST['activo'], $_POST['id'], $_GET['pag'], $filtrosUsuario, $_SESSION['sesion']);
+					UsuarioController::getInstance()->actualizarUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_POST['rls'], $_POST['activo'], $_POST['id'], $_GET['pag'], $filtrosUsuario, $_SESSION['sesion']->getUsername());
 				}
 				elseif(($accion=='eliminarUsuario') && (SessionController::havePermission('usuario_destroy'))){ /* Seccion donde se elimina a un usuario. */
-					UsuarioController::getInstance()->eliminarUsuario($_SESSION['sesion'], $_GET['id'], $filtrosUsuario, $_GET['pag']);
+					UsuarioController::getInstance()->eliminarUsuario($_SESSION['sesion']->getUsername(), $_GET['id'], $filtrosUsuario, $_GET['pag']);
 				}
 			}
 			else{ # Usuario sin permisos. #
-				FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']);
+				FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
 			}
 			# ++++++++++++++++++++++++  Fin Seccion Usuarios ++++++++++++++++++++++++ #
 		}
