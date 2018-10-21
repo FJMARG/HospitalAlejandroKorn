@@ -29,7 +29,6 @@
               <div class="form-group">
                    <label for="tipoDocumento">Tipo Documento</label>
                    <select class="form-control" name="tipoDocumento" id="tipoDocumento">
-                           <option> </option> 
                            {% for documento in documentos%}
                                <option value="{{ documento.getId() }}">{{ documento.getNombre() }}</option>
                            {% endfor %} 
@@ -50,20 +49,33 @@
                   </div>
               </div>
         </form> 
-        <form class="form-horizontal" method="get" action="./index.php?">
-              <div class="form-group">
-                   <div class="form-group">
-                        <input type="hidden" name="categoria" value="paciente">
-                   </div>
-                   <div class="form-group">
-                        <input type="hidden" name="accion" value="paciente_verTodos">
-                   </div>    
-                   <div method="post" class="col-sm-offset-4 col-sm-3">
-                        <button type="submit" class="btn btn-info">  
-                        <span class="glyphicon glyphicon-arrow-right"></span> Recuperar todos</button>
-                   </div>
-              </div> 
-         </form>
+        <div class="form-group">
+             <div class="col-sm-offset-4 col-sm-6">
+                 <h4>Mas opciones de Busqueda</h4>
+             </div>
+        </div> 
+        <div class="form-group">
+            <form class="form-horizontal" method="get" action="./index.php?">
+                  <div class="form-group">   
+                       <div method="post" class="col-sm-offset-4 col-sm-3">
+                            <button type="submit" class="btn btn-info">  
+                            <span class="glyphicon glyphicon-arrow-right"></span> Recuperar todos</button>
+                            <input type="hidden" name="categoria" value="paciente">
+                            <input type="hidden" name="accion" value="paciente_verTodos">
+                       </div>
+                  </div> 
+             </form>
+             <form class="form-horizontal" method="get" action="./index.php?">
+                  <div class="form-group">   
+                       <div method="post" class="col-sm-offset-4 col-sm-3">
+                            <button type="submit" class="btn btn-info">  
+                            <span class="glyphicon glyphicon-arrow-right"></span> Pacientes sin documento registrado</button>
+                            <input type="hidden" name="categoria" value="paciente">
+                            <input type="hidden" name="accion" value="paciente_verNoRegistrados">
+                       </div>
+                  </div> 
+             </form>
+         </div> 
          <!-- Alentar de mensajes -->    
          {% if mensaje is defined %}  
           <div class="alert alert-danger alert-dismissable">

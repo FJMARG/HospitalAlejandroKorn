@@ -34,6 +34,10 @@ class PacienteController extends DoctrineRepository {
               # Ver todos los pacientes del sistema
               $this->verTodosPaciente($_GET['pag']);
               break;
+           case 'verNoRegistrados':
+              # Ver todos los pacientes del sistema
+              $this->verNoRegistrados($_GET['pag']);
+              break;   
            case 'verBusqueda':
               # Ver resultados de los pacientes del sistema
               $this->verResultadoPaciente($_GET['pag']);
@@ -159,6 +163,55 @@ class PacienteController extends DoctrineRepository {
         echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
     }
 
+    public function verNoRegistrados($pagActual){
+            
+        $em = DoctrineRepository::getConnection();
+        $dql = "SELECT a from Paciente a where a.tipoDoc is NULL";    
+        $query = $em->createQuery($dql);
+        $Pacientes = $query->getResult();
+
+        /* +++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++ */
+
+        $cantPacientes = sizeof($Pacientes); /* Aca debe ir el total de elementos a listar */
+
+        if (!empty($cantPacientes)){
+
+          $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
+
+          $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
+
+          $cantXPag = $config['paginado']->getValor();
+          $cantDePags = intdiv($cantPacientes,$cantXPag);
+
+          if (($cantPacientes % $cantXPag)!= 0){
+              $cantDePags=$cantDePags+1;
+          }
+
+          if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
+              $pagActual = $cantDePags;
+          }
+
+          $offset = ($pagActual-1) * $cantXPag;
+          $limit = ($pagActual * $cantXPag)-1;
+
+          if ($limit >= $cantPacientes){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
+            $limit = $cantPacientes-1;
+          }
+        }
+        else{
+          $limit=0;
+          $offset=0;
+          $cantDePags=0;
+        }
+
+        /* +++++++++++++++++++++++++ Fin Paginado ++++++++++++++++++++++++++ */
+
+        $vista = TwigView::getTwig();
+        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
+
+
+    }  
+
     public function verResultadoPaciente($pagActual){
 
           # Ver resultados de filtros
@@ -273,7 +326,7 @@ class PacienteController extends DoctrineRepository {
 
       /* Valdiar si los campos estan o no desabilidatos para Tipo documento */
       if (isset($_POST['tipoDocumento'])){ $tipoDocumento = ($_POST['tipoDocumento']); }       
-      else { $tipoDocumento = '99'; /*SIN DOCUMENTO*/ } 
+      else { $tipoDocumento = 0; /*SIN DOCUMENTO se crea nulo*/ } 
       
       /* Valdiar si los campos estan o no desabilidatosd para Nro documento*/
       if (isset($_POST['nroDocumento'])){ $nroDocumento = ($_POST['nroDocumento']); }       

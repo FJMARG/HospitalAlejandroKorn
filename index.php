@@ -37,6 +37,9 @@ class Router {
 				}
 				elseif (($accion=='paciente_verTodos') && (SessionController::havePermission('paciente_index')) ) {
 				  	PacienteController::getInstance()->realizaAccion("verTodos"); /* pagina de buscar pacientes sitema*/ 	
+				}
+				elseif (($accion=='paciente_verNoRegistrados') && (SessionController::havePermission('paciente_index')) ) {
+				  	PacienteController::getInstance()->realizaAccion('verNoRegistrados'); /* pacientes que no esta en el sist*/ 
 				}	
 				elseif (($accion=='paciente_crear') && (SessionController::havePermission('paciente_new')) ) {						
 				  	PacienteController::getInstance()->realizaAccion("crear");	/* Crear Paciente en sitema*/
