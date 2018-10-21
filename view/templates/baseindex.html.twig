@@ -5,6 +5,8 @@
         <title>Hospital Dr. Alejandro Korn - Login Pacientes Guardia</title>
         <!-- Inico Pagina -->     
         <link rel="icon" href="./images/favicon.ico">
+        <link rel="stylesheet" href="./css/style.css">
+		<link rel="stylesheet" href="./css/mobileStyle.css">
         <!-- Estilos de bootstrap -->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <!-- Archivo de Configuracion para sobreescribir Bootstrap-->
@@ -17,13 +19,14 @@
         <!-- Script de bootstrap y Alertas-->          
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>    
+
         {% block Script %} {% endblock %} 
    </head>
    <body>
     <!-- ************************* Barra de Navegacion ***************************** -->
-    <nav class="navbar navbar-default" role="navigation">
+     <nav class="navbar navbar-default" style="text-align: left;" role="navigation">
         <!-- El logotipo y el icono que despliega el menú se agrupan para mostrarlos en los dispositivos móviles -->
-         <div class="navbar-header">
+         <div class="leftCenter">
              <button type="button" class="navbar-toggle" data-toggle="collapse"
                   data-target=".navbar-ex1-collapse">
              <span class="sr-only">Desplegar navegación</span>
@@ -31,51 +34,17 @@
              <span class="icon-bar"></span>
              <span class="icon-bar"></span>
              </button>
-             <a class="navbar-text pull-center" href="./index.php?accion=administracion">
+             <a class="navbar-text pull-center" href="./">
              <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital."></a>
+             <h3>
+		        {{ dato['titulo'].valor }}
+	        </h3>
          </div>
-       
-        <!-- Agrupar los enlaces de navegación, los formularios y cualquier
-             otro elemento que se pueda ocultar al minimizar la barra -->
-         <div class="collapse navbar-collapse navbar-ex1-collapse">
-             <ul class="nav navbar-nav">
-                <!-- Pestaña inicio -->
-                <li><a class="navbar-text" href="./index.php?categoria=administracion">Inicio</a></li>
-                <!-- pestaña Consultas -->
-                <li><a class="navbar-text" href="#">Consultas</a></li>
-                <!-- Pestaña Consultas -->
-                <li class="dropdown">
-                  <a class="navbar-text" href="#" class="dropdown-toggle" data-toggle="dropdown">Pacientes<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="./index.php?categoria=paciente&accion=paciente_buscar">Buscar</a></li>
-                        <li class="divider"></li>
-                        <li><a href="./index.php?categoria=paciente&accion=paciente_crear">Crear</a></li>
-                    </ul>
-                </li>
-                <!-- Pestaña Administracion -->
-                <li class="dropdown">
-                    <a class="navbar-text" href="#" class="dropdown-toggle" data-toggle="dropdown">Administracion<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                       <li><a href="./index.php?categoria=usuarios&accion=listarUsuarios">Usuarios</a></li>
-                       <li class="divider"></li>
-                       <li><a href="#">Roles</a></li>
-                       <li class="divider"></li> 
-                       <li><a href="#">Permisos</a></li>
-                       <li class="divider"></li> 
-                       <li><a href="./index.php?categoria=configuracion&accion=configuracion_ver">Configuraciones</a></li>
-                    </ul>
-               </li>  
-            </ul> 
-            <ul class="nav navbar-nav navbar-right"> 
-                <li class="dropdown">
-                 </li>   
-                 <li class="dropdown">   
-                    <a class="navbar-text">{{user}}</a>  
-                    <a class="navbar-text" href="./index.php?accion=logout">Cerrar Sesion</a>
-                </li> 
-             </ul>
+
+          <div class="rightCenter">
+         <button onclick="location.href='./index.php?categoria=login'" type="button" class=" btn btn-primary col-md-4 col-md-offset-4"" style="width: 101px;"> Login</button>
          </div>
-    </nav> 
+     </nav>
     <!-- ************************* Fin Barra de Navegacion ***************************** -->
     {% block contenido %} {% endblock %}  
     <!-- ************************* Pie de Pagina  ***************************** -->
@@ -89,7 +58,7 @@
                 </div>
                 <div class="col-md-6 mt-md-0 mt-3">
                    <div class = "center-block pull-right">  
-                      <span class = "footer-confg">v 0.1.0</span>
+                      <span class = "footer-confg">{{ dato['mail'].valor }}</span>
                    </div>   
                 </div> 
           </div>

@@ -4,6 +4,10 @@
     color: #fff;
 }
 
+.margin-space{
+	margin-bottom: 5%;
+}
+
 .page-footer{
 	padding: 22px;
     background-color:#BFB5B3;

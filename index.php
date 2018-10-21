@@ -13,6 +13,7 @@ class Router {
 			self::iniciarSesion ($user,$pass);
 		}
 
+
 		elseif ((($categoria == 'index') || ($categoria == 'login'))&&(empty($accion))){
 			FrontController::getInstance()->mostrar($categoria,'','');
 		}
@@ -130,6 +131,7 @@ class Router {
 	}
 }
 
+
 # ++++++++++++++++++++++++ Preparacion de variables y llamada a metodo inicial ++++++++++++++++++++++++ #
 
 if (!isset($_GET['categoria'])){
@@ -196,5 +198,14 @@ $filtrosUsuario=array();
 $filtrosUsuario['username']=$_GET['uname'];
 $filtrosUsuario['activo']=$_GET['act'];
 
-Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
-$_GET['accion'], $filtrosUsuario);
+		$confi = ConfiguracionRepository::getInstance();
+
+        $datos = $confi-> recuperarConfiguracion();
+
+        if ($datos['habilitado'] ->getValor() == 'true') {
+			Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
+			$_GET['accion'], $filtrosUsuario);
+		}
+		else{
+			$categoria = 'deshabilitado';
+			FrontController::getInstance()->mostrar($categoria,'','');}

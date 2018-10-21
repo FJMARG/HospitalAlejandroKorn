@@ -38,9 +38,15 @@
                 <div class="form-group"> <!-- Sitio habilitado -->
                   <label for="habilitado" class="col-sm-2 control-label">Habilitado</label>
                    <div class="col-sm-2">
-                       <select class="form-control" name="habilitado" id="habilitado" required value="{{ habilitado.getValor }}"> 
-                         	  <option value="true">Si</option>
-                              <option value="false">No</option>
+                       <select class="form-control" name="habilitado" id="habilitado"> 
+                              {% if habilitado.getValor == 'true' %}
+                               <option value="true" selected="selected"> Si </option>
+                              <option value="false"> No</option>
+                               {% else %} 
+                              <option value="false" selected="selected"> No</option>
+                               <option value="true"> Si </option>
+
+                              {% endif %}
                        </select>
                   </div>
                 </div>

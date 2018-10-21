@@ -1,89 +1,86 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <link rel="icon" href="./images/favicon.ico">
-        <title>Hospital Dr. Alejandro Korn - Administración</title>
-        <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/mobileStyle.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="js/jquery-3.3.1.js"></script>
-        <script src="js/validarFormularioUsuario.js"></script>
-    </head>
-    <body>
-        <header class="box">
-            <div class="leftCenter">
-                <a href="./index.php?categoria=administracion">
-                    <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital.">
-                </a>
-                <nav>
-                    <ul>
-                        <li><a href="./index.php?categoria=administracion" >Inicio</a></li>
-                        <li><a href="">Consultas</a></li>
-                        <li><a href="">Pacientes</a></li>
-                        <li class="dropdown">
-                            <a href="javascript:void(0)" class="dropbtn">Administracion</a>
-                            <div class="dropdown-content">
-                                <a href="./index.php?categoria=usuarios">Usuarios</a>
-                                <a href="#">Roles</a>
-                                <a href="#">Permisos</a>
-                                <a href="#">Configuracions</a>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="rightCenter" >
-                <a>{{user}}</a>
-                <a href='./index.php?accion=logout'>Cerrar Sesion</a>
-            </div>
-        </header>
-            <main class="lightBox">
-                <h3>Modificar Usuario</h3>
-                <span>{{ mensaje }}</span>
+{% extends 'base.html.twig' %}
+{% block Script %}
+   <script type="text/javascript" src="mi_js/misScripts.js"/></script>
+{% endblock %} 
+{% block contenido %}
+  <main>  
+        <div class="container margin-space">  
+          <div class="col-sm-offset-2 col-sm-8">
+            <div class="form-group">
+                      <div class="col-sm-offset-5">
+                          <h4>Editar usuario</h4>  
+                      </div>
+                 </div>
+                 <span>{{ mensaje }}</span> 
                 <form method="post" action="./index.php?categoria=usuarios&accion=modificar&id={{ usuario.id }}" id="userForm">
-                    <label for="user">Usuario:</label>
-                    <input type="text" name="user" id="user" value="{{ usuario.username }}" minlength="6" required>
-                    <br>
-                    <label for="confirmUser">Confirmar Usuario:</label>
-                    <input type="text" name="confirmUser" id="confirmUser" value="{{ usuario.username }}" minlength="6" required>
-                    <br>
-                    <label for="pass">Password:</label>
-                    <input type="password" name="pass" id="pass" value="{{ usuario.password }}" minlength="6" required>
-                    <br>
-                    <label for="confirmPass">Confirmar Password:</label>
-                    <input type="password" name="confirmPass" id="confirmPass" value="{{ usuario.password }}" minlength="6" required>
-                    <br>
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" value="{{ usuario.firstName }}" minlength="3" required>
-                    <br>
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" name="apellido" id="apellido" value="{{ usuario.lastName }}" minlength="3" required>
-                    <br>
-                    <label for="email">E-mail:</label>
-                    <input type="email" name="email" id="email" value="{{ usuario.email }}" required>
-                    <br>
-                    <label for="confirmEmail">Confirmar E-mail:</label>
-                    <input type="email" name="confirmEmail" id="confirmEmail" value="{{ usuario.email }}" required>
-                    <br>
-                    <label for="activo">Activo:</label>
-                    <input type="checkbox" name="activo" {% if usuario.activo %} checked {% endif %}>
-                    <br>
-                    <input type="hidden" name="id" value="{{ usuario.id }}" readonly>
-                    <br>
-                    <span>Roles:</span>
+                 <div class="form-group"> 
+                    <label for="user">Nombre de usuario</label>
+                    <input type="text" class="form-control" name="user" id="user" value="{{ usuario.username }}" requerid size="100">
+                 </div>
+                 <div class="form-group"> 
+                    <label for="confirmUser">Confirmar usuario</label>
+                    <input type="text" class="form-control" name="confirmUser" id="confirmUser" value="{{ usuario.username }}" requerid size="100">
+                 </div>
+
+                  <div class="form-group"> 
+                    <label for="pass">Contraseña</label>
+                    <input type="password" class="form-control" name="pass" id="pass" value="{{ usuario.password }}" requerid size="100" minlength="6" required>
+                 </div>
+
+                 <div class="form-group"> 
+                    <label for="confirmPass">Confirmar contraseña</label>
+                    <input type="password" class="form-control" name="confirmPass" id="confirmPass" value="{{ usuario.password }}"  requerid size="100" minlength="6" required>
+                 </div>
+
+                 <div class="form-group"> 
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" value="{{ usuario.firstName }}" requerid size="100" >
+                 </div>
+
+                 <div class="form-group"> 
+                    <label for="apellido">Apellido</label>
+                    <input type="text" class="form-control" name="apellido" id="apellido" value="{{ usuario.lastName }}" requerid size="100">
+                 </div>
+
+                 <div class="form-group"> 
+                    <label for="email">E-mail</label>
+                    <input type="text" class="form-control" name="email" id="email" value="{{ usuario.email }}" requerid size="100" minlength="6" required>
+                 </div>
+
+                 <div class="form-group"> 
+                    <label for="confirmEmail">confirmar E-mail</label>
+                    <input type="text" class="form-control" name="confirmEmail" id="confirmEmail" value="{{ usuario.email }}" requerid size="100" minlength="6" required>
+                 </div>
+
+
+                 <div class="form-group"> 
+                           <label for="activo">Activo:</label>
+                           <input type="checkbox" class="custom-control-input" name="activo" {% if usuario.activo %} checked {% endif %}>
+                 </div>
+
+                  <input type="hidden" name="id" value="{{ usuario.id }}" readonly>
+
+                 <div class="form-group"> 
+                            <span>Roles:</span>
                     {% for rol in arrayRoles %}
-                        <label for="rls[]">{{ rol }}</label><input type="checkbox" name="rls[]" {% if rol in arrayRolesUsuario %} checked {% endif %} value="{{ rol }}">
+                        <label for="rls[]">{{ rol }}</label>
+                        <input type="checkbox" class="custom-control-input" name="rls[]" {% if rol in arrayRolesUsuario %} checked {% endif %} value="{{ rol }} ">
+                        <br>
                     {% endfor %}
-                    <br>
-                    <br>
-                    <input type="submit">
-                </form>
-                <p>Nota: El nombre de usuario y la contrasena deben tener al menos 6 caracteres de longitud.</p>
-            </main>
-            <footer class="box">
-                <span class="leftCenter">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>
-                <span class="rightCenter">v 0.1.0</span>
-            </footer>
-    </body>
-</html>
+                 </div>
+
+
+              <div class="form-group">
+                <div class="col-sm-offset-4">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
+         </div>
+      </div>
+       </form> 
+        <p>Nota: El nombre de usuario y la contrasena deben tener al menos 6 caracteres de longitud.</p>
+      </div>      
+    </div>   
+</main>
+
+
+{% endblock %}    

@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-	    <link rel="icon" href="./images/favicon.ico">
-	    <title>Hospital Dr. Alejandro Korn</title>
-        <link rel="stylesheet" href="./css/style.css">
-		<link rel="stylesheet" href="./css/mobileStyle.css">
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <header class="box">
-        <div class="leftCenter">
-	        <a href="./">
-			    <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital.">
-			</a>
-	        <h3>
-		        {{ dato['titulo'].valor }}
-	        </h3>
-        </div>
-            <div class="rightCenter">
-                <a href="./index.php?categoria=login" title="Ingresa al area para iniciar sesion con tu cuenta.">Login</a>
-            </div>
-        </header>
-			<main>
+{% extends 'baseindex.html.twig' %}
+{% block Script %}
+   <script type="text/javascript" src="mi_js/misScripts.js"/></script>
+{% endblock %}    
+{% block contenido %}
+<main>
 				<article class="article">
 					<h4>Heading</h4>
 					<p>
@@ -49,9 +30,4 @@
 					</p>
 				</article>
 				</main>
-        <footer class="box">
-            <span class="leftCenter">Proyecto de Software 2018 - {{dato['titulo'].valor}}</span>
-            <span class="rightCenter"> {{ dato['mail'].valor }}</span>
-        </footer>
-    </body>
-</html>
+{% endblock %}    

@@ -1,79 +1,65 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <link rel="icon" href="./images/favicon.ico">
-        <title>Hospital Dr. Alejandro Korn - Administración</title>
-        <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/mobileStyle.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="js/jquery-3.3.1.js"></script>
-        <script src="js/validarFormularioUsuario.js"></script>
-    </head>
-    <body>
-        <header class="box">
-            <div class="leftCenter">
-                <a href="./index.php?categoria=administracion">
-                    <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital.">
-                </a>
-                <nav>
-                    <ul>
-                        <li><a href="./index.php?categoria=administracion" >Inicio</a></li>
-                        <li><a href="">Consultas</a></li>
-                        <li><a href="">Pacientes</a></li>
-                        <li class="dropdown">
-                            <a href="javascript:void(0)" class="dropbtn">Administracion</a>
-                            <div class="dropdown-content">
-                                <a href="./index.php?categoria=usuarios">Usuarios</a>
-                                <a href="#">Roles</a>
-                                <a href="#">Permisos</a>
-                                <a href="#">Configuracions</a>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="rightCenter" >
-                <a>{{user}}</a>
-                <a href='./index.php?accion=logout'>Cerrar Sesion</a>
-            </div>
-        </header>
-            <main class="lightBox">
-                <h3>Crear Usuario</h3>
-                <span>{{ mensaje }}</span>
-                <form method="post" action="./index.php?categoria=usuarios&accion=crear" id="userForm">
-                    <label for="user">Usuario</label>
-                    <input type="text" name="user" id="user" minlength="6" required>
-                    <br>
-                    <label for="confirmUser">Confirmar Usuario</label>
-                    <input type="text" name="confirmUser" id="confirmUser" minlength="6" required>
-                    <br>
-                    <label for="pass">Password</label>
-                    <input type="password" name="pass" id="pass" minlength="6" required>
-                    <br>
-                    <label for="confirmPass">Confirmar Password</label>
-                    <input type="password" name="confirmPass" id="confirmPass" minlength="6" required>
-                    <br>
+{% extends 'base.html.twig' %}
+{% block Script %}
+   <script type="text/javascript" src="mi_js/misScripts.js"/></script>
+{% endblock %}  
+{% block contenido %}
+ <main>  
+        <div class="container margin-space">  
+          <div class="col-sm-offset-2 col-sm-8">
+            <div class="form-group">
+                      <div class="col-sm-offset-5">
+                          <h4>Crear usuario</h4>  
+                      </div>
+                 </div>
+                 <span>{{ mensaje }}</span>
+           <form method="post" action="./index.php?categoria=usuarios&accion=crear" id="userForm">
+                 <div class="form-group"> <!-- Nombre -->
+                    <label for="user">Nombre de usuario</label>
+                    <input type="text" class="form-control" name="user" id="user" requerid size="100">
+                 </div>
+                 <div class="form-group"> <!-- Nombre -->
+                    <label for="confirmUser">Confirmar usuario</label>
+                    <input type="text" class="form-control" name="confirmUser" id="confirmUser" requerid size="100">
+                 </div>
+
+                  <div class="form-group"> <!-- Nombre -->
+                    <label for="pass">Contraseña</label>
+                    <input type="password" class="form-control" name="pass" id="pass" requerid size="100" minlength="6" required>
+                 </div>
+
+                 <div class="form-group"> <!-- Nombre -->
+                    <label for="confirmPass">Confirmar contraseña</label>
+                    <input type="password" class="form-control" name="confirmPass" id="confirmPass" requerid size="100" minlength="6" required>
+                 </div>
+
+                 <div class="form-group"> <!-- Nombre -->
                     <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" minlength="3" required>
-                    <br>
+                    <input type="text" class="form-control" name="nombre" id="nombre" requerid size="100" >
+                 </div>
+
+                 <div class="form-group"> <!-- Nombre -->
                     <label for="apellido">Apellido</label>
-                    <input type="text" name="apellido" id="apellido" minlength="3" required>
-                    <br>
+                    <input type="text" class="form-control" name="apellido" id="apellido" requerid size="100">
+                 </div>
+
+                 <div class="form-group"> <!-- Nombre -->
                     <label for="email">E-mail</label>
-                    <input type="email" name="email" id="email" required>
-                    <br>
-                    <label for="confirmEmail">Confirmar E-mail</label>
-                    <input type="email" name="confirmEmail" id="confirmEmail" required>
-                    <br>
-                    <br>
-                    <input type="submit">
-                </form>
-                <p>Nota: El nombre de usuario y la contrasena deben tener al menos 6 caracteres de longitud.</p>
-            </main>
-            <footer class="box">
-                <span class="leftCenter">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span>
-                <span class="rightCenter">v 0.1.0</span>
-            </footer>
-    </body>
-</html>
+                    <input type="text" class="form-control" name="email" id="email" requerid size="100" minlength="6" required>
+                 </div>
+
+                 <div class="form-group"> <!-- Nombre -->
+                    <label for="confirmEmail">confirmar E-mail</label>
+                    <input type="text" class="form-control" name="confirmEmail" id="confirmEmail" requerid size="100" minlength="6" required>
+                 </div>
+                <div class="form-group">
+                     <div method="post" class="col-sm-offset-5">
+                         <button type="submit" class="btn btn-info" >
+                         <span class="glyphicon glyphicon-user"></span> Crear usuario</button>
+                     </div>
+                </div>  
+       </form> 
+        <p>Nota: El nombre de usuario y la contrasena deben tener al menos 6 caracteres de longitud.</p>
+      </div>      
+    </div>   
+</main>
+{% endblock %}    
