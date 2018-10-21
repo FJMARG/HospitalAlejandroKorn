@@ -32,11 +32,11 @@ class PacienteController extends DoctrineRepository {
               break;
            case 'verTodos':
               # Ver todos los pacientes del sistema
-              $this->verTodosPaciente();
+              $this->verTodosPaciente($_GET['pag']);
               break;
            case 'verBusqueda':
               # Ver resultados de los pacientes del sistema
-              $this->verResultadoPaciente();
+              $this->verResultadoPaciente($_GET['pag']);
               break;  
            case 'crear':
               # Ver resultados de los pacientes del sistema
@@ -114,13 +114,41 @@ class PacienteController extends DoctrineRepository {
        echo $vista->render('buscarPaciente.html.twig',$datos);
     }
 
-    public function verTodosPaciente(){
+    public function verTodosPaciente($pagActual){
         $Pacientes = PacienteRepository::getInstance()->listAll();
+
+        /* +++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++ */
+
+        $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
+
+        $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
+
+        $cantXPag = $config['paginado']->getValor();
+        $cantPacientes = sizeof($Pacientes); /* Aca debe ir el total de elementos a listar */
+        $cantDePags = intdiv($cantPacientes,$cantXPag);
+
+        if (($cantPacientes % $cantXPag)!= 0){
+            $cantDePags=$cantDePags+1;
+        }
+
+        if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
+            $pagActual = $cantDePags;
+        }
+
+        $offset = ($pagActual-1) * $cantXPag;
+        $limit = ($pagActual * $cantXPag)-1;
+
+        if ($limit >= $cantPacientes){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
+        	$limit = $cantPacientes-1;
+        }
+
+        /* +++++++++++++++++++++++++ Fin Paginado ++++++++++++++++++++++++++ */
+
         $vista = TwigView::getTwig();
-        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes));
+        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
     }
 
-    public function verResultadoPaciente(){
+    public function verResultadoPaciente($pagActual){
 
           $nombre                = ($_GET["nombrePaciente"]);
           $apellido              = ($_GET["apellidoPaciente"]);
@@ -146,8 +174,35 @@ class PacienteController extends DoctrineRepository {
                
             $Pacientes = PacienteRepository::getInstance()->recuperarPacientes($nombre,$apellido,$tipoDocumento,$numeroDocumento,$numeroHistoriaClinica);
 
+            /* +++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++ */
+
+	        $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
+
+	        $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
+
+	        $cantXPag = $config['paginado']->getValor();
+	        $cantPacientes = sizeof($Pacientes); /* Aca debe ir el total de elementos a listar */
+	        $cantDePags = intdiv($cantPacientes,$cantXPag);
+
+	        if (($cantPacientes % $cantXPag)!= 0){
+	            $cantDePags=$cantDePags+1;
+	        }
+
+	        if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
+	            $pagActual = $cantDePags;
+	        }
+
+	        $offset = ($pagActual-1) * $cantXPag;
+	        $limit = ($pagActual * $cantXPag)-1;
+
+	        if ($limit >= $cantPacientes){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
+	        	$limit = $cantPacientes-1;
+	        }
+
+	        /* +++++++++++++++++++++++++ Fin Paginado ++++++++++++++++++++++++++ */
+
             $vista = TwigView::getTwig();
-              echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes));
+              echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
           }
                                             
           /*

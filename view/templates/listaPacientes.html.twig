@@ -25,22 +25,22 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for paciente in pacientes %}
+                    {% for i in despl..limite %}
                      <tr> 
-                          <td>{{ paciente.nombre }}</td>
+                          <td>{{ paciente[i].nombre }}</td>
 
-                          <td>{{ paciente.apellido }}</td>
+                          <td>{{ paciente[i].apellido }}</td>
                                                 
-                          <td>{{ paciente.getTipoDoc().nombre() }}</td>
+                          <td>{{ paciente[i].getTipoDoc().nombre() }}</td>
                           
                           <td> 
-                               {% if paciente.numero != 0 %}
-                                    {{ paciente.numero }} 
+                               {% if paciente[i].numero != 0 %}
+                                    {{ paciente[i].numero }} 
                                {% endif %}
                           </td>
                           <td> 
-                               {% if paciente.nroHistoriaClinica != 0 %}
-                                    {{ paciente.nroHistoriaClinica }}
+                               {% if paciente[i].nroHistoriaClinica != 0 %}
+                                    {{ paciente[i].nroHistoriaClinica }}
                                {% endif %}
                           </td>
                           <td>
@@ -53,7 +53,14 @@
                   </tbody> 
               </table> 
               {% endif %}
-            </div>   
+            </div>
+            {% if cantPags != 0 %}
+              {% for i in 1..cantPags %}
+                   <ul class="pagination">
+                      <li><a {% if pag != i %} href="index.php?categoria=paciente&accion=paciente_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
+                   </ul>
+              {% endfor %}
+            {% endif %}  
           </div>
         </main>
 {% endblock %}         

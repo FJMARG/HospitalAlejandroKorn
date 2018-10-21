@@ -53,11 +53,13 @@
                 {% endfor %}  
                   </tbody> 
             </table> 
-            </div>   
-             {% for i in 1..cantPags %}
-                 <ul class="pagination">
+            </div>
+            {% if cantPags != 0 %}   
+              {% for i in 1..cantPags %}
+                <ul class="pagination">
                     <li><a {% if pag != i %} href="./index.php?categoria=usuarios&accion=listarUsuarios&pag={{ i }}{% if busqueda['username'] and busqueda['activo'] %} &uname={{ busqueda['username'] }}&act={{ busqueda['activo'] }} {% endif %}" {% endif %}>{{ i }}</a></li>
-                 </ul>
-                 {% endfor %}
+                </ul>
+              {% endfor %}
+            {% endif %}
         </main>
 {% endblock %}         
