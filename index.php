@@ -62,6 +62,12 @@ class Router {
 				elseif (($accion=='paciente_pantallaEditar') && (SessionController::havePermission('paciente_update')) ) { 	
 			    	PacienteController::getInstance()->realizaAccion("pantallaEditar"); /* Ver detella de un paciente */
 				}
+				elseif (($accion=='paciente_editar') && (SessionController::havePermission('paciente_update')) ) { 	
+			    	PacienteController::getInstance()->realizaAccion("editar"); /* Pantalla editar */
+				}
+				elseif (($accion=='informar_guardado') && (SessionController::havePermission('paciente_update')) ) { 	
+			    	PacienteController::getInstance()->realizaAccion("confirmacionGuardado"); /* confirmar operacion */
+				}
                 # Sin permisos
 		        else{
 			 		FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());

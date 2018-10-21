@@ -4,7 +4,7 @@
 {% block contenido %}
 <main>
     <div class="container">
-	    <div class="row">
+    	<div class="col-sm-9"> 
 		    <div class="panel panel-primary">
 		      <div class="panel-heading">Datos Personales</div>
 		        	<div class="panel-body">
@@ -24,11 +24,11 @@
 		        	    	   <tr> 
 		        	    	   <tr>
 		        	    	       <td>Fecha Nacimiento:<td>
-		        	    	       <td>{{ paciente.getFechaNac()|date("m/d/Y")  }}<td>
+		        	    	       <td>{{ paciente.getFechaNac()|date("m/d/Y")}}<td>
 		        	    	   <tr> 
 		        	    	   <tr>
 		        	    	       <td>Tipo Documento:<td>
-		        	    	       <td>{{ paciente.getTipoDoc.getNombre()  }}<td>
+		        	    	       <td>{{ paciente.getTipoDoc.getNombre()}}<td>
 		        	    	   <tr> 
 		        	    	   <tr>
 		        	    	       <td>Numero Documento:<td>
@@ -37,15 +37,7 @@
 		        	    	   <tr>
 		        	    	       <td>Telefono:<td>
 		        	    	       <td>{{ paciente.getTel }}<td>
-		        	    	   <tr> 
-		        	    	</tbody>
-		        	   	</table> 	
-		        	</div>
-		      </div>   
-		    <div class="panel panel-primary">
-		      <div class="panel-heading">Datos de Residencia</div>
-		         <div class="panel-body">
-		        	  <table class="table">
+		        	    	   <tr> 	
 		        	  		   <tr>
 		        	    	       <td>Domicilio:<td>
 		        	    	       <td>{{ paciente.getDomicilio() }}<td>
@@ -58,13 +50,6 @@
 		        	    	       <td>Región Sanitaria:<td>
 		        	    	       <td>{{ paciente.getRegionSanitaria().getNombre() }}<td>
 		        	    	   <tr>
-		        	  </table> 
-		       	 </div> 	  
-		    </div>  
-		   	<div class="panel panel-primary">
-		      <div class="panel-heading">Datos de Clinicos</div>
-		         <div class="panel-body">
-		        	  <table class="table">
 		        	  		   <tr>
 		        	    	       <td>Obra Social:<td>
 		        	    	       <td>{{ paciente.getObraSocial().getNombre() }}<td>
@@ -76,11 +61,20 @@
 		        	    	   <tr>
 		        	    	       <td>Numero de Carpeta Medica:<td>
 		        	    	       <td>{{ paciente.nroCarpeta() }}<td>
-		        	    	   <tr>
+		        	    	   <tr>		        	    	   	
+		        	    	   	    <td>
+		        	    	   	    	<div class= "text-right" style="margin:1%">
+	  	 									 <a href="javascript:history.back()" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Volver </a>
+	  									</div>
+	  								<td>
+	  							    <td>
+	  							    <td>
+		        	    	   <tr>	
+		        	      </tbody>
 		        	  </table> 
-		       	 </div>
-		    </div>
-	    </div>
-    </div>
+	             </div> 
+            </div>
+       	</div>    
+      </div>  
 </main>
 {% endblock %} 
