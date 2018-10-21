@@ -115,7 +115,10 @@ class UsuarioController {
 
     public function modificarUsuario($usr, $msg, $id, $pag, $filtros){
         $usuarioModificar = UsuarioRepository::getInstance()->findById($id);
-        if (!empty($usuarioModificar)){
+        if($usr->getId()==$id){
+            $this::getInstance()->listarUsuarios($usr,$filtros,'Error. No es posible modificarse a si mismo.', $pag);
+        }
+        elseif (!empty($usuarioModificar)){
             $roles=RolRepository::getInstance()->listAll();
             $rols=array();
             foreach ($roles as $nombrerol){
@@ -138,11 +141,16 @@ class UsuarioController {
         UsuarioController::getInstance()->modificarUsuario($sessionUser,$msg,$id, $pag, $filtros);
     }
 
-    public function eliminarUsuario($usr,$id,$filtros, $pag){
-        if (UsuarioRepository::getInstance()->eliminarUsuario($id))
+    public function eliminarUsuario($usr, $id, $filtros, $pag){
+        if($usr->getId() == $id){
+            $this::getInstance()->listarUsuarios($usr,$filtros,'Error. Imposible eliminarse a si mismo.', $pag);
+        }
+        elseif (UsuarioRepository::getInstance()->eliminarUsuario($id)){
         	$this::getInstance()->listarUsuarios($usr,$filtros,'El usuario con id:'.$id.' se elimino correctamente.', $pag);
-        else
+        }
+        else{
         	$this::getInstance()->listarUsuarios($usr,$filtros,'Error al eliminar el usuario con id:'.$id.'.', $pag);
+        }
     }
    
 }
