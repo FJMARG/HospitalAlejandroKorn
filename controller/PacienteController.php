@@ -20,7 +20,7 @@ class PacienteController extends DoctrineRepository {
     }
     
     private function __construct() {
-      # sin implementar  
+        
     }
 
     public function realizaAccion($accion)
@@ -34,10 +34,6 @@ class PacienteController extends DoctrineRepository {
               # Ver todos los pacientes del sistema
               $this->verTodosPaciente($_GET['pag']);
               break;
-           case 'verNoRegistrados':
-              # Ver todos los pacientes del sistema
-              $this->verNoRegistrados($_GET['pag']);
-              break;   
            case 'verBusqueda':
               # Ver resultados de los pacientes del sistema
               $this->verResultadoPaciente($_GET['pag']);
@@ -68,9 +64,9 @@ class PacienteController extends DoctrineRepository {
            case 'pantallaEditar':
               # Pantalla de edicion
               $id= ($_GET['id']);
-              $this->verPacienteEditar($id,null);
+              $this->verPacienteEditar($id);
            break;    
-           case 'editar':
+           case 'guardar':
               # Pantalla de edicion
               $id= ($_GET['id']);
               $this->pacienteGuardar($id);
@@ -82,17 +78,16 @@ class PacienteController extends DoctrineRepository {
            case 'confirmacionBaja':
               # Confirmar la creacion de paciente 
               echo TwigView::getTwig()->render('confirmacion_baja.html.twig');
-              break; 
-           case 'confirmacionGuardado':
-              echo TwigView::getTwig()->render('confirmacion_guardado.html.twig');
-              break;      
+              break;    
            default:
-              # code...ERROR
+              # code...
               break;
          }  
+    
     }
 
 
+    
     public function buscarPaciente($mensaje){
         
        if ($mensaje != null) {
@@ -103,7 +98,7 @@ class PacienteController extends DoctrineRepository {
        $user = ($_SESSION['sesion']->getUsername());
        $datos['user'] = $user;
 
-       /*   ATENCION !!!!!!!!!!!!!!!! QUEDA PARA 3 entrega
+       /* 
        # Llamamos la API de Tipos de Documentos  
        $json = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento");
        #$documentos = json_decode($json,true);
@@ -120,7 +115,6 @@ class PacienteController extends DoctrineRepository {
     }
 
     public function verTodosPaciente($pagActual){
-
         $Pacientes = PacienteRepository::getInstance()->listAll();
 
         /* +++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++ */
@@ -163,58 +157,7 @@ class PacienteController extends DoctrineRepository {
         echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
     }
 
-    public function verNoRegistrados($pagActual){
-            
-        $em = DoctrineRepository::getConnection();
-        $dql = "SELECT a from Paciente a where a.tipoDoc is NULL";    
-        $query = $em->createQuery($dql);
-        $Pacientes = $query->getResult();
-
-        /* +++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++ */
-
-        $cantPacientes = sizeof($Pacientes); /* Aca debe ir el total de elementos a listar */
-
-        if (!empty($cantPacientes)){
-
-          $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
-
-          $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
-
-          $cantXPag = $config['paginado']->getValor();
-          $cantDePags = intdiv($cantPacientes,$cantXPag);
-
-          if (($cantPacientes % $cantXPag)!= 0){
-              $cantDePags=$cantDePags+1;
-          }
-
-          if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
-              $pagActual = $cantDePags;
-          }
-
-          $offset = ($pagActual-1) * $cantXPag;
-          $limit = ($pagActual * $cantXPag)-1;
-
-          if ($limit >= $cantPacientes){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
-            $limit = $cantPacientes-1;
-          }
-        }
-        else{
-          $limit=0;
-          $offset=0;
-          $cantDePags=0;
-        }
-
-        /* +++++++++++++++++++++++++ Fin Paginado ++++++++++++++++++++++++++ */
-
-        $vista = TwigView::getTwig();
-        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
-
-
-    }  
-
     public function verResultadoPaciente($pagActual){
-
-          # Ver resultados de filtros
 
           $nombre                = ($_GET["nombrePaciente"]);
           $apellido              = ($_GET["apellidoPaciente"]);
@@ -237,8 +180,7 @@ class PacienteController extends DoctrineRepository {
           else
 
           {
-            
-            # Obtengo los pacientes   
+               
             $Pacientes = PacienteRepository::getInstance()->recuperarPacientes($nombre,$apellido,$tipoDocumento,$numeroDocumento,$numeroHistoriaClinica);
 
           /* +++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++ */
@@ -281,12 +223,16 @@ class PacienteController extends DoctrineRepository {
               echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
           }
                                             
+          /*
+          $arrayPacientes = PacienteRepository::getInstance()->recuperarPacientes($name, $apellido, $nro_clinica);
+          $vista = TwigView::getTwig();
+          echo $vista->render('listaPacientes.html.twig', array('pacientes' => $arrayPacientes)); */
     }
 
      
     public function crearPaciente($mensaje) {
           
-          # Mensaje de error del servidor, lo instancia NULL
+          # Mensaje de error del servidor
           if ($mensaje != null) 
           {
             $datos['mensaje'] = $mensaje;
@@ -322,39 +268,60 @@ class PacienteController extends DoctrineRepository {
           echo $vista->render('crearPaciente.html.twig',$datos);
     }
 
-    public function insertarPaciente()  {
+    public function insertarPaciente()  
+    {
+
+       # Realizar el commit del paciente 
 
       /* Valdiar si los campos estan o no desabilidatos para Tipo documento */
       if (isset($_POST['tipoDocumento'])){ $tipoDocumento = ($_POST['tipoDocumento']); }       
-      else { $tipoDocumento = 0; /*SIN DOCUMENTO se crea nulo*/ } 
+      else { $tipoDocumento = '99'; /*SIN DOCUMENTO*/ } 
       
       /* Valdiar si los campos estan o no desabilidatosd para Nro documento*/
       if (isset($_POST['nroDocumento'])){ $nroDocumento = ($_POST['nroDocumento']); }       
       else { $nroDocumento = 0;}
         
-      /* procesar las variables */
-      $respuesta = PacienteRepository::getInstance()->crearPaciente(($_POST["nombre"]),
-                                                                    ($_POST["apellido"]),
-                                                                    ($_POST["fechaNacimineto"]),
-                                                                    ($_POST["lugarNacimineto"]),
-                                                                    ($_POST["partido"]),
-                                                                    ($_POST["regionSanitaria"]),
-                                                                    ($_POST["localidad"]),
-                                                                    ($_POST["domicilio"]),
-                                                                    ($_POST["genero"]),
-                                                                    ($_POST["tieneDoc"]),
-                                                                    $tipoDocumento,
-                                                                    $nroDocumento,
-                                                                    ($_POST["nroHistClinica"]),
-                                                                    ($_POST["nroCarpeta"]),
-                                                                    ($_POST["telefono"]),
-                                                                    ($_POST["obraSocial"]) ); 
-        
+       /* Leer las variables */
+       $respuesta = PacienteRepository::getInstance()->crearPaciente(($_POST["nombre"]),
+                                                       ($_POST["apellido"]),
+                                                       ($_POST["fechaNacimineto"]),
+                                                       ($_POST["lugarNacimineto"]),
+                                                       ($_POST["partido"]),
+                                                       ($_POST["regionSanitaria"]),
+                                                       ($_POST["localidad"]),
+                                                       ($_POST["domicilio"]),
+                                                       ($_POST["genero"]),
+                                                       ($_POST["tieneDoc"]),
+                                                       $tipoDocumento,
+                                                       $nroDocumento,
+                                                       ($_POST["nroHistClinica"]),
+                                                       ($_POST["nroCarpeta"]),
+                                                       ($_POST["telefono"]),
+                                                       ($_POST["obraSocial"]) ); 
 
-      $this->manejador("C",$respuesta,"./index.php?categoria=paciente&accion=informar_alta","crearPaciente","");
-        
-    }                                          
-   
+       # Mostrar la alerta del en pantalla
+       switch ($respuesta) {
+           case 0: # Es correcto voy a la pantalla de correcto
+                header('Location: ./index.php?categoria=paciente&accion=informar_alta');
+           break;
+           case 1: # Error en parametros obligatorios
+              $mensaje = new Mensaje("E","Error","Campos Obligatorios Vacios");
+              $this->crearPaciente($mensaje);
+           break;
+           case 2: #Deben Completar Tipo y Numero de Documento
+              $mensaje = new Mensaje("E","Error","El Tipo y Numero de documento no estan completos");
+              $this->crearPaciente($mensaje);
+           break; 
+           case 3: #Ya hiciste un Paciente registrado con ese Tipo y Nro Documento
+              $mensaje = new Mensaje("E","Error","Ya hiciste un Paciente registrado con ese Tipo y Nro Documento");
+              $this->crearPaciente($mensaje);
+           break;
+           case 4: #Ya existe un paciente con la historia clinica ingresada
+              $mensaje = new Mensaje("E","Error","Ya existe un paciente con la historia clinica ingresada");
+              $this->crearPaciente($mensaje);
+           break;
+       }                                          
+    }
 
     public function verPaciente($id){
 
@@ -376,23 +343,23 @@ class PacienteController extends DoctrineRepository {
 
     } 
 
-    public function pacienteBorrar($id){
+    public function pacienteBorrar($id)
     {
       
        $respuesta = PacienteRepository::getInstance()->borrarPaciente($id);
-       $this->manejador("B",$respuesta,"./index.php?categoria=paciente&accion=informar_baja","","");    
+
+       # Mostrar la alerta del en pantalla
+       switch ($respuesta) {
+           case 0: # Es correcto voy a la pantalla de correcto
+                header('Location: ./index.php?categoria=paciente&accion=informar_baja');
+           break;
 
        }
-    }
+  }
 
-    public function verPacienteEditar($id,$mensaje){
-    
-    # Mensaje de error del servidor, lo instancia NULL
-    if ($mensaje != null) 
-    {
-        $datos['mensaje'] = $mensaje;
-    }
-
+  public function verPacienteEditar($id)
+  {
+      
     # Buscar los datos del paciente a mostrar
     $paciente = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
 
@@ -422,9 +389,7 @@ class PacienteController extends DoctrineRepository {
 
         $vista = TwigView::getTwig();
         echo $vista->render('editardoPaciente.html.twig',$datos);      
-  
     }
-  
   }
 
 
@@ -443,7 +408,7 @@ class PacienteController extends DoctrineRepository {
 
 
              /* Leer las variables */
-       $respuesta = PacienteRepository::getInstance()->guardarPaciente($id,
+       $respuesta = PacienteRepository::getInstance()->guardarPaciente($id
                                                        ($_POST["nombre"]),
                                                        ($_POST["apellido"]),
                                                        ($_POST["fechaNacimineto"]),
@@ -461,48 +426,30 @@ class PacienteController extends DoctrineRepository {
                                                        ($_POST["telefono"]),
                                                        ($_POST["obraSocial"]) ); 
 
-       $this->manejador("E",$respuesta,"./index.php?categoria=paciente&accion=informar_guardado","verPacienteEditar",$id);
-
-  }
-
-  public function manejador($page,$nro,$url,$metodo,$id)
-  {
-      
-
-      switch ($nro) {
-           case 0: # Es correcta la operacion, informo
-                header("Location: $url");
+       # Mostrar la alerta del en pantalla
+       switch ($respuesta) {
+           case 0: # Es correcto voy a la pantalla de correcto
+                header('Location: ./index.php?categoria=paciente&accion=informar_guardado');
            break;
            case 1: # Error en parametros obligatorios
               $mensaje = new Mensaje("E","Error","Campos Obligatorios Vacios");
-              if ( $page == "C" ) { $this->$metodo($mensaje); } else  { $this->$metodo($id,$mensaje); }
+              $this->crearPaciente($mensaje);
            break;
            case 2: #Deben Completar Tipo y Numero de Documento
               $mensaje = new Mensaje("E","Error","El Tipo y Numero de documento no estan completos");
-              if ( $page == "C" ) { $this->$metodo($mensaje); } else  { $this->$metodo($id,$mensaje); }
+              $this->crearPaciente($mensaje);
            break; 
            case 3: #Ya hiciste un Paciente registrado con ese Tipo y Nro Documento
               $mensaje = new Mensaje("E","Error","Ya hiciste un Paciente registrado con ese Tipo y Nro Documento");
-              if ( $page == "C" ) { $this->$metodo($mensaje); } else  { $this->$metodo($id,$mensaje); }
+              $this->crearPaciente($mensaje);
            break;
            case 4: #Ya existe un paciente con la historia clinica ingresada
               $mensaje = new Mensaje("E","Error","Ya existe un paciente con la historia clinica ingresada");
-              if ( $page == "C" ) { $this->$metodo($mensaje); } else  { $this->$metodo($id,$mensaje); }
+              $this->crearPaciente($mensaje);
            break;
-           case 5: #ID incorrecto de pacietes 
-              $mensaje = new Mensaje("E","Error","El usuario no es valido");
-              if ( $page == "C" ) { $this->$metodo($mensaje); } else  { $this->$metodo($id,$mensaje); }
-           break;
-           case 6: #Campos superar el limite permitido 
-              $mensaje = new Mensaje("E","Error","Sin documento (S/D) no puede tener asociando un nro de documento");
-              if ( $page == "C" ) { $this->$metodo($mensaje); } else  { $this->$metodo($id,$mensaje); }
-           break;
-           case 7: #Campos superar el limite permitido 
-              $mensaje = new Mensaje("E","Error","Campos desbordan la longitud permitia");
-              if ( $page == "C" ) { $this->$metodo($mensaje); } else  { $this->$metodo($id,$mensaje); }
-           break;
-        }  
 
-  }
+   }
 
-} # FIN DE CLASE
+ }
+
+}

@@ -25,42 +25,46 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for paciente in pacientes %}
+                    {% if cantPags != 0 %}
+                    {% for i in despl..limite %}
                      <tr> 
-                          <td>{{ paciente.nombre }}</td>
+                          <td>{{ pacientes[i].nombre }}</td>
 
-                          <td>{{ paciente.apellido }}</td>
+                          <td>{{ pacientes[i].apellido }}</td>
                                                 
-                          <td>{{ paciente.getTipoDoc().nombre() }}</td>
+                          <td>{{ pacientes[i].getTipoDoc().nombre() }}</td>
                           
                           <td> 
-                               {% if paciente.numero != 0 %}
-                                    {{ paciente.numero }} 
+                               {% if pacientes[i].numero != 0 %}
+                                    {{ pacientes[i].numero }} 
                                {% endif %}
                           </td>
                           <td> 
-                               {% if paciente.nroHistoriaClinica != 0 %}
-                                    {{ paciente.nroHistoriaClinica }}
+                               {% if pacientes[i].nroHistoriaClinica != 0 %}
+                                    {{ pacientes[i].nroHistoriaClinica }}
                                {% endif %}
                           </td>
                           <td>
-                              <a href="index.php?categoria=paciente&accion=paciente_ver&id={{ paciente.id }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver</a>   
-                              <a href="index.php?categoria=paciente&accion=paciente_pantallaEditar&id={{ paciente.id }}" title="Editar datos" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a>
-                              <a href="index.php?categoria=paciente&accion=paciente_pantallaBorrado&id={{ paciente.id }}" title="Eliminar" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</a>
+                              <a href="index.php?categoria=paciente&accion=paciente_ver&id={{ pacientes[i].id }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver</a>   
+                              <a href="index.php?categoria=paciente&accion=paciente_pantallaEditar&id={{ pacientes[i].id }}" title="Editar datos" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar</a>
+                              <a href="index.php?categoria=paciente&accion=paciente_pantallaBorrado&id={{ pacientes[i].id }}" title="Eliminar" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Borrar</a>
                           </td>
                       </tr>
-                    {% endfor %}    
+                    {% endfor %}
+                    {% else %}
+                      <p>No hay pacientes o no existen pacientes que cumplan con el criterio de busqueda.</p> 
+                    {% endif %}    
                   </tbody> 
               </table> 
               {% endif %}
-            </div>   
-          </div>
-          <div>  
+            </div>
+            {% if cantPags != 0 %}
               {% for i in 1..cantPags %}
                    <ul class="pagination">
                       <li><a {% if pag != i %} href="index.php?categoria=paciente&accion=paciente_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
                    </ul>
               {% endfor %}
+            {% endif %}  
           </div>
         </main>
 {% endblock %}         
