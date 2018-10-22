@@ -60,7 +60,7 @@
             </div>
             {% if cantPags != 0 %}
               {% for i in 1..cantPags %}
-                   <ul class="pagination">
+                   <ul class="pagination  margin-space">
                       <li><a {% if pag != i %} href="index.php?categoria=paciente&accion=paciente_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
                    </ul>
               {% endfor %}

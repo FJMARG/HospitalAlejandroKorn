@@ -24,7 +24,7 @@
    </head>
    <body>
     <!-- ************************* Barra de Navegacion ***************************** -->
-     <nav class="navbar navbar-default" style="text-align: left;" role="navigation">
+     <nav class="navbar navbar-default"  role="navigation">
         <!-- El logotipo y el icono que despliega el menú se agrupan para mostrarlos en los dispositivos móviles -->
          <div class="leftCenter">
              <button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -41,24 +41,24 @@
 	        </h3>
          </div>
 
-          <div class="rightCenter">
-         <button onclick="location.href='./index.php?categoria=login'" type="button" class=" btn btn-primary col-md-4 col-md-offset-4"" style="width: 101px;"> Login</button>
+        <div class="rightCenter">
+         <button onclick="location.href='./index.php?categoria=login'" type="button" class=" btn btn-primary " style="width: 101px;"> Login</button>
          </div>
      </nav>
     <!-- ************************* Fin Barra de Navegacion ***************************** -->
     {% block contenido %} {% endblock %}  
     <!-- ************************* Pie de Pagina  ***************************** -->
-    <footer class="navbar-fixed-bottom page-footer font-small special-color-dark pt-4">
+      <footer class="page-footer navbar-fixed-bottom  font-small special-color-dark pt-4">
     <div class="container">
            <div class="row">
                 <div class="col-md-6 mt-md-0 mt-3">
                      <div class = "center-block pull-left">
-                         <span class ="footer-confg">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span> 
+                         <span class ="footer-confg">Proyecto de Software 2018 - {{ dato['titulo'].valor }}  </span> 
                      </div>
                 </div>
                 <div class="col-md-6 mt-md-0 mt-3">
                    <div class = "center-block pull-right">  
-                      <span class = "footer-confg">{{ dato['mail'].valor }}</span>
+                      <span class = "footer-confg">v 0.1.0</span>
                    </div>   
                 </div> 
           </div>
