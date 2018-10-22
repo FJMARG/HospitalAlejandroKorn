@@ -70,15 +70,21 @@ class PacienteController extends DoctrineRepository {
               $this->pacienteGuardar($id);
            break;       
            case 'confirmacionAlta':
+              $user = ($_SESSION['sesion']);
+              $datos['user'] = $user;
               # Confirmar la creacion de paciente confirmacionBaja
-              echo TwigView::getTwig()->render('confirmacion_alta.html.twig');
+              echo TwigView::getTwig()->render('confirmacion_alta.html.twig',$datos);
               break; 
            case 'confirmacionBaja':
+              $user = ($_SESSION['sesion']);
+              $datos['user'] = $user;
               # Confirmar la creacion de paciente 
-              echo TwigView::getTwig()->render('confirmacion_baja.html.twig');
+              echo TwigView::getTwig()->render('confirmacion_baja.html.twig',$datos);
               break; 
            case 'confirmacionGuardado':
-              echo TwigView::getTwig()->render('confirmacion_guardado.html.twig');
+              $user = ($_SESSION['sesion']);
+              $datos['user'] = $user;
+              echo TwigView::getTwig()->render('confirmacion_guardado.html.twig',$datos);
               break;      
            default:
               # code...ERROR
@@ -96,7 +102,7 @@ class PacienteController extends DoctrineRepository {
        }
        
        # Llamamos la API de Tipos de Documentos
-       $user = ($_SESSION['sesion']->getUsername());
+       $user = ($_SESSION['sesion']);
        $datos['user'] = $user;
 
        /*  ATENCION !!!!!!!!!!!!!!!! QUEDA PARA 3 entrega
@@ -125,7 +131,7 @@ class PacienteController extends DoctrineRepository {
         /* ++++++++++++++++++++++++++++++++ Fin Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
 
         $vista = TwigView::getTwig();
-        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $paginacion['limit'], 'cantPags' => $paginacion['cantDePags'], 'pag' => $pagActual, 'despl' => $paginacion['offset']));
+        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes,'user' => ($_SESSION['sesion']),'limite' => $paginacion['limit'], 'cantPags' => $paginacion['cantDePags'], 'pag' => $pagActual, 'despl' => $paginacion['offset']));
     }
 
     public function verNoRegistrados($pagActual){
@@ -139,7 +145,7 @@ class PacienteController extends DoctrineRepository {
         /* ++++++++++++++++++++++++++++++++ Fin Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
 
         $vista = TwigView::getTwig();
-        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $paginacion['limit'], 'cantPags' => $paginacion['cantDePags'], 'pag' => $pagActual, 'despl' => $paginacion['offset']));
+        echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes,'user' => ($_SESSION['sesion']), 'limite' => $paginacion['limit'], 'cantPags' => $paginacion['cantDePags'], 'pag' => $pagActual, 'despl' => $paginacion['offset']));
 
     } 
 
@@ -206,7 +212,7 @@ class PacienteController extends DoctrineRepository {
           /* +++++++++++++++++++++++++ Fin Paginado ++++++++++++++++++++++++++ */
 
             $vista = TwigView::getTwig();
-              echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
+              echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes,'user' => ($_SESSION['sesion']), 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
           }
                                             
           /*
@@ -223,6 +229,9 @@ class PacienteController extends DoctrineRepository {
           {
             $datos['mensaje'] = $mensaje;
           }
+
+          $user = ($_SESSION['sesion']);
+          $datos['user'] = $user;
 
           # Levantar datos para mostrar en pantalla  
           $em = DoctrineRepository::getConnection(); 
@@ -284,8 +293,12 @@ class PacienteController extends DoctrineRepository {
 
     public function verPaciente($id){
 
+
         # Buscar los datos del paciente a mostrar
         $datos['paciente'] = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
+
+        $user = ($_SESSION['sesion']);
+        $datos['user'] = $user;
 
         $vista = TwigView::getTwig();
         echo $vista->render('perfilPaciente.html.twig',$datos);        
@@ -295,10 +308,20 @@ class PacienteController extends DoctrineRepository {
     public function verPacienteBorrar($id){
 
         # Buscar los datos del paciente a mostrar
-        $datos['paciente'] = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
+        $paciente = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
+         
+        if ( $paciente != NULL )
+        { 
 
-        $vista = TwigView::getTwig();
-        echo $vista->render('borradoPaciente.html.twig',$datos);        
+            $datos['paciente'] = $paciente;
+
+            $user = ($_SESSION['sesion']);
+            $datos['user'] = $user;
+
+            $vista = TwigView::getTwig();
+            echo $vista->render('borradoPaciente.html.twig',$datos);        
+
+        }
 
     } 
 
@@ -326,6 +349,10 @@ class PacienteController extends DoctrineRepository {
      {
         
         $datos['paciente'] = $paciente;
+
+        $user = ($_SESSION['sesion']);
+        $datos['user'] = $user;
+
 
         # Levantar datos para mostrar en pantalla  correspondiente paciente
         $em = DoctrineRepository::getConnection(); 

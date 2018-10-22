@@ -20,6 +20,7 @@ $conn = array(
     'dbname' => 'grupo11',
 );
 
+
 // obtaining the entity manager
 $entityManager = EntityManager::create($conn, $config);
 
