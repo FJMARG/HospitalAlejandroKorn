@@ -1,58 +1,31 @@
 {% extends 'base.html.twig' %}
 {% block Script %}
-   <script src="mi_js/misScripts.js"></script>
-{% endblock %} 
+    <script src="mi_js/misScripts.js"></script>
+{% endblock %}
 {% block contenido %}
- 
- <main>
+<main>
     <div class="container">
-      <div class="row">
-        <div class="panel panel-primary">
-          <div class="panel-heading">Datos usuario</div>
-              <div class="panel-body">
-                  <table class="table">
-                      <tbody>
-                         <tr>
-                           <td>Nombre de usuario:<td>
-                           <td>{{ usuario.username }}<td>
-                       <tr> 
-                       <tr>
-                           <td>Nombre:<td>
-                           <td>{{ usuario.firstName }}<td>
-                       <tr>
-                       <tr>
-                           <td>Apellido:<td>
-                           <td>{{ usuario.lastName }}<td>
-                       <tr> 
-                       <tr>
-                           <td>E-mail:<td>
-                           <td>{{ usuario.email  }}<td>
-                       <tr> 
-                       <tr>
-                           <td>Estado de cuenta: <td>
-                           <td>{% if usuario.activo == 1 %} Activo {% else %} Inactivo {% endif %}</td>
-                       <tr> 
-                       <tr>
-                           <td>Id de usuario:<td>
-                           <td>{{ usuario.id }}<td>
-                       <tr> 
-
-                        <tr>
-                             <th>Roles: </th>
-                               {% for rol in roles %}
-                                  <td> {{ rol }}</td>
-                               {% endfor %}
-                       <tr> 
-                        <tr><th>Fecha y hora de creacion:</th><td>{{ usuario.createdat|date("d/m/Y H:i") }}</td></tr>
-                          <tr><th>Fecha y hora de actualizacion:</th><td>{{ usuario.updatedat|date("d/m/Y H:i") }}</td></tr>
-
-                    </tbody>
-                  </table>  
-              </div>
-          </div>  
-     </div>
-     </div>
-    </div> 
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Datos usuario</div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                <tr><th>Nombre de usuario:</th><td>{{ usuario.username }}</td></tr>
+                                <tr><th>Nombre:</th><td>{{ usuario.firstName }}</td></tr>
+                                <tr><th>Apellido:</th><td>{{ usuario.lastName }}</td></tr>
+                                <tr><th>E-mail:</th><td>{{ usuario.email  }}</td></tr>
+                                <tr><th>Estado de cuenta: </th><td>{% if usuario.activo == 1 %} Activo {% else %} Inactivo {% endif %}</td></tr>
+                                <tr><th>Id de usuario:</th><td>{{ usuario.id }}</td></tr>
+                                <tr><th>Roles:</th>{% for rol in roles %}<td> {{ rol }}</td>{% endfor %}</tr>
+                                <tr><th>Fecha y hora de creacion:</th><td>{{ usuario.createdat|date("d/m/Y H:i") }}</td></tr>
+                                <tr><th>Fecha y hora de actualizacion:</th><td>{{ usuario.updatedat|date("d/m/Y H:i") }}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
-
-{% endblock %}    
+{% endblock %}
