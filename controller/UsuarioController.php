@@ -38,42 +38,12 @@ class UsuarioController {
 
         /* ++++++++++++++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
 
-        $cantUsuarios = sizeof($arrayUsuarios); /* Aca debe ir el total de elementos a listar */
-
-        if (!empty($cantUsuarios)){
-            $config = ConfiguracionRepository::getInstance()->recuperarconfiguracion();
-
-            $pagActual = intval($pagActual); /* Para convertir el numero a entero cuando se recibe por parametro. */
-
-            $cantXPag = $config['paginado']->getValor();
-
-            $cantDePags = intdiv($cantUsuarios,$cantXPag);
-
-            if (($cantUsuarios % $cantXPag)!= 0){
-                $cantDePags=$cantDePags+1;
-            }
-
-            if ($pagActual > $cantDePags){ /* Cuando se eliminan elementos, que se acomoden los valores. */
-                $pagActual = $cantDePags;
-            }
-
-            $offset = ($pagActual-1) * $cantXPag;
-            $limit = ($pagActual * $cantXPag)-1;
-
-            if ($limit > $cantUsuarios){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
-            	$limit = $cantUsuarios-1;
-            }
-        }
-        else{
-            $limit=0;
-            $offset=0;
-            $cantDePags=0;
-        }
+        $paginacion = FrontController::getInstance()->paginar($arrayUsuarios, $pagActual);
 
         /* ++++++++++++++++++++++++++++++++ Fin Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
 
         $vista = TwigView::getTwig();
-        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr, 'mensaje' => $msg, 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset, 'busqueda' => $filtros));
+        echo $vista->render('listaUsuarios.html.twig', array('usuarios' => $arrayUsuarios, 'user' => $usr, 'mensaje' => $msg, 'limite' => $paginacion['limit'], 'cantPags' => $paginacion['cantDePags'], 'pag' => $pagActual, 'despl' => $paginacion['offset'], 'busqueda' => $filtros));
     }
 
     private function validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail){
