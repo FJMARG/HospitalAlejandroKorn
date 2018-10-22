@@ -51,6 +51,16 @@ class PacienteRepository extends DoctrineRepository {
 
     }
 
+    public function pacienteSinRegistro()
+    {
+        $em = DoctrineRepository::getConnection();
+        $dql = "SELECT a from Paciente a where a.tipoDoc is NULL";    
+        $query = $em->createQuery($dql);
+        $Pacientes = $query->getResult();
+        return $Pacientes;
+
+    }
+
     public function crearPaciente($nombre, 
                                   $apellido, 
                                   $fechaNac, 
@@ -68,6 +78,7 @@ class PacienteRepository extends DoctrineRepository {
                                   $telefono,
                                   $obraSocial)
     {
+        # preparo filtros
         # Validar los campos que son obligatorios
         if ( (empty($nombre)) || (empty($apellido)) || (empty($fechaNac)) ||
              (empty($domicilio)) || (empty($genero)) )
@@ -75,36 +86,59 @@ class PacienteRepository extends DoctrineRepository {
             return 1; # Campos obligatorios sin completar
         }  
 
+        # Validar logitud de campos string para campos nombre, apellido, domicilio, 
+        if ( (strlen($nombre) > 20 ) || (strlen($apellido) > 20 ) || (strlen($domicilio) > 70 ) || (strlen($telefono) > 70 ) ) 
+        {
+           # Un campo es demasiado largo
+           return 7;  
+        } 
+
+        # Validar campos numericos 
+
+        if ( (!(is_numeric($nroDoc))) || (!is_numeric($nro_hist_clinica)) || (!is_numeric($nro_carpeta)) ){
+           return 8; # Campo numericos invalidos 
+        } 
+
+        # Validar sus rangos
+        if ( ( $nroDoc < 0 && $nroDoc > 9999999999999 )
+        || ( $nro_hist_clinica < 0 && $nro_hist_clinica > 999999 )
+        || ( $nro_carpeta < 0 && $nro_carpeta > 99999 ) ) {
+           return 9; # Desborde de numeros   
+        } 
+
   
         if ($tieneDoc == 1)  # Validad que tenga documento 
         {
          
-            if ( (empty($tipoDoc)) || (empty($nroDoc)) ) # Verificar que estan cargados
-            {
-                # "Deben Completar Tipo y Numero de Documento";
-                return 2; # Campos obligatorios sin completar
-            } 
-            else 
-            
-            {
+             if ( (empty($tipoDoc)) || (empty($nroDoc)) ) { 
+                  # Verificar que estan cargados
+                  # "Deben Completar Tipo y Numero de Documento";
+                  return 2; # Campos obligatorios sin completar
+             } 
+             else  {
+
                 # Validar que el Nro y Tipo de Documento ya no estan registrados
                 # Obtener ID de documento tipoDoc numero
 
                 $em = DoctrineRepository::getConnection(); 
                 $array = $em->getRepository('Paciente')->findBy((array('tipoDoc' => $tipoDoc,
                                                                         'numero' => $nroDoc )));
-                if (!empty($array))
-                {
+                if (!empty($array)) {
                    # Ya hiciste un Paciente registrado con ese Tipo y Nro Documento
                    return 3; 
                 }
 
-            } 
+             } 
 
+        } elseif ($tieneDoc == 0) {
+
+            # autocompleto los campos con valores nulos
+            $tipoDoc = 0;
+            $nroDoc  = 0; 
         }
-        elseif ($tieneDoc != 0) 
-        {
-           return 1; # Campos obligatorios sin completar     
+
+        elseif ($tieneDoc != 0) {
+            return 1; # Campos obligatorios sin completar     
         }
 
         #Validar Historia Clinica
@@ -113,8 +147,7 @@ class PacienteRepository extends DoctrineRepository {
              $em = DoctrineRepository::getConnection(); 
              $array = $em->getRepository('Paciente')->findBy((array('nroHistoriaClinica' => $nro_hist_clinica)));
 
-            if (!empty($array))
-            {    
+            if (!empty($array)) {    
                # Ya existe un paciente con la historia clinica ingresada
                return 4;    
             }    
@@ -159,7 +192,6 @@ class PacienteRepository extends DoctrineRepository {
         $em->flush();
 
         return 0; # Se creo el paciente    
-
     }
 
     public function borrarPaciente($id)
@@ -200,8 +232,7 @@ class PacienteRepository extends DoctrineRepository {
                                     $nro_hist_clinica,
                                     $nro_carpeta,
                                     $telefono,
-                                    $obraSocial)
-    {
+                                    $obraSocial)  {
       
       $em = DoctrineRepository::getConnection(); 
 
@@ -216,7 +247,7 @@ class PacienteRepository extends DoctrineRepository {
 
       # Validar los campos que son obligatorios
       if ( (empty($nombre)) || (empty($apellido)) || (empty($fechaNac)) || (empty($domicilio)) || (empty($genero)) )
-      { 
+      {  
         return 1; # Campos obligatorios sin completar
       }  
 
@@ -227,18 +258,30 @@ class PacienteRepository extends DoctrineRepository {
         return 7;  
       } 
 
+      # Validar campos numericos 
+      if ( (!(is_numeric($nroDoc))) || (!is_numeric($nro_hist_clinica)) || (!is_numeric($nro_carpeta)) )
+      {
+           return 8; # Campo numericos invalidos 
+      } 
+
+      # Validar sus rangos
+      if ( ($nroDoc < 0 && $nroDoc > 9999999999999 )
+      || ( $nro_hist_clinica < 0 && $nro_hist_clinica > 999999 )
+      || ( $nro_carpeta < 0 && $nro_carpeta > 99999 ) ) 
+      {
+           return 9; # Desborde de numeros   
+      } 
+
       if ($tieneDoc == 1)  # Validad que tenga documento 
       {
          
-            if ( (empty($tipoDoc)) || (empty($nroDoc)) ) # Verificar que estan cargados
-            {
+          if ( (empty($tipoDoc)) || (empty($nroDoc)) ) # Verificar que estan cargados
+          {
                 # "Deben Completar Tipo y Numero de Documento";
                 return 2; # Campos obligatorios sin completar
-            } 
-
-            else  
-            
-            {
+          } 
+          else {
+                
                 # Validar que el Nro y Tipo de Documento ya no estan registrados
                 # Obtener ID de documento tipoDoc numero
 
@@ -261,10 +304,19 @@ class PacienteRepository extends DoctrineRepository {
 
             } 
       }
-      elseif ($tieneDoc != 0) { return 1;  } # Campos obligatorios sin completar
+      elseif ($tieneDoc == 0) {
 
-      # Sin documento (S/D) no puede tener asociando un nro de documento  
-      if (( $tipoDoc == '99' ) && ( $nroDoc != 0 ) ) { return 6; } 
+            # autocompleto los campos con valores nulos
+            $tipoDoc = 0;
+            $nroDoc  = 0; 
+      }
+      elseif ($tieneDoc != 0) 
+      {    
+         return 1; # Campos obligatorios sin completar
+      } 
+
+      # Sin documento no puede tener asociando un nro de documento  
+      if (( $tipoDoc == 0 ) && ( $nroDoc != 0 ) ) { return 6; } 
 
       #Validar Historia Clinica
       if (!empty($nro_hist_clinica))

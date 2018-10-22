@@ -37,6 +37,9 @@ class Router {
 				}
 				elseif (($accion=='paciente_verTodos') && (SessionController::havePermission('paciente_index')) ) {
 				  	PacienteController::getInstance()->realizaAccion("verTodos"); /* pagina de buscar pacientes sitema*/ 	
+				}
+				elseif (($accion=='paciente_verNoRegistrados') && (SessionController::havePermission('paciente_index')) ) {
+				  	PacienteController::getInstance()->realizaAccion('verNoRegistrados'); /* pacientes que no esta en el sist*/ 
 				}	
 				elseif (($accion=='paciente_crear') && (SessionController::havePermission('paciente_new')) ) {						
 				  	PacienteController::getInstance()->realizaAccion("crear");	/* Crear Paciente en sitema*/
@@ -61,6 +64,12 @@ class Router {
 				}
 				elseif (($accion=='paciente_pantallaEditar') && (SessionController::havePermission('paciente_update')) ) { 	
 			    	PacienteController::getInstance()->realizaAccion("pantallaEditar"); /* Ver detella de un paciente */
+				}
+				elseif (($accion=='paciente_editar') && (SessionController::havePermission('paciente_update')) ) { 	
+			    	PacienteController::getInstance()->realizaAccion("editar"); /* Pantalla editar */
+				}
+				elseif (($accion=='informar_guardado') && (SessionController::havePermission('paciente_update')) ) { 	
+			    	PacienteController::getInstance()->realizaAccion("confirmacionGuardado"); /* confirmar operacion */
 				}
                 # Sin permisos
 		        else{

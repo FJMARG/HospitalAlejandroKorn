@@ -4,12 +4,13 @@
 {% block contenido %}
 <main>
     <div class="container text-center">
-	    <div class="form-group">
- 		     <div class="panel panel-primary" style="background:green;">Alta Paciente</div>
-		     <div class="panel-body">
-                  <p>El paciente fue dado de alta en el sistema de forma correcta</p>    
-		     </div>
-	    </div>    	 
-	</div>
+	  <div class="form-group">
+	    <div class="panel panel-primary">
+           <div class="panel-heading" style="background-color:green;">Alta Paciente</div>
+           <div class="panel-body"><p>El Paciente fue dado del alta del sistema</p></div>
+       </div>
+       <a href="./index.php?categoria=paciente&accion=paciente_crear" class="btn btn-success"><span class="glyphicon glyphicon-user"></span> Agrega Nuevo Paciente</a>
+     </div>
+  </div>   
 </main>
 {% endblock %} 
