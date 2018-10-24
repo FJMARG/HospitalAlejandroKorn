@@ -201,9 +201,20 @@ if (!isset($_GET['pag'])){
 	$_GET['pag']=1;
 }
 
+
 $filtrosUsuario=array();
 $filtrosUsuario['username']=$_GET['uname'];
 $filtrosUsuario['activo']=$_GET['act'];
 
-Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
-$_GET['accion'], $filtrosUsuario);
+
+$confi = ConfiguracionRepository::getInstance();
+
+        $datos = $confi-> recuperarConfiguracion();
+
+        if ($datos['habilitado'] ->getValor() == 'true') {
+			Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
+			$_GET['accion'], $filtrosUsuario);
+		}
+		else{
+			$categoria = 'deshabilitado';
+			FrontController::getInstance()->mostrar($categoria,'','');}
