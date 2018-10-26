@@ -3,61 +3,67 @@
 {% endblock %}  
 {% block contenido %}
         <main>
-        <div class="container">   
-          <div class="col-sm-8">  
+        <div class="container">  
+               <div class="form-group"> 
+               <div class="text-center">
+                        <a href="./index.php?categoria=paciente&accion=paciente_buscar" class="btn btn-primary btn-info"><span class="glyphicon glyphicon-search"></span>  Buscar Pacientes</a>    
+                        <button onclick="location.href='./index.php?categoria=paciente&accion=paciente_crear'" type="button" class="btn btn-success btn-primary pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Crear Paciente </button>
+               </div>
+              </div> 
+          <div class="col-sm-12">  
             {% if pacientes|length == 0 %}
-                <div class="col-sm-offset-3 col-sm-8 text-center"> 
-                    <h4>"No hay resultados para la busqueda"</h4>  
-                </div>
-                <div class="col-sm-offset-3 col-sm-8 text-center">
-                    <a href="./index.php?categoria=paciente&accion=paciente_buscar" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Nueva Busqueda</a> 
-                </div>  
+               <div class="panel panel-info">
+                   <div class="panel-heading"></div>
+                   <div class="panel-body"><p>Sin resultados de busqueda</p></div>
+               </div>
             {% else %}
-            <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Apellido</th>
-                      <th scope="col">Tipo Doc.</th>
-                      <th scope="col">Nro. Doc.</th>
-                      <th scope="col">Nro. H.Clinica</th>
-                      <th scope="col">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% if cantPags != 0 %}
-                    {% for i in despl..limite %}
-                     <tr> 
-                          <td>{{ pacientes[i].nombre }}</td>
+            <div class="table-responsive">
+                  <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Tipo Doc.</th>
+                            <th scope="col">Nro. Doc.</th>
+                            <th scope="col">Nro. H.Clinica</th>
+                            <th scope="col">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% if cantPags != 0 %}
+                          {% for i in despl..limite %}
+                           <tr> 
+                                <td>{{ pacientes[i].nombre }}</td>
 
-                          <td>{{ pacientes[i].apellido }}</td>
-                                                
-                          <td>{{ pacientes[i].getTipoDoc().nombre() }}</td>
-                          
-                          <td> 
-                               {% if pacientes[i].numero != 0 %}
-                                    {{ pacientes[i].numero }} 
-                               {% endif %}
-                          </td>
-                          <td> 
-                               {% if pacientes[i].nroHistoriaClinica != 0 %}
-                                    {{ pacientes[i].nroHistoriaClinica }}
-                               {% endif %}
-                          </td>
-                          <td>
+                                <td>{{ pacientes[i].apellido }}</td>
+                                                      
+                                <td>{{ pacientes[i].getTipoDoc().nombre() }}</td>
+                                
+                                <td> 
+                                     {% if pacientes[i].numero != 0 %}
+                                          {{ pacientes[i].numero }} 
+                                     {% endif %}
+                                </td>
+                                <td> 
+                                     {% if pacientes[i].nroHistoriaClinica != 0 %}
+                                          {{ pacientes[i].nroHistoriaClinica }}
+                                     {% endif %}
+                                </td>
+                                <td>
 
-                              <a href="index.php?categoria=paciente&accion=paciente_ver&id={{ pacientes[i].id }}" title="Ver Paciente" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>   
-                              <a href="index.php?categoria=paciente&accion=paciente_pantallaEditar&id={{ pacientes[i].id }}" title="Editar Paciente" title="Editar datos" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                              <a href="index.php?categoria=paciente&accion=paciente_pantallaBorrado&id={{ pacientes[i].id }}" title="Eliminar Paciente" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                    <a href="index.php?categoria=paciente&accion=paciente_ver&id={{ pacientes[i].id }}" title="Ver Paciente" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>   
+                                    <a href="index.php?categoria=paciente&accion=paciente_pantallaEditar&id={{ pacientes[i].id }}" title="Editar Paciente" title="Editar datos" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    <a href="index.php?categoria=paciente&accion=paciente_pantallaBorrado&id={{ pacientes[i].id }}" title="Eliminar Paciente" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 
-                          </td>
-                      </tr>
-                    {% endfor %}
-                    {% else %}
-                      <p>No hay pacientes o no existen pacientes que cumplan con el criterio de busqueda.</p> 
-                    {% endif %}    
-                  </tbody> 
-              </table> 
+                                </td>
+                            </tr>
+                          {% endfor %}
+                          {% else %}
+                            <p>No hay pacientes o no existen pacientes que cumplan con el criterio de busqueda.</p> 
+                          {% endif %}    
+                        </tbody> 
+                    </table> 
+              </div>
               {% endif %}
             <div>  
             {% if cantPags != 0 %}

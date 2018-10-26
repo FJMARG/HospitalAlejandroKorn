@@ -8,9 +8,9 @@
         <div class="container margin-space">  
           <div class="col-sm-offset-2 col-sm-8">
             <form id="pacienteForm" class="form-horizontal" role="form" method="post" action="./index.php?categoria=paciente&accion=paciente_insertar">
-                 <div class="form-group">
-                      <div class="col-sm-offset-5">
-                          <h4>Crear Paciente</h4>  
+                 <div class="form-group text-center">
+                      <div>
+                          <h3>Crear Paciente</h3>  
                       </div>
                  </div>
                  <div class="form-group"> <!-- Nombre -->
@@ -108,10 +108,11 @@
                             {% endfor %} 
                      </select>
                 </div>
-                <div class="form-group">
-                     <div method="post" class="col-sm-offset-5">
+                <div class="form-group text-center">
+                     <div method="post">
                          <button type="submit" class="btn btn-info" >
                          <span class="glyphicon glyphicon-user"></span> Crear Paciente</button>
+                         <a href="./index.php?categoria=paciente&accion=paciente_verTodos" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
                      </div>
                 </div>
                 <!-- Alentar de mensajes -->    
