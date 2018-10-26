@@ -11,7 +11,16 @@
                           <h4>Editar usuario</h4>  
                       </div>
                  </div>
-                 <span>{{ mensaje }}</span> 
+                 
+                 {% if mensaje %}
+                    <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+                        <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                 
                 <form method="post" action="./index.php?categoria=usuarios&accion=modificar&id={{ usuario.id }}" id="userForm">
                  <div class="form-group"> 
                     <label for="user">Nombre de usuario</label>
@@ -73,6 +82,7 @@
               <div class="form-group">
                 <div class="col-sm-offset-4">
                 <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
               <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
          </div>
       </div>

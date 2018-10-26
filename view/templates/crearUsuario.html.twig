@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block Head %}
+    <!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Crear Usuario</title>
+{% endblock %}
 {% block Script %}
         <script src="js/validarFormularioUsuario.js"></script>
 {% endblock %}  
@@ -11,7 +15,16 @@
                           <h4>Crear usuario</h4>  
                       </div>
                  </div>
-                 <span>{{ mensaje }}</span>
+
+                {% if mensaje %}
+                    <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+                        <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+
            <form method="post" action="./index.php?categoria=usuarios&accion=crear" id="userForm">
                  <div class="form-group"> <!-- Nombre -->
                     <label for="user">Nombre de usuario</label>
@@ -52,10 +65,11 @@
                     <input type="text" class="form-control" name="confirmEmail" id="confirmEmail" requerid size="100" minlength="6" required>
                  </div>
                 <div class="form-group">
-                     <div method="post" class="col-sm-offset-5">
-                         <button type="submit" class="btn btn-info" >
-                         <span class="glyphicon glyphicon-user"></span> Crear usuario</button>
-                     </div>
+                    <div class="col-sm-offset-3">
+                        <button type="submit" class="btn btn-info" ><span class="glyphicon glyphicon-user"></span> Crear usuario</button>
+                        <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
+                        <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
+                    </div>
                 </div>  
        </form> 
         <p>Nota: El nombre de usuario y la contrasena deben tener al menos 6 caracteres de longitud.</p>

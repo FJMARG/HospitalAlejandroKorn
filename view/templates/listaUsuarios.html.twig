@@ -1,11 +1,28 @@
 {% extends 'base.html.twig' %}
+{% block Head %}
+	<!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Usuarios</title>
+{% endblock %}
 {% block Script %}
     <script src="js/confirmarEliminarUsuario.js"></script>
 {% endblock %}  
 {% block contenido %}
     <main>
-        <div class="container"> 
+        <div class="container margin-space">
+        	<div class="col-sm-offset-5">
+                <h4>Usuarios</h4>  
+            </div>
+            {% if mensaje %}
+                <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+                    <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                     </button>
+                </div>
+            {% endif %}
+        	<hr> 
             <button onclick="location.href='./index.php?categoria=usuarios&accion=crearUsuario'" type="button" class="btn btn-success btn-primary pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Crear usuario </button>
+            <button type="button" class="pull-left btn btn-danger" onclick="location.href='./index.php?categoria=administracion'">&#x21E6; Volver</button>
             <form action="./index.php" method="get">     
                 <input type="hidden" name="categoria" value="usuarios">
                 <input type="hidden" name="accion" value="listarUsuarios">
@@ -22,6 +39,7 @@
                 </div>
                 <div class="col-sm-3">
                     <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                    <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
                 </div>
             </form>
             <div class="col-sm-12">
@@ -56,11 +74,11 @@
                             </table>
                         </div>
                     {% else %}
-                        <div class="col-sm-offset-3 col-sm-8 text-center">
-                            <p>No hay usuarios o no existen usuarios que cumplan con el criterio de busqueda.</p>
+                        <div class="alert alert-info" role="alert">
+                            No hay usuarios o no existen usuarios que cumplan con el criterio de busqueda.
                         </div>
                     {% endif %}
-                    <p>{{ mensaje }}</p>
+
                     {% if cantPags != 0 %}     
                         {% for i in 1..cantPags %}
                             <ul class="pagination">

@@ -47,35 +47,35 @@ class UsuarioController {
     }
 
     private function validarCamposUsuario($user, $pass, $nombre, $apellido, $email, $confirmUser, $confirmPass, $confirmEmail){
-        if ((empty($user))||(empty($pass))||(empty($nombre))||(empty($apellido))||(empty($email))||(empty($confirmUser))||(empty($confirmPass))||(empty($confirmEmail))){
-            return "No puede haber campos vacios.";
+        if ((empty($user))||(!isset($user))||(empty($pass))||(!isset($pass))||(empty($nombre))||(!isset($nombre))||(empty($apellido))||(!isset($apellido))||(empty($email))||(!isset($email))||(empty($confirmUser))||(!isset($confirmUser))||(empty($confirmPass))||(!isset($confirmPass))||(empty($confirmEmail))||(!isset($confirmEmail))){
+            return new ClaseMensaje ('danger','No puede haber campos vacios.','Error: ');
         }
         if (strlen($user)<6){
-            return "La longitud del nombre de usuario debe ser de al menos 6 caracteres.";
+            return new ClaseMensaje ('danger','La longitud del nombre de usuario debe ser de al menos 6 caracteres.','Error: ');
         }
         if (str_replace(' ', '', $user)!= $user){
-            return "El nombre de usuario no debe contener espacios en blanco.";
+            return new ClaseMensaje ('danger','El nombre de usuario no debe contener espacios en blanco.','Error: ');
         }
         if (strlen($pass)<6){
-            return "La longitud de la contrasena debe ser de al menos 6 caracteres.";
+            return new ClaseMensaje ('danger','La longitud de la contrasena debe ser de al menos 6 caracteres.','Error: ');
         }
         if (strlen($nombre)<3){
-            return "La longitud del nombre debe ser de al menos de 3 caracteres.";
+            return new ClaseMensaje ('danger','La longitud del nombre debe ser de al menos de 3 caracteres.','Error: ');
         }
         if (strlen($apellido)<3){
-            return "La longitud del apellido debe ser de al menos de 3 caracteres.";
+            return new ClaseMensaje ('danger','La longitud del apellido debe ser de al menos de 3 caracteres.','Error: ');
         }
         if (!(filter_var($email, FILTER_VALIDATE_EMAIL))){
-            return "El e-mail ingresado no es un e-mail valido.";
+            return new ClaseMensaje ('danger','El e-mail ingresado no es un e-mail valido.','Error: ');
         }
         if ($user != $confirmUser){
-            return "El nombre de usuario no coincide con el ingresado en el campo de confirmacion de usuario.";
+            return new ClaseMensaje ('danger','El nombre de usuario no coincide con el ingresado en el campo de confirmacion de usuario.','Error: ');
         }
         if ($pass != $confirmPass){
-            return "La contrasena no coincide con la ingresada en el campo de confirmacion de contrasena.";
+            return new ClaseMensaje ('danger','La contrasena no coincide con la ingresada en el campo de confirmacion de contrasena.','Error: ');
         }
         if ($email != $confirmEmail){
-            return "El e-mail no coincide con el ingresado en el campo de confirmacion de e-mail.";
+            return new ClaseMensaje ('danger','El e-mail no coincide con el ingresado en el campo de confirmacion de e-mail.','Error: ');
         }
     }
 
@@ -87,7 +87,8 @@ class UsuarioController {
             echo $vista->render('mostrarUsuario.html.twig', array('user' => $usr, 'usuario' => $usuarioMostrar, 'roles' => $rolesUsuario));
         }
         else{
-            $this::getInstance()->listarUsuarios($usr,$filtros,'Error al intentar mostrar el usuario con id:'.$id.'. Posiblemente no exista.', $pag);
+            $msj = new ClaseMensaje ('danger','Error al intentar mostrar el usuario con id:'.$id.'. Posiblemente no exista.','Error: ');
+            $this::getInstance()->listarUsuarios($usr,$filtros,$msj,$pag);
         }
     }
 
@@ -112,7 +113,8 @@ class UsuarioController {
             echo $vista->render('modificarUsuario.html.twig', array('usuario' => $usuarioModificar, 'mensaje'=>$msg, 'user' => $usr, 'arrayRolesUsuario' => $roles, 'arrayRoles' => $rols));
         }
         else{
-            $this::getInstance()->listarUsuarios($usr,$filtros,'Error al intentar modificar el usuario con id:'.$id.'. Posiblemente no exista.', $pag);
+            $msj = new ClaseMensaje ('danger','Error al intentar modificar el usuario con id:'.$id.'. Posiblemente no exista.','Error: ');
+            $this::getInstance()->listarUsuarios($usr,$filtros,$msj,$pag);
         }
     }
 
@@ -126,13 +128,16 @@ class UsuarioController {
 
     public function eliminarUsuario($usr, $id, $filtros, $pag){
         if($usr->getId() == $id){
-            $this::getInstance()->listarUsuarios($usr,$filtros,'Error. Imposible eliminarse a si mismo.', $pag);
+            $msj = new ClaseMensaje ('danger','Error. Imposible eliminarse a si mismo.','Error: ');
+            $this::getInstance()->listarUsuarios($usr,$filtros,$msj, $pag);
         }
         elseif (UsuarioRepository::getInstance()->eliminarUsuario($id)){
-        	$this::getInstance()->listarUsuarios($usr,$filtros,'El usuario con id:'.$id.' se elimino correctamente.', $pag);
+            $msj = new ClaseMensaje ('success','El usuario con id:'.$id.' se elimino correctamente.','Error: ');
+        	$this::getInstance()->listarUsuarios($usr,$filtros,$msj,$pag);
         }
         else{
-        	$this::getInstance()->listarUsuarios($usr,$filtros,'Error al eliminar el usuario con id:'.$id.'.', $pag);
+            $msj = new ClaseMensaje ('danger','Error al eliminar el usuario con id:'.$id.'.','Error: ');
+        	$this::getInstance()->listarUsuarios($usr,$filtros,$msj,$pag);
         }
     }
    

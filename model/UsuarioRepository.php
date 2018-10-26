@@ -109,16 +109,17 @@ class UsuarioRepository extends DoctrineRepository {
         $entityManager = $this->getConnection();
         $usuarioRepository = $entityManager->getRepository('Usuario');
         $dbuser = $usuarioRepository->findOneBy(array('username' => $user));
+        
         if (!empty ($dbuser)){
-            return "El nombre de usuario ya existe.";
+            return new ClaseMensaje ('danger','El nombre de usuario ya existe.','Error: ');
         }
         $dbemail = $usuarioRepository->findOneBy(array('email' => $email));
         if (!empty ($dbemail)){
-            return "El email ingresado ya ha sido registrado para algun usuario.";
+            return new ClaseMensaje ('danger','El email ingresado ya ha sido registrado para algun usuario.','Error: ');
         }
         $dbuser = $usuarioRepository->findOneBy(array('firstName' => $nombre, 'lastName' => $apellido));
         if (!empty ($dbuser)){
-            return "La persona a la cual desea crearle la cuenta ya tiene una cuenta registrada a su nombre.";
+            return new ClaseMensaje ('danger','La persona a la cual desea crearle la cuenta ya tiene una cuenta registrada a su nombre.','Error: ');
         }
 
         $objeto = new Usuario();
@@ -139,7 +140,7 @@ class UsuarioRepository extends DoctrineRepository {
         $entityManager->persist($objeto);
         $entityManager->flush();
 
-        return "El usuario ".$user." se ha creado correctamente.";
+        return new ClaseMensaje ('success','El usuario '.$user.' se ha creado correctamente.','Exito: ');
     }
 
     public function actualizarUsuario ($user, $pass, $nombre, $apellido, $email, $roles, $activo, $id){
@@ -154,7 +155,7 @@ class UsuarioRepository extends DoctrineRepository {
         $dbuser = $query->getResult();
 
         if (!empty ($dbuser)){
-            return "El nombre de usuario ya existe.";
+            return new ClaseMensaje ('danger','El nombre de usuario ya existe.','Error: ');
         }
 
         $string = "select u
@@ -166,7 +167,7 @@ class UsuarioRepository extends DoctrineRepository {
         $query->setParameter('em', $email);
         $dbemail = $query->getResult();
         if (!empty ($dbemail)){
-            return "El email ingresado ya ha sido registrado para algun usuario.";
+            return new ClaseMensaje ('danger','El email ingresado ya ha sido registrado para algun usuario.','Error: ');
         }
         $string = "select u
         from Usuario u
@@ -178,7 +179,7 @@ class UsuarioRepository extends DoctrineRepository {
         $query->setParameter('ln', $apellido);
         $dbuser = $query->getResult();
         if (!empty ($dbuser)){
-            return "La persona a la cual desea crearle la cuenta ya tiene una cuenta registrada a su nombre.";
+            return new ClaseMensaje ('danger','La persona a la cual desea crearle la cuenta ya tiene una cuenta registrada a su nombre.','Error: ');
         }
 
         $em = $this->getConnection();
@@ -186,7 +187,7 @@ class UsuarioRepository extends DoctrineRepository {
         $dbuser = $em->getRepository('Usuario')->find($id);
 
         if (empty ($dbuser)){
-            return "El usuario que intentas editar no existe en el sistema.";
+            return new ClaseMensaje ('danger','El usuario que intentas editar no existe en el sistema.','Error: ');
         }
 
         $rols=array();
@@ -228,7 +229,7 @@ class UsuarioRepository extends DoctrineRepository {
         $em->persist($dbuser);
         $em->flush();
 
-        return "El usuario ".$user." se ha modificado correctamente.";
+        return new ClaseMensaje ('success','El usuario '.$user.' se ha modificado correctamente.','Exito: ');
     }
 
     public function eliminarUsuario ($id){

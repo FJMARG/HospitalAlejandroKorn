@@ -61,10 +61,10 @@ class SessionController extends DoctrineRepository {
 			}
 		}
 		catch (Exception $e){
-			return $e->getMessage();
+			return new ClaseMensaje ('danger',$e->getMessage(),'Error: ');
 		}
 		self::generateSession($dbuser);
-		return 'ok';
+		return new ClaseMensaje ('success','Se ha iniciado sesion correctamente.','Exito: ');
 	}
 
 	private static function generateSession ($dbuser){

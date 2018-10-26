@@ -14,17 +14,17 @@ class Router {
 		}
 
 		elseif ((($categoria == 'index') || ($categoria == 'login'))&&(empty($accion))){
-			FrontController::getInstance()->mostrar($categoria,'','');
+			FrontController::getInstance()->mostrar($categoria,null,'');
 		}
 		# +++++++++++++++++++++  Fin seccion publica ++++++++++++++++++++++++ #
 		# +++++++++++++++++++++  Seccion Usuario Logueado ++++++++++++++++++++++++ #
 		elseif (SessionController::verifySession()){
 			if ($categoria=='administracion'){
-				FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']);
+				FrontController::getInstance()->mostrar($categoria,null,$_SESSION['sesion']);
 			}
 			elseif($accion=='logout'){
 				SessionController::logout();
-				FrontController::getInstance()->mostrar('index','','');
+				FrontController::getInstance()->mostrar('index',null,'');
 			}
 			# +++++++++++++++++++++  categoria pacientes ++++++++++++++++++++++++ #
 			elseif($categoria=='paciente') {
@@ -73,7 +73,8 @@ class Router {
 				}
                 # Sin permisos
 		        else{
-			 		FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']->getUsername());
+		        	$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');
+			 		FrontController::getInstance()->mostrar('administracion',$msj,$_SESSION['sesion']->getUsername());
 			    }	
 			}
 			# ++++++++++++++++++++++++  fin pacientes  ++++++++++++++++++++++++ #
@@ -86,29 +87,30 @@ class Router {
 					ConfiguracionController::getInstance()->ModificarConfiguracion($_POST['titulo'], $_POST['descripcion'], $_POST['mail'], $_POST['paginado'], $_POST['habilitado']);
 				}
 				else{
-					FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']);
+					$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');
+					FrontController::getInstance()->mostrar('administracion',$msj,$_SESSION['sesion']);
 				}
 			}
 			# ++++++++++++++++++++++++  fin configuracion ++++++++++++++++++++++++ #
 			# ++++++++++++++++++++++++  Inicio Seccion Usuarios ++++++++++++++++++++++++ #
 			elseif(($categoria=='usuarios')&&(SessionController::haveRol('Administrador'))){ 
 				if ($accion == ''){ # Seccion donde se muestran las funcionalidades disponibles para los usuarios. #
-					FrontController::getInstance()->mostrar($categoria,'',$_SESSION['sesion']); 
+					FrontController::getInstance()->mostrar($categoria,null,$_SESSION['sesion']); 
 				}
 				elseif(($accion=='listarUsuarios') && (SessionController::havePermission('usuario_index'))){ /* Categoria donde se muestra un listado de los usuarios */
-					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion'], $filtrosUsuario, '', $_GET['pag']);
+					UsuarioController::getInstance()->listarUsuarios($_SESSION['sesion'], $filtrosUsuario, null, $_GET['pag']);
 				}
 				elseif(($accion=='verUsuario') && (SessionController::havePermission('usuario_show'))){
 					UsuarioController::getInstance()->mostrarUsuario($_SESSION['sesion'], $_GET['id'], $filtrosUsuario, $_GET['pag']);
 				}
 				elseif(($accion=='crearUsuario') && (SessionController::havePermission('usuario_new'))){ /* Categoria donde se crea usuario. */
-					FrontController::getInstance()->mostrar($accion,'',$_SESSION['sesion']);
+					FrontController::getInstance()->mostrar($accion,null,$_SESSION['sesion']);
 				}
 				elseif (($accion=='crear') && (SessionController::havePermission('usuario_new'))){
 					UsuarioController::getInstance()->crearUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_SESSION['sesion']);
 				}
 				elseif(($accion=='modificarUsuario')&&(SessionController::havePermission('usuario_update'))){ /* Accion que muestra la seccion donde se modifica a un usuario */
-					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion'],'',$_GET['id'], $_GET['pag'], $filtrosUsuario);
+					UsuarioController::getInstance()->modificarUsuario($_SESSION['sesion'],null,$_GET['id'], $_GET['pag'], $filtrosUsuario);
 				}
 				elseif(($accion=="modificar")&&(SessionController::havePermission('usuario_update'))){ /* Accion de modificar a un usuario. */
 					UsuarioController::getInstance()->actualizarUsuario($_POST['user'], $_POST['pass'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['confirmUser'], $_POST['confirmPass'], $_POST['confirmEmail'], $_POST['rls'], $_POST['activo'], $_POST['id'], $_GET['pag'], $filtrosUsuario, $_SESSION['sesion']);
@@ -118,20 +120,22 @@ class Router {
 				}
 			}
 			else{ # Usuario sin permisos. #
-				FrontController::getInstance()->mostrar('administracion','No tienes permisos para acceder a esta funcionalidad.',$_SESSION['sesion']);
+				$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');
+				FrontController::getInstance()->mostrar('administracion',$msj,$_SESSION['sesion']);
 			}
 			# ++++++++++++++++++++++++  Fin Seccion Usuarios ++++++++++++++++++++++++ #
 		}
 		# ++++++++++++++++++++++++  Fin Seccion Usuario Logueado ++++++++++++++++++++++++ #
 		else{
-			FrontController::getInstance()->mostrar('login','Tienes que iniciar sesion y tener permisos para acceder a esta funcionalidad.','');
+			$msj = new ClaseMensaje ('danger','Tienes que iniciar sesion y tener permisos para acceder a esta funcionalidad.','Error: ');
+			FrontController::getInstance()->mostrar('login',$msj,'');
 		}
 	}
 
 	private static function iniciarSesion ($user,$pass){
 		$response = SessionController::login ($user,$pass);
-		if($response == 'ok'){
-			FrontController::getInstance()->mostrar('administracion','',$user);
+		if($response->getType() == 'success'){
+			FrontController::getInstance()->mostrar('administracion',null,$_SESSION['sesion']);
 		}
 		else{
 			FrontController::getInstance()->mostrar('login',$response,'');
@@ -217,4 +221,4 @@ $confi = ConfiguracionRepository::getInstance();
 		}
 		else{
 			$categoria = 'deshabilitado';
-			FrontController::getInstance()->mostrar($categoria,'','');}
+			FrontController::getInstance()->mostrar($categoria,null,'');}

@@ -3,7 +3,14 @@
    <script src="mi_js/misScripts.js"></script>
 {% endblock %}    
 {% block contenido %}
-<p>{{mensaje}}<p>
+{% if mensaje %}
+    <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+        <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endif %}
 		<main class="emptySpace">
 		</main>
 {% endblock %}    
