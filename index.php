@@ -80,10 +80,10 @@ class Router {
 			# ++++++++++++++++++++++++  fin pacientes  ++++++++++++++++++++++++ #
 			# ++++++++++++++++++++++++  comienzo configuracion ++++++++++++++++++++++++ #
 			elseif ($categoria== 'configuracion') {
-				if ( ($accion== 'configuracion_ver') && (SessionController::havePermission('configuracion_ver'))) {
+				if ( ($accion== 'configuracion_ver') && (SessionController::havePermission('configuracion_show'))) {
 					ConfiguracionController::getInstance()->VerConfiguracion();
 				}
-				elseif ($accion== 'configuracion_modificacion') {
+				elseif (($accion== 'configuracion_modificacion') && (SessionController::havePermission('configuracion_update'))) {
 					ConfiguracionController::getInstance()->ModificarConfiguracion($_POST['titulo'], $_POST['descripcion'], $_POST['mail'], $_POST['paginado'], $_POST['habilitado']);
 				}
 				else{
@@ -141,6 +141,70 @@ class Router {
 			FrontController::getInstance()->mostrar('login',$response,'');
 		}
 	}
+
+	private static function iniciarSesionAdministrador ($user,$pass){
+		$response = SessionController::loginAdministrador ($user,$pass);
+		if($response->getType() == 'success'){
+			ConfiguracionController::getInstance()->VerConfiguracion();
+		}
+		else{
+			FrontController::getInstance()->mostrar('deshabilitado',$response,'');
+		}
+	}
+
+	static function startDeshabilitado ($categoria, $user, $pass, $accion, $filtrosUsuario){
+		switch ($categoria) {
+			case 'index':
+				switch ($accion) {
+					case 'login':
+						self::iniciarSesionAdministrador ($user,$pass);
+						break;
+					case '':
+						FrontController::getInstance()->mostrar('deshabilitado',null,'');
+						break;
+					case 'logout':
+						if(SessionController::verifySession()){
+							SessionController::logout();
+							FrontController::getInstance()->mostrar('deshabilitado',null,'');
+						}
+						else{
+							$msj = new ClaseMensaje ('danger','Tienes que iniciar sesion y tener permisos para acceder a esta funcionalidad.','Error: ');
+							FrontController::getInstance()->mostrar('login',$msj,'');
+						}
+						break;
+					default:
+						$msj = new ClaseMensaje ('danger','Tienes que iniciar sesion y tener permisos para acceder a esta funcionalidad.','Error: ');
+					FrontController::getInstance()->mostrar('deshabilitado',$msj,'');
+						break;
+				}
+				break;
+			case 'configuracion':
+				if (SessionController::verifySession()){
+					if (SessionController::haveRol('Administrador')){
+						if (empty($accion)){
+							ConfiguracionController::getInstance()->VerConfiguracion();
+						}
+						elseif ($accion == 'configuracion_modificacion') {
+							ConfiguracionController::getInstance()->ModificarConfiguracion($_POST['titulo'], $_POST['descripcion'], $_POST['mail'], $_POST['paginado'], $_POST['habilitado']);
+						}
+					}
+					else{
+						$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');
+						FrontController::getInstance()->mostrar('deshabilitado',$msj,$_SESSION['sesion']);
+					}
+				}
+				else{
+					$msj = new ClaseMensaje ('danger','Tienes que iniciar sesion y tener permisos para acceder a esta funcionalidad.','Error: ');
+					FrontController::getInstance()->mostrar('deshabilitado',$msj,'');
+				}
+				break;
+			default:
+				FrontController::getInstance()->mostrar('deshabilitado',null,'');
+				break;
+		}
+
+	}
+
 }
 
 # ++++++++++++++++++++++++ Preparacion de variables y llamada a metodo inicial ++++++++++++++++++++++++ #
@@ -213,12 +277,13 @@ $filtrosUsuario['activo']=$_GET['act'];
 
 $confi = ConfiguracionRepository::getInstance();
 
-        $datos = $confi-> recuperarConfiguracion();
+$datos = $confi-> recuperarConfiguracion();
 
-        if ($datos['habilitado'] ->getValor() == 'true') {
-			Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
-			$_GET['accion'], $filtrosUsuario);
-		}
-		else{
-			$categoria = 'deshabilitado';
-			FrontController::getInstance()->mostrar($categoria,null,'');}
+if ($datos['habilitado'] ->getValor() == 'true') {
+	Router::start ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
+	$_GET['accion'], $filtrosUsuario);
+}
+else{
+	Router::startDeshabilitado ($_GET['categoria'], $_POST['usuario'], $_POST['password'], 
+	$_GET['accion'], $filtrosUsuario);
+}

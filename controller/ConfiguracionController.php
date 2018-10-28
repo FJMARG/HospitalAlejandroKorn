@@ -30,9 +30,8 @@ class ConfiguracionController extends DoctrineRepository
 
         $datos = $confi-> recuperarConfiguracion();
 
-
          $vista = TwigView::getTwig();
-         echo $vista->render('configuracion.html.twig', $datos); 
+         echo $vista->render('configuracion.html.twig', array('data'=>$datos, 'user'=>$_SESSION['sesion'])); 
 
     }
 
@@ -49,8 +48,12 @@ class ConfiguracionController extends DoctrineRepository
         $confi-> updateConfiguracion( 4 ,'paginado', $paginado);
         $confi-> updateConfiguracion( 5 ,'habilitado', $habilitado);
 
+        $datos = $confi-> recuperarConfiguracion();
+
         $vista = TwigView::getTwig();
-        echo $vista->render('administracion.html.twig');
+        $msj = new ClaseMensaje ('success','Los cambios se realizaron correctamente.','Exito: ');
+
+        echo $vista->render('configuracion.html.twig', array('mensaje' => $msj, 'data' => $datos, 'user' => $_SESSION['sesion']));
 
 
     }

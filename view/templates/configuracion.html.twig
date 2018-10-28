@@ -1,8 +1,76 @@
-{% extends 'base.html.twig' %}
-{% block Script %}
-   <script src="mi_js/misScripts.js"></script>
-{% endblock %}    
-{% block contenido %}
+<!DOCTYPE html>
+<html lang='es'>
+    <head>
+        <!-- Inico Pagina -->     
+        <link rel="icon" href="./images/favicon.ico">
+        <!-- Estilos de bootstrap -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <!-- Archivo de Configuracion para sobreescribir Bootstrap-->
+        <link rel="stylesheet" href="css/miConfiguracionBootstrap.css"> 
+        <!-- Tamaño y encoding -->  
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-3.3.1.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script src="mi_js/misScripts.js"></script>
+        <!-- Script de bootstrap y Alertas-->          
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+   </head>
+   <body>
+    <!-- ************************* Barra de Navegacion ***************************** -->
+    <nav class="navbar navbar-default">
+        <!-- El logotipo y el icono que despliega el menú se agrupan para mostrarlos en los dispositivos móviles -->
+         <div class="navbar-header">
+             <button type="button" class="navbar-toggle" data-toggle="collapse"
+                  data-target=".navbar-ex1-collapse">
+             <span class="sr-only">Desplegar navegación</span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             </button>
+             <a class="navbar-text pull-center" href="{% if data['habilitado'].getValor() == 'true' %} ./index.php?categoria=administracion {% else %} ./index.php?categoria=configuracion {% endif %} ">
+             <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital."></a>
+         </div>
+       
+        <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+             otro elemento que se pueda ocultar al minimizar la barra -->
+         
+         <div class="collapse navbar-collapse navbar-ex1-collapse">
+            {% if data['habilitado'].getValor() == 'true' %}
+             <ul class="nav navbar-nav">
+                <!-- Pestaña inicio -->
+                <li><a class="navbar-text" href="./index.php?categoria=administracion">Inicio</a></li>
+                <!-- pestaña Consultas -->
+                <li><a class="navbar-text" href="#">Consultas</a></li>
+                <!-- Pestaña Paciente  -->
+                <li><a class="navbar-text" href="./index.php?categoria=paciente&accion=paciente_verTodos">Pacientes</a></li>
+                <!-- Pestaña Administracion -->
+                <li class="dropdown">
+                    <a class="navbar-text" href="#" class="dropdown-toggle" data-toggle="dropdown">Administracion<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                       <li><a href="./index.php?categoria=usuarios&accion=listarUsuarios">Usuarios</a></li>
+                       <li class="divider"></li>
+                       <li><a href="#">Roles</a></li>
+                       <li class="divider"></li> 
+                       <li><a href="#">Permisos</a></li>
+                       <li class="divider"></li> 
+                       <li><a href="./index.php?categoria=configuracion&accion=configuracion_ver">Configuraciones</a></li>
+                    </ul>
+               </li>  
+            </ul>
+            {% endif %}
+            <ul class="nav navbar-nav navbar-right"> 
+                <li class="dropdown">
+                 </li>   
+                 <li class="dropdown">   
+                    <a class="navbar-text">{{user.username}}</a>  
+                    <a class="navbar-text" href="./index.php?accion=logout">Cerrar Sesion</a>
+                </li> 
+             </ul>
+         </div>
+    </nav> 
+    <!-- ************************* Fin Barra de Navegacion ***************************** -->
     <main>
           <h4>Cambiar configuracion</h4>  
           <form class="form-horizontal" role="form" method="post" 
@@ -11,35 +79,35 @@
                   <label for="titulo" class="col-sm-2 control-label">Titulo</label>
                   <div class="col-sm-3">
                       <input type="text" class="form-control" name="titulo" id="titulo" requerid size="100"
-                       value="{{ titulo.getValor }}">
+                       value="{{ data['titulo'].getValor }}">
                   </div>
                 </div>
                 <div class="form-group"> <!-- Descripcion -->
                   <label for="descripcion" class="col-sm-2 control-label">Descripcion</label>
                   <div class="col-sm-3">
                       <input type="text" class="form-control" name="descripcion" id="descripcion"required size="100" 
-                      value="{{ descripcion.getValor }}">
+                      value="{{ data['descripcion'].getValor }}">
                   </div>
                 </div>
                 <div class="form-group"> <!-- mail -->
                   <label for="mail" class="col-sm-2 control-label">Mail de contacto</label>
                   <div class="col-sm-3">
                       <input type="text" class="form-control" name="mail" id="mail" size="100" 
-                      value="{{ mail.getValor }}">
+                      value="{{ data['mail'].getValor }}">
                   </div>
                 </div>
                 <div class="form-group"> <!-- Paginado -->
                   <label for="paginado" class="col-sm-2 control-label">Paginado</label>
                   <div class="col-sm-4">
                       <input type="text" class="form-control" name="paginado" id="paginado" required 
-                      value="{{ paginado.getValor }}">
+                      value="{{ data['paginado'].getValor }}">
                   </div>
                 </div>
                 <div class="form-group"> <!-- Sitio habilitado -->
                   <label for="habilitado" class="col-sm-2 control-label">Habilitado</label>
                    <div class="col-sm-2">
                        <select class="form-control" name="habilitado" id="habilitado"> 
-                              {% if habilitado.getValor == 'true' %}
+                              {% if data['habilitado'].getValor == 'true' %}
                                <option value="true" selected="selected"> Si </option>
                               <option value="false"> No</option>
                                {% else %} 
@@ -59,11 +127,32 @@
                 <div class="form-group">
             </form> 
             <!-- Alentar de mensajes -->    
-              {% if mensaje is defined %}  
-              <div class="alert alert-danger alert-dismissable">
-                  <button type="button" data-dismiss="alert" class="close">&times;</button>
-                     <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
-              </div>
-             {% endif %}      
+            {% if mensaje %}
+                <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+                    <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
         </main>
-{% endblock %}     
+    <!-- ************************* Pie de Pagina  ***************************** -->
+   <!-- Fin Pie de Pagina -->
+   </body>
+     <footer class="navbar-fixed-bottom page-footer font-small special-color-dark pt-4">
+    <div class="container">
+           <div class="row">
+                <div class="col-md-6 mt-md-0 mt-3">
+                     <div class = "center-block pull-left">
+                         <span class ="footer-confg">Proyecto de Software 2018 - Hospital Dr. Alejandro Korn</span> 
+                     </div>
+                </div>
+                <div class="col-md-6 mt-md-0 mt-3">
+                   <div class = "center-block pull-right">  
+                      <span class = "footer-confg">v 0.2.4</span>
+                   </div>   
+                </div> 
+          </div>
+    </div>
+   </footer>
+</html>

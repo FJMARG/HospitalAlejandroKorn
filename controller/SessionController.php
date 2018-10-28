@@ -67,6 +67,27 @@ class SessionController extends DoctrineRepository {
 		return new ClaseMensaje ('success','Se ha iniciado sesion correctamente.','Exito: ');
 	}
 
+	static function loginAdministrador ($user, $pass){	/* Metodo comparacion de datos */
+		$dbuser=UsuarioRepository::getInstance()->find($user);
+		try {	/* 	Excepcion en caso de que existan datos erroneos */
+			if ((empty ($dbuser)) || !(self::verifyPassword ($dbuser,$pass))){
+				throw new Exception ('Datos erroneos.',1);
+			}elseif ($dbuser->getActivo() == false){
+				throw new Exception ('Usuario bloqueado.',2);
+			}else{
+				$roles=UsuarioRepository::getInstance()->obtenerRoles($dbuser);
+				if(!in_array ('Administrador',$roles)){
+					throw new Exception ('No eres administrador.',3);
+				}
+			}
+		}
+		catch (Exception $e){
+			return new ClaseMensaje ('danger',$e->getMessage(),'Error: ');
+		}
+		self::generateSession($dbuser);
+		return new ClaseMensaje ('success','Se ha iniciado sesion correctamente.','Exito: ');
+	}
+
 	private static function generateSession ($dbuser){
 		session_start();
 		$_SESSION['status']= "connected";

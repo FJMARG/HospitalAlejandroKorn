@@ -1,9 +1,94 @@
-{% block contenido %}
-<main>
-	<H1>SERVIDOR EN MANTENIMIENTO, DISCULPE LAS MOLESTIAS</H1>
-</main>
-
-
-
-
-{% endblock %}    
+<!DOCTYPE html>
+<html lang='es'>
+    <head>
+        <!-- Inico Pagina -->
+        <title>Hospital Dr. Alejandro Korn</title>
+        <link rel="icon" href="./images/favicon.ico">
+        <link rel="stylesheet" href="./css/style.css">
+		<link rel="stylesheet" href="./css/mobileStyle.css">
+        <!-- Estilos de bootstrap -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <!-- Archivo de Configuracion para sobreescribir Bootstrap-->
+        <link rel="stylesheet" href="css/miConfiguracionBootstrap.css"> 
+        <!-- Tamaño y encoding -->  
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-3.3.1.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <!-- Script de bootstrap y Alertas-->          
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+   </head>
+   <body>
+    <!-- ************************* Barra de Navegacion ***************************** -->
+     <nav class="navbar navbar-default">
+        <!-- El logotipo y el icono que despliega el menú se agrupan para mostrarlos en los dispositivos móviles -->
+         <div class="leftCenter">
+             <button type="button" class="navbar-toggle" data-toggle="collapse"
+                  data-target=".navbar-ex1-collapse">
+             <span class="sr-only">Desplegar navegación</span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             </button>
+             <a class="navbar-text pull-center" href="./">
+             <img src="./images/logo.svg" title="Cruz Roja, logo del Hospital." alt="Cruz Roja, logo del Hospital."></a>
+             <h3>
+		        {{ dato['titulo'].valor }}
+	        </h3>
+         </div>
+     </nav>
+    <!-- ************************* Fin Barra de Navegacion ***************************** -->
+	<main>
+		<div class="container">
+			<H1>SERVIDOR EN MANTENIMIENTO, DISCULPE LAS MOLESTIAS</H1>
+			<div class="login">
+				{% if mensaje %}
+				    <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+				        <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+				        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				            <span aria-hidden="true">&times;</span>
+				        </button>
+				    </div>
+				{% endif %}
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a class="navbar-text" href="#" class="dropdown-toggle" data-toggle="dropdown"><h3>Acceso administrador</h3></a>
+						<ul class="dropdown-menu">
+							<li>
+								<div class="contentMargin login">
+							        <form class="login" method="post" action="./index.php?accion=login">
+							            <label class="label_login" for="user">Usuario</label>
+							            <input class="form-control type="text" id="user" name="usuario" required/>
+							            <label class="label_login" for="pass">Contraseña</label>
+							            <input class="form-control" type="password" id="pass" name="password" required/>
+							            <input class="btn btn-primary" type="submit" value="Aceptar"/>
+							        </form>
+						    	</div>
+						    </li>
+				    	</ul>
+				    </li>
+		    	</ul>
+	    	</div>
+    	</div>
+	</main>
+    <!-- ************************* Pie de Pagina  ***************************** -->
+      <footer class="page-footer navbar-fixed-bottom  font-small special-color-dark pt-4">
+    <div class="container">
+           <div class="row">
+                <div class="col-md-6 mt-md-0 mt-3">
+                     <div class = "center-block pull-left">
+                         <span class ="footer-confg">{{ dato['descripcion'].valor }} </span> 
+                     </div>
+                </div>
+                <div class="col-md-6 mt-md-0 mt-3">
+                   <div class = "center-block pull-right">  
+                      <span class = "footer-confg">{{ dato['mail'].valor }}</span>
+                   </div>   
+                </div> 
+          </div>
+    </div>
+   </footer>
+   <!-- Fin Pie de Pagina -->
+   </body>
+</html>
