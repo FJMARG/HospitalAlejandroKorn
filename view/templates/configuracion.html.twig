@@ -72,7 +72,17 @@
     </nav> 
     <!-- ************************* Fin Barra de Navegacion ***************************** -->
     <main>
-          <h4>Cambiar configuracion</h4>  
+    	<div class="container">
+          <h4>Cambiar configuracion</h4>
+          <!-- Alentar de mensajes -->    
+	        {% if mensaje %}
+	            <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+	                <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+	                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+	        {% endif %}  
           <form class="form-horizontal" role="form" method="post" 
             action="./index.php?categoria=configuracion&accion=configuracion_modificacion">
                 <div class="form-group"> <!-- TITULO -->
@@ -125,16 +135,8 @@
                         </div>
                    </div>
                 <div class="form-group">
-            </form> 
-            <!-- Alentar de mensajes -->    
-            {% if mensaje %}
-                <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
-                    <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endif %}
+            </form>
+            </div> 
         </main>
     <!-- ************************* Pie de Pagina  ***************************** -->
    <!-- Fin Pie de Pagina -->

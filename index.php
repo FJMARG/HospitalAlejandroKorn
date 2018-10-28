@@ -169,7 +169,7 @@ class Router {
 						}
 						else{
 							$msj = new ClaseMensaje ('danger','Tienes que iniciar sesion y tener permisos para acceder a esta funcionalidad.','Error: ');
-							FrontController::getInstance()->mostrar('login',$msj,'');
+							FrontController::getInstance()->mostrar('deshabilitado',$msj,'');
 						}
 						break;
 					default:
