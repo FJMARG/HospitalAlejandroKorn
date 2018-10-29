@@ -73,7 +73,10 @@
     <!-- ************************* Fin Barra de Navegacion ***************************** -->
     <main>
     	<div class="container">
-          <h4>Cambiar configuracion</h4>
+          <div class="text-left">
+              <h3>Cambiar configuracion</h3>
+              <hr>
+          </div>
           <!-- Alentar de mensajes -->    
 	        {% if mensaje %}
 	            <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
@@ -109,7 +112,7 @@
                 <div class="form-group"> <!-- Paginado -->
                   <label for="paginado" class="col-sm-2 control-label">Paginado</label>
                   <div class="col-sm-4">
-                      <input type="text" class="form-control" name="paginado" id="paginado" required 
+                      <input type="number" class="form-control" name="paginado" id="paginado" required min="1" max="99999999999"
                       value="{{ data['paginado'].getValor }}">
                   </div>
                 </div>
@@ -129,9 +132,11 @@
                   </div>
                 </div>
                 <div class="form-group">
-                   <div method="post" class="col-sm-offset-3 col-sm-3">
+                   <div method="post" class="col-sm-offset-1 col-sm-10">
                         <button type="submit" class="btn btn-info" >
                         <span class="glyphicon glyphicon-user"></span> Guardar cambios</button>
+                        <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
+                        <a href="./index.php?categoria=administracion" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
                         </div>
                    </div>
                 <div class="form-group">

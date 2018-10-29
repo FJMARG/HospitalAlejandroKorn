@@ -16,14 +16,22 @@
                       <div>
                           <h3>Crear Paciente</h3>  
                       </div>
+                      <hr>
                  </div>
+                <!-- Alentar de mensajes -->    
+                {% if mensaje is defined %}  
+                <div class="alert alert-danger alert-dismissable">
+                     <button type="button" data-dismiss="alert" class="close">&times;</button>
+                     <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
+                </div>
+                {% endif %}   
                  <div class="form-group"> <!-- Nombre -->
                     <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" id="nombre" requerid size="20">
+                    <input type="text" class="form-control" name="nombre" id="nombre" required size="20">
                  </div>
                  <div class="form-group"> <!-- Apellido -->
                     <label for="apellido">Apellido</label>
-                    <input type="text" class="form-control" name="apellido" id="apellido"required size="20">
+                    <input type="text" class="form-control" name="apellido" id="apellido" required size="20">
                  </div>
                  <div class="form-group"> <!-- Fecha Nacimiento -->
                     <label for="fechaNacimineto">Fecha Nacimineto</label>
@@ -77,7 +85,7 @@
                 </div>
                 <div class="form-group"> <!-- Tipo Documento -->
                       <label for="tipoDocumento">Tipo de Documento</label>
-                      <select class="form-control" name="tipoDocumento" id="tipoDocumento" requerid>
+                      <select class="form-control" name="tipoDocumento" id="tipoDocumento" required>
                             {% for documento in documentos %}
                                {% if loop.first %}
                                     <option value="{{ documento.id }}" selected>{{ documento.nombre }}</option>
@@ -116,16 +124,10 @@
                      <div method="post">
                          <button type="submit" class="btn btn-info" >
                          <span class="glyphicon glyphicon-user"></span> Crear Paciente</button>
+                         <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
                          <a href="./index.php?categoria=paciente&accion=paciente_verTodos" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
                      </div>
-                </div>
-                <!-- Alentar de mensajes -->    
-                {% if mensaje is defined %}  
-                <div class="alert alert-danger alert-dismissable">
-                     <button type="button" data-dismiss="alert" class="close">&times;</button>
-                     <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
-                </div>
-                {% endif %}     
+                </div>  
        </form> 
       </div>      
     </div>   

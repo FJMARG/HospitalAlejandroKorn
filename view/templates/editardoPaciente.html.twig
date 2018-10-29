@@ -12,7 +12,15 @@
              <div class="col-sm-offset-4">
                   <h2>Editar Paciente:</h2> 
              </div>
-        <div> 
+             <hr>
+        </div>
+        <!-- Alentar de mensajes -->    
+        {% if mensaje is defined %}  
+          <div class="alert alert-danger alert-dismissable">
+               <button type="button" data-dismiss="alert" class="close">&times;</button>
+               <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
+          </div>
+        {% endif %}   
         <div class="form-group">
            <label for="nombre">Nombre</label> <!--Nombre Paciete -->
              <input type="text" class="form-control" name="nombre" id="nombre" requerid size="20" value="{{ paciente.getNombre }}">
@@ -137,16 +145,10 @@
         <div class="form-group">
              <div class="col-sm-offset-4">
                   <button type="submit" class="btn btn-primary">Guardar</button>
+                  <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
                   <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
              </div>
         </div>
-        <!-- Alentar de mensajes -->    
-        {% if mensaje is defined %}  
-          <div class="alert alert-danger alert-dismissable">
-               <button type="button" data-dismiss="alert" class="close">&times;</button>
-               <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
-          </div>
-        {% endif %}  
     </form>
   </div>
 </div>

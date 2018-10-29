@@ -3,9 +3,14 @@
 {% endblock %}  
 {% block contenido %}
         <main>
-        <div class="container">  
+        <div class="container margin-space">  
+               <div class="text-center">
+                  <h4>Pacientes</h4>  
+               </div>
+               <hr> 
                <div class="form-group"> 
                <div class="text-center">
+                        <button type="button" class="pull-left btn btn-danger" onclick="location.href='./index.php?categoria=administracion'">&#x21E6; Volver</button>
                         <a href="./index.php?categoria=paciente&accion=paciente_buscar" class="btn btn-primary btn-info"><span class="glyphicon glyphicon-search"></span>  Buscar Pacientes</a>    
                         <button onclick="location.href='./index.php?categoria=paciente&accion=paciente_crear'" type="button" class="btn btn-success btn-primary pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Crear Paciente </button>
                </div>

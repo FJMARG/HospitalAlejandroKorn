@@ -4,7 +4,7 @@
 {% endblock %}
 {% block contenido %}
 <main>
-    <div class="container">
+    <div class="container margin-space">
         <div class="row">
             <div class="panel panel-primary">
                 <div class="panel-heading">Datos usuario</div>
@@ -20,6 +20,15 @@
                                 <tr><th>Roles:</th>{% for rol in roles %}<td> {{ rol }}</td>{% endfor %}</tr>
                                 <tr><th>Fecha y hora de creacion:</th><td>{{ usuario.createdat|date("d/m/Y H:i") }}</td></tr>
                                 <tr><th>Fecha y hora de actualizacion:</th><td>{{ usuario.updatedat|date("d/m/Y H:i") }}</td></tr>
+                                <tr>                             
+                                    <td>
+                                        <div class= "text-right" style="margin:1%">
+                                             <a href="javascript:history.back()" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Volver </a>
+                                        </div>
+                                    <td>
+                                    <td>
+                                    <td>
+                               <tr> 
                             </tbody>
                         </table>
                     </div>

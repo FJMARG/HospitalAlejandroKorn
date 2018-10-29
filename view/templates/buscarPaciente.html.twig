@@ -21,7 +21,14 @@
                    <div class="col-sm-offset-4 col-sm-6">
                         <h3>Busqueda con Filtros</h3>
                    </div>
-              </div>  
+              </div> 
+              <!-- Alentar de mensajes -->    
+              {% if mensaje is defined %}  
+              <div class="alert alert-danger alert-dismissable">
+                      <button type="button" data-dismiss="alert" class="close">&times;</button>
+                      <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
+              </div>
+              {% endif %}  
               <div class="form-group">
                   <input type="hidden" name="categoria" value="paciente">
               </div>
@@ -57,17 +64,11 @@
                   <div method="post" class="col-sm-offset-4 col-sm-8">
                         <button type="submit" class="btn btn-info">
                         <span class="glyphicon glyphicon-search"></span> Buscar</button>
+                        <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
                         <a href="./index.php?categoria=paciente&accion=paciente_verTodos" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
                   </div>
               </div>
         </form>   
-        <!-- Alentar de mensajes -->    
-        {% if mensaje is defined %}  
-        <div class="alert alert-danger alert-dismissable">
-                <button type="button" data-dismiss="alert" class="close">&times;</button>
-                <strong>{{ mensaje.getTitulo() }}</strong> {{ mensaje.getCuerpo() }} 
-        </div>
-        {% endif %} 
 </div>               
 </div>                                   
 </main>  
