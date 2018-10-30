@@ -78,6 +78,17 @@ class Router {
 			    }	
 			}
 			# ++++++++++++++++++++++++  fin pacientes  ++++++++++++++++++++++++ #
+			# ++++++++++++++++++++++++  comienzo consultas ++++++++++++++++++++++++ #
+			elseif($categoria=='consulta') {
+				if ($accion=='consulta_crear') {
+					ConsultaController::getInstance()->realizaAccion("crear"); /* Crear consulta para un paciente */
+				}
+				else{
+		        	$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');
+			 		FrontController::getInstance()->mostrar('administracion',$msj,$_SESSION['sesion']->getUsername());
+			    }	
+			}
+			# ++++++++++++++++++++++++  fin consultas ++++++++++++++++++++++++ #
 			# ++++++++++++++++++++++++  comienzo configuracion ++++++++++++++++++++++++ #
 			elseif ($categoria== 'configuracion') {
 				if ( ($accion== 'configuracion_ver') && (SessionController::havePermission('configuracion_show'))) {

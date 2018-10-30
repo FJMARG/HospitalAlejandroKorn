@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block Head %}
+    <!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Administracion</title>
+{% endblock %}
+{% block Script %} {% endblock %}    
+{% block contenido %}
+{% if mensaje %}
+    <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
+        <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endif %}
+		<main>
+            <div class="container margin-space">
+                <div class="col-sm-offset-2 col-sm-8 text-center">
+                    <h4>Crear Consulta</h4>
+                    <hr>
+                </div>
+                <div class="col-sm-offset-3 col-sm-8 text-center">
+                      <form id="consultaForm" class="form-horizontal" role="form" method="post" action="#">
+                            <div class="col-sm-8 text-center">
+                                <select class="categoryName form-control" name="categoryName"></select>
+                            </div>
+                      </form>   
+                </div>
+	       </div>  
+        </main>
+{% endblock %}    
