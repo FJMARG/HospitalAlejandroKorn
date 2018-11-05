@@ -3,7 +3,6 @@
 $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
 $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
 
-
 # Region
 $query = $pdo->prepare("SELECT region_sanitaria.nombre 
 						FROM region_sanitaria inner join partido 

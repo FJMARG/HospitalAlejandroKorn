@@ -247,9 +247,9 @@ class PacienteController extends DoctrineRepository {
 
           /*   # No andan por el momentos las APIS
           $json = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/obra-social");
-          $datos['obraSociales'] = json_decode($json,true);
+          $datos['obraSociales'] = json_decode($json,true); */
 
-          $json1 = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento");
+          /* $json1 = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento");
           $datos['documentos'] = json_decode($json1,true); */
 
           $obraSocialRepository = $em->getRepository('ObraSocial'); 

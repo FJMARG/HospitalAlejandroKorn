@@ -43,6 +43,22 @@ class ConsultaController extends DoctrineRepository {
          $user = ($_SESSION['sesion']);
          $datos['user'] = $user;
 
+         # Levantar datos para mostrar en pantalla  
+         $em = DoctrineRepository::getConnection(); 
+
+         # Motivo de consulta    
+         $motivoRepository = $em->getRepository('MotivoConsulta');
+         $datos['motivos'] = $motivoRepository->findAll();
+
+         # Tratamiento Farmacologico
+         $farmacologicoRepository = $em->getRepository('TratamientoFarmacologico');
+         $datos['farmacologicos'] = $farmacologicoRepository->findAll();
+
+         # Acompañamiento
+         $acompanamientoRepository = $em->getRepository('Acompanamiento');
+         $datos['acompas'] = $acompanamientoRepository->findAll();
+
+
          $vista = TwigView::getTwig();
          echo $vista->render('crearConsulta.html.twig',$datos);
 

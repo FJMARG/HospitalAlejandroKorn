@@ -94,6 +94,13 @@ class ComposerStaticInitc181906c54e6eedf6c62350f8f2f951d
                 0 => __DIR__ . '/..' . '/twig/twig/lib',
             ),
         ),
+        'H' => 
+        array (
+            'Httpful' => 
+            array (
+                0 => __DIR__ . '/..' . '/nategood/httpful/src',
+            ),
+        ),
         'D' => 
         array (
             'Doctrine\\DBAL\\' => 
