@@ -4,7 +4,7 @@
         /* Todas las funciones retornan un arreglo, el cual contiene ademas un arreglo por cada elemento (como si fuera un FetchArray de una consulta sql); en excepcion de las consultas que requieren un ID que traen solo un arreglo con la informacion del elemento del ID correspondiente. */
 
         private static function getData($data){
-            return json_encode(ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/".$data));
+            return file_get_contents("https://api-referencias.proyecto2018.linti.unlp.edu.ar/".$data);
         }
 
         public static function getTipoDocumento() {
