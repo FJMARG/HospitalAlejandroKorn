@@ -105,15 +105,11 @@ class PacienteController extends DoctrineRepository {
        $user = ($_SESSION['sesion']);
        $datos['user'] = $user;
 
-       /*  ATENCION !!!!!!!!!!!!!!!! QUEDA PARA 3 entrega
-       # Llamamos la API de Tipos de Documentos  
-       $json = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento");
-       #$documentos = json_decode($json,true);
-       $datos['documentos'] = json_decode($json,true); */
+       $datos['documentos'] = ReferenciasRepository::getTipoDocumento();
        
-       $em = DoctrineRepository::getConnection();
+       /* $em = DoctrineRepository::getConnection();
        $docuRepository = $em->getRepository('TipoDocumento'); 
-       $datos['documentos'] = $docuRepository->findAll();
+       $datos['documentos'] = $docuRepository->findAll(); */
 
        
        # Llamar planilla de documentos
