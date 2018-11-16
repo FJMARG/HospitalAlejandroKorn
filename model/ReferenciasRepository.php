@@ -4,75 +4,75 @@
         /* Todas las funciones retornan un arreglo, el cual contiene ademas un arreglo por cada elemento (como si fuera un FetchArray de una consulta sql); en excepcion de las consultas que requieren un ID que traen solo un arreglo con la informacion del elemento del ID correspondiente. */
 
         private static function getData($data){
-            return file_get_contents("https://api-referencias.proyecto2018.linti.unlp.edu.ar/".$data);
+            return json_decode(file_get_contents("https://api-referencias.proyecto2018.linti.unlp.edu.ar/".$data),true);
         }
 
         public static function getTipoDocumento() {
-            return json_decode(self::getData('tipo-documento'),true);
+            return self::getData('tipo-documento');
         }
         
         public static function getTipoDocumentoId($id) {
-            return json_decode(self::getData('tipo-documento/'.$id),true);
+            return self::getData('tipo-documento/'.$id);
         }
 
         public static function getTipoVivienda() {
-            return json_decode(self::getData('tipo-vivienda'),true);
+            return self::getData('tipo-vivienda');
         }
 
         public static function getTipoViviendaId($id) {
-            return json_decode(self::getData('tipo-vivienda/'.$id),true);
+            return self::getData('tipo-vivienda/'.$id);
         }
 
         public static function getTipoCalefaccion() {
-            return json_decode(self::getData('tipo-calefaccion'),true);
+            return self::getData('tipo-calefaccion');
         }
 
         public static function getTipoCalefaccionId($id) {
-            return json_decode(self::getData('tipo-calefaccion/'.$id),true);
+            return self::getData('tipo-calefaccion/'.$id);
         }
 
         public static function getTipoAgua() {
-            return json_decode(self::getData('tipo-agua'),true);
+            return self::getData('tipo-agua');
         }
 
         public static function getTipoAguaId($id) {
-            return json_decode(self::getData('tipo-agua/'.$id),true);
+            return self::getData('tipo-agua/'.$id);
         }
 
         public static function getRegionSanitaria() {
-            return json_decode(self::getData('region-sanitaria'),true);
+            return self::getData('region-sanitaria');
         }
 
         public static function getRegionSanitariaId($id) {
-            return json_decode(self::getData('region-sanitaria/'.$id),true);
+            return self::getData('region-sanitaria/'.$id);
         }
 
         public static function getPartido() {
-            return json_decode(self::getData('partido'),true);
+            return self::getData('partido');
         }
 
         public static function getPartidoId($id) {
-            return json_decode(self::getData('partido/'.$id),true);
+            return self::getData('partido/'.$id);
         }
 
         public static function getLocalidad() {
-            return json_decode(self::getData('localidad'),true);
+            return self::getData('localidad');
         }
 
         public static function getLocalidadId($id) {
-            return json_decode(self::getData('localidad/'.$id),true);
+            return self::getData('localidad/'.$id);
         }
 
         public static function getLocalidadPartido($partidoId) {
-            return json_decode(self::getData('localidad/partido/'.$partidoId),true);
+            return self::getData('localidad/partido/'.$partidoId);
         }
 
         public static function getObraSocial() {
-            return json_decode(self::getData('obra-social'),true);
+            return self::getData('obra-social');
         }
 
         public static function getObraSocialId($id) {
-            return json_decode(self::getData('obra-social/'.$id),true);
+            return self::getData('obra-social/'.$id);
         }
 
     }
