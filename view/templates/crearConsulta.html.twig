@@ -4,15 +4,19 @@
     <title>Hospital Dr. Alejandro Korn - Administracion</title>
 {% endblock %}
 {% block Script %}
-    <script src="mi_js/autocompletePaciente.js"></script>
+    <script type= "text/javascript" src="mi_js/autocompletePaciente.js"></script>
+<!-- Librerias para el mata -->
+    <script src  ='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+    <link   href ='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+    <script defer type="text/javascript" src  ='mi_js/boxmaps.js'></script>
 {% endblock %}    
 {% block contenido %}
 {% if mensaje %}
     <div class="alert {% if mensaje.getType() == 'success' %} alert-success {% else %} alert-danger {% endif %} alert-dismissible fade in show" role="alert">
-        <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+         <strong>{{ mensaje.getDisplay() }}</strong> {{ mensaje.getMsj() }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+         </button>
     </div>
 {% endif %}
 		<main>
@@ -22,27 +26,16 @@
                     <hr>
                 </div>
                  <div class="col-sm-offset-2 col-sm-8">
-                    <form id="consultaForm" role="form" method="post" action="#">
-                        <div class="form-group text-center">
-                                <input type="text"   id="search-box" placeholder="Ingrese Apellido Paciente"/>
-                                <div id="suggesstion-box"></div>
-                        </div>
+                    <form id="consultaForm" role="form" method="post" action="./index.php?categoria=consulta&accion=consulta_insertar" accept-charset="ISO-8859-1">
                         <div class="form-group">
-                             <label for="nombre">Nombre</label>
-                             <input type="text" class="form-control" name="nombre" id="nombre" required size="20" readonly>
+                            <div class = "ui-widget">
+                                 <input class="form-control" id="paciente" placeholder="Ingrese Apellido, Nombre o Numero de Idetificacion de Paciente"/>
+                            </div>
                         </div> 
-                        <div class="form-group"> <!-- Apellido -->
-                            <label for="apellido">Apellido</label>
-                            <input type="text" class="form-control" name="apellido" id="apellido" required size="20" readonly>
+                        <div id="selection"></div>
+                        <div class="form-group">
+                             <input type="text" class="form-control" name="id" id="id" required size="20" readonly>
                         </div> 
-                        <div class="form-group"> <!-- Tipo Documento -->
-                            <label for="tipoDocumento">Tipo de Documento</label>
-                            <input type="text" class="form-control" name="tipoDocumento" id="tipoDocumento" required size="10" readonly>
-                        </div>
-                        <div class="form-group"> <!-- Numero de Documento -->
-                        <label for="nroDocumento">Numero Documento</label>
-                        <input type="number" class="form-control" name="nroDocumento" id="nroDocumento" min="0" max="99999999999" required readonly>
-                        </div>
                         <div class="form-group text-center">
                              <hr>
                         </div>
@@ -51,17 +44,16 @@
                             <input type="date" class="form-control" name="fechaConsulta" id="fechaConsulta" required>
                         </div>
                         <div class="form-group"> <!-- Motivo -->
-                            <label for="genero">Motivo</label>
-                            <select class="form-control" name="motivo" id="motivo" required> 
-                              {% for motivo in motivos %}
+                             <label for="genero">Motivo</label>
+                             <select class="form-control" name="motivo" id="motivo" required> 
+                             {% for motivo in motivos %}
                                   <option value="{{motivo.getId()}}" selected>{{motivo.getNombre()}}</option>
-                              {% endfor %} 
+                             {% endfor %} 
                             </select>
                         </div> 
-                         <div class="form-group"> <!-- Articulacion con otros Institucione -->
-                            <label for="articulacion">Articulacion con otros Instituciones</label>
-                            <textarea id="articulacion" rows="3" cols="70">
-                            </textarea>
+                        <div class="form-group"> <!-- Articulacion con otros Instituciones -->
+                             <label for="articulacion">Articulacion con otros Instituciones</label>
+                             <input type="text" class="form-control" name="articulacion" id="articulacion">
                         </div> 
                         <div class="form-group"> <!-- Internacion -->
                            <label for="internacion">Irternación</label>
@@ -81,9 +73,9 @@
                         <div class="form-group"> <!-- Tratamiento Farmacologico -->
                             <label for="farmacologico">Tratamiento Farmacológico</label>
                             <select class="form-control" name="farmacologico" id="farmacologico"> 
-                              <option value="NULL" selected>Sin tratamiento</option> 
+                              <option value="NULL" selected>Sin tratamiento Farmacologico</option> 
                               {% for farmacologico in farmacologicos %}
-                                  <option value="{{farmacologico.getId()}}">{{farmacologico.getNombre()}}</option>
+                                  <option value="{{farmacologico.getId()}}">{{ farmacologico.getNombre() }}</option>
                               {% endfor %} 
                             </select>
                         </div> 
@@ -96,6 +88,24 @@
                                {% endfor %} 
                              </select>
                         </div> 
+                        <div class="form-group"> <!-- Institucion -->
+                             <label for="institucion">Institución</label>
+                             <select class="form-control" name="institucion" id="institucion"> 
+                               <option value="NULL" selected>Indique institucion de derivación</option> 
+                               {% for institucion in instituciones %}
+                                  <option value="{{ institucion.getId()}}">{{institucion.getNombre()}}</option>
+                               {% endfor %} 
+                             </select> 
+                        </div>    
+                        <div class="form-group">
+                            <label for="map-container">Ubicacion de Institución</label>
+                            <div id="map-container">
+                               <div id='map'>
+                               </div>
+                            </div> 
+                        </div>  
+                        <br>
+                        <br>
                         <div class="form-group text-center">
                              <div method="post">
                                  <button type="submit" class="btn btn-info" >

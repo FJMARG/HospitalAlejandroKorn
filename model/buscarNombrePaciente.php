@@ -1,53 +1,101 @@
 <?php
 
-require_once ('../vendor/autoload.php'); 
-require_once ('ApiRequest.php');
+require_once ('ReferenciasRepository.php');
 
-$dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
-$pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
+class BuscarNombrePaciente 
+{
+  
+    private static $instance;
 
-if(!empty($_POST["paciente"])) {
-     
-    $parametro = ($_POST["paciente"]) . "%";
+    public static function getInstance() {
 
-	$query = $pdo->prepare("SELECT * FROM  paciente where apellido LIKE ?");
-    $query->execute(array($parametro));
-    
-}
-?>
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
 
-<ul id="country-list">
+        return self::$instance;
+    }
 
-<?php
-
-    # Vericar si la consulta trajo datos
-    if (!is_null($query)) 
+    public function getConnection()
     {
-    	# procesar los pacientes recuperados 
-		while ($results = $query->fetch()) 
-		{	 
 
-            if ($results['tipo_doc_id'] === NULL)
-            {
-               $tipo = "S/N";
-            }
-            else
-            {
-               $tipo = ""; 
-               $url  = "https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento/" . $results['tipo_doc_id']; 
-               $obj  = ApiRequest::getInstance()->sendGet($url);
-               $tipo = $obj->nombre; 
-            }
 
-            # armar datos para mostar
-            $cadena = $results['apellido'] . " " . $results['nombre'] . "-Documento:" . $tipo . ":" . $results['numero'];
+        $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
+        return new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
 
-?>         
-    	  <li onClick="selectPaciente('<?php echo $results['nombre'];?>','<?php echo $results['apellido'];?>','<?php echo $tipo; ?>','<?php echo $results['numero'];?>');"><?php echo $cadena; ?></li>
-<?php 
-        } 
- 	 }
-?>  	
+        #$dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
+        #return new PDO($dsn, 'root', 'alumno');
 
-</ul>
+    }  
+
+
+    public function BuscarDatosAutocomplete($valor)
+    {
+
+        $pdo = $this->getConnection();
+        $reg = $valor.'%';    
+
+        $query = $pdo->prepare("SELECT * FROM  paciente WHERE nombre LIKE ? OR apellido LIKE ? OR numero LIKE ?");
+        $query->execute([$reg,$reg,$reg]);
+
+        $resultado = array();
+
+        $api = new ReferenciasRepository();
+
+        while($row = $query->fetch())
+        {
+              if ($row['tiene_documento'] == 0) 
+              {
+                 // Es no tiene documento mostara S/D
+                 $tipoDoc['nombre'] = "S/D";    
+              }
+              else 
+              { 
+                  // buscar DNI desde la API de documentos
+                  $tipoDoc = $api->getTipoDocumentoId("1");   
+              }  
+                
+              $data['label'] = $row['apellido'] . " " . $row['nombre'] . " " . $tipoDoc['nombre'] . " " .$row['numero'] ;
+              $data['value'] = $row['apellido']; 
+              $data['id']    = $row['id'];
+              array_push($resultado, $data);
+        }
+
+
+        echo json_encode($resultado);
+
+    }
+
+
+     public function buscarMapa($idInstitucion)
+     {
+             
+        /*
+        $pdo = $this->getConnection();
+
+        $query = $pdo->prepare("SELECT * FROM institucion WHERE id = ?");
+        $query->execute([$idInstitucion]);
+         
+        $resultado = array(); 
+        
+        while($row = $query->fetch())
+        {
+           $data['mapa'] = $row['mapa'];
+           array_push($resultado, $data);
+        }
+        
+        
+        //$resultado['unValor'] = 1; // para testeo
+        echo json_encode($resultado);
+        */
+     }
+}
+
+
+
+
+
+
+
+
 

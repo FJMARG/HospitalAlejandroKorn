@@ -379,6 +379,15 @@ class PacienteRepository extends DoctrineRepository {
 
   }
 
+
+  public function pacientesAutocomplete()
+  {
+      
+
+     echo "HOLA";
+
+  }
+
 } # FIN CLASE 
 
 

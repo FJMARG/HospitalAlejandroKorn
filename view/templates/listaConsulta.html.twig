@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block Head %}
+    <!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Consultas</title>
+{% endblock %}
+{% block Script %}
+{% endblock %}  
+{% block contenido %}
+        <main>
+        <div class="container margin-space">  
+               <div class="text-center">
+                  <h4>Consultas del Sistema</h4>  
+               </div>
+               <hr> 
+               <div class="form-group"> 
+               <div class="text-center">
+                        <button type="button" class="pull-left btn btn-danger" onclick="location.href='./index.php?categoria=administracion'">&#x21E6; Volver</button> 
+                        <button onclick="location.href='./index.php?categoria=consulta&accion=consulta_crear'" type="button" class="btn btn-success btn-primary pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Crear Consulta </button>
+               </div>
+              </div> 
+          <div class="col-sm-12">  
+             <div class="table-responsive">
+                <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">Fecha de Consulta</th>
+                            <th scope="col">Numero de Consulta</th>
+                            <th scope="col">Paciente-Nombre</th>
+                            <th scope="col">Paciente-Apellido</th>
+                            <th scope="col">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% if cantPags != 0 %}
+                          {% for i in despl..limite %}
+                           <tr>
+                              <td>{{ consultas[i].getFecha()|date('Y-m-d') }}</td>
+                              <td>{{ consultas[i].getId() }}</td>
+                              <td>{{ consultas[i].getPaciente().getNombre() }} </td>
+                              <td>{{ consultas[i].getPaciente().getApellido() }}</td>
+                              <td>"aaa"</td>
+                           </tr> 
+                          {% endfor %}
+                          {% else %}
+                            <p>No existen consultas.</p> 
+                          {% endif %}  
+                        </tbody>   
+                </table>
+             </div>
+          <div>  
+            {% if cantPags != 0 %}
+              {% for i in 1..cantPags %}
+                   <ul class="pagination">
+                      <li><a {% if pag != i %} href="index.php?categoria=consulta&accion=consultas_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
+                   </ul>
+              {% endfor %}
+            {% endif %} 
+          </div>
+          </div>
+        </main>
+{% endblock %}         
