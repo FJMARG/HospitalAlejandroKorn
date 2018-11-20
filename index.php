@@ -3,6 +3,7 @@ ini_set('display_startup_errors',1);
 ini_set('display_errors',1);
 error_reporting(-1);
 
+
 require_once ('vendor/autoload.php'); /* Carga todas las clases especificadas en el archivo composer.json (en la seccion autoload). */
 
 class Router {
@@ -81,7 +82,16 @@ class Router {
 			# ++++++++++++++++++++++++  comienzo consultas ++++++++++++++++++++++++ #
 			elseif($categoria=='consulta') {
 				if ($accion=='consulta_crear') {
-					ConsultaController::getInstance()->realizaAccion("crear"); /* Crear consulta para un paciente */
+					ConsultaController::getInstance()->realizaAccion("crear"); /* Pantalla Crear consulta para un paciente */
+				}
+				elseif ($accion=='consulta_insertar') {
+					ConsultaController::getInstance()->realizaAccion("insertar"); /* Crear consulta para un paciente */
+				}
+				elseif ($accion=='consulta_informeAlta') {
+					ConsultaController::getInstance()->realizaAccion("confirmacionAlta"); /* Consulta crearda OK */
+				}
+				elseif ($accion=='consultas_verTodos') {
+				  	ConsultaController::getInstance()->realizaAccion("verTodos"); /* Ver consultas del sistema*/ 
 				}
 				else{
 		        	$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');

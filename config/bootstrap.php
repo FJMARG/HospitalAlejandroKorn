@@ -12,7 +12,6 @@ Se setea de esta manera para crear las Entidades y los getters/setters
 
 */
 
-
 // database configuration parameters
 $conn = array(
     'driver' => 'pdo_mysql',
