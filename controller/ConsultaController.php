@@ -37,7 +37,7 @@ class ConsultaController extends DoctrineRepository {
               break;     
           case 'verTodos':
               # Ver consultas del sistema
-              $this->verConsultas();
+              $this->verConsultas($_GET['pag']);
               break;     
           default:
               # code...ERROR 
@@ -139,7 +139,7 @@ class ConsultaController extends DoctrineRepository {
      
    }
 
-   public function verConsultas()
+   public function verConsultas($pagActual)
    {
 
      # User logueado
@@ -147,6 +147,17 @@ class ConsultaController extends DoctrineRepository {
      $datos['user'] = $user;
 
      $datos['consultas'] = ConsultaRepository::getInstance()->listarTodasConsultas();
+
+     /* ++++++++++++++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
+
+     $paginacion = FrontController::getInstance()->paginar($datos['consultas'], $pagActual);
+
+     /* ++++++++++++++++++++++++++++++++ Fin Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
+
+     $datos['limite'] = $paginacion['limit'];
+     $datos['cantPags'] = $paginacion['cantDePags'];
+     $datos['pag'] = $pagActual;
+     $datos['despl'] = $paginacion['offset'];
 
      $vista = TwigView::getTwig();
      echo $vista->render('listaConsulta.html.twig',$datos);

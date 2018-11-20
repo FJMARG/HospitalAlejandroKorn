@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block Head %}
     <!-- Titulo Pagina -->
-    <title>Hospital Dr. Alejandro Korn - Pacientes</title>
+    <title>Hospital Dr. Alejandro Korn - Consultas</title>
 {% endblock %}
 {% block Script %}
 {% endblock %}  
@@ -31,18 +31,31 @@
                           </tr>
                         </thead>
                         <tbody>
-                           {% for consulta in consultas %}
+                          {% if cantPags != 0 %}
+                          {% for i in despl..limite %}
                            <tr>
-                              <td>{{ consulta.getFecha()|date('Y-m-d') }}</td>
-                              <td>{{ consulta.getId() }}</td>
-                              <td>{{ consulta.getPaciente().getNombre() }} </td>
-                              <td>{{ consulta.getPaciente().getApellido() }}</td>
+                              <td>{{ consultas[i].getFecha()|date('Y-m-d') }}</td>
+                              <td>{{ consultas[i].getId() }}</td>
+                              <td>{{ consultas[i].getPaciente().getNombre() }} </td>
+                              <td>{{ consultas[i].getPaciente().getApellido() }}</td>
                               <td>"aaa"</td>
                            </tr> 
-                           {% endfor %} 
+                          {% endfor %}
+                          {% else %}
+                            <p>No existen consultas.</p> 
+                          {% endif %}  
                         </tbody>   
                 </table>
              </div>
+          <div>  
+            {% if cantPags != 0 %}
+              {% for i in 1..cantPags %}
+                   <ul class="pagination">
+                      <li><a {% if pag != i %} href="index.php?categoria=consulta&accion=consultas_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
+                   </ul>
+              {% endfor %}
+            {% endif %} 
+          </div>
           </div>
         </main>
 {% endblock %}         

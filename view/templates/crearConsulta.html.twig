@@ -75,7 +75,7 @@
                             <select class="form-control" name="farmacologico" id="farmacologico"> 
                               <option value="NULL" selected>Sin tratamiento Farmacologico</option> 
                               {% for farmacologico in farmacologicos %}
-                                  <option value="{{farmacologico.getId()}}">{{farmacologico.getNombre()}}</option>
+                                  <option value="{{farmacologico.getId()}}">{{ farmacologico.getNombre()|convert_encoding('UTF-8','iso-2022-jp') }}</option>
                               {% endfor %} 
                             </select>
                         </div> 
