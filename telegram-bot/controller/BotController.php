@@ -29,10 +29,10 @@
             $msg['reply_to_message_id'] = (int)$response['message']['message_id'];
             $msg['reply_markup'] = null;
             
-            $tmp=explode(':',$cmd);
+            $comando=explode(':',$cmd);
 
-            if (sizeof($tmp)>1){
-                $cmd=$tmp[0];
+            if (sizeof($comando)>1){
+                $cmd=$comando[0];
             }
 
             // Comandos
