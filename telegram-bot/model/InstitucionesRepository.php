@@ -8,11 +8,11 @@
         }
 
         public static function getInstitucion() {
-            return self::getData('instituciones');
+            return self::getData("instituciones");
         }
         
         public static function getInstitucionRegionId($id) {
-            return self::getData('instituciones/region-sanitaria/​'.$id);
+            return self::getData("instituciones/region-sanitaria/​".$id);
         }
         
     }

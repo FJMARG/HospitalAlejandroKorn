@@ -37,7 +37,7 @@ switch ($cmd) {
 
     case '/instituciones-region-sanitaria':
         $msg = "Las instituciones disponibles para la region sanitaria ".$comando[1]." son: ";
-        $insts = InstitucionesRepository::getInstitucionRegionId(intval($comando[1]));
+        $insts = InstitucionesRepository::getInstitucionRegionId($comando[1]);
         foreach ($insts as $i){
             $msg = ":heavy_minus_sign:".$msg.$i['nombre'];
         }
