@@ -38,11 +38,11 @@
 				return $response->withJson(InstitucionRepository::getInstitucionPorTipo($args['id']), 200);
 			});
 
-			$app->get('/regiones-sanitarias/', function ($request, $response, $args) {
+			$app->get('/regiones-sanitarias', function ($request, $response, $args) {
 				return $response->withJson(RegionSanitariaRepository::getRegionSanitaria(), 200);
 			});
 
-			$app->get('/tipos-instituciones/', function ($request, $response, $args) {
+			$app->get('/tipos-instituciones', function ($request, $response, $args) {
 				return $response->withJson(TipoInstitucionRepository::getTipoInstitucion(), 200);
 			});
 
