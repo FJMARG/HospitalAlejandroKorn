@@ -1,6 +1,6 @@
 <?php
 
-include_once "/model/InstitucionesRepository.php";
+include_once 'model/InstitucionesRepository.php';
 
 $returnArray = true;
 $update = json_decode(file_get_contents('php://input') , $returnArray);
