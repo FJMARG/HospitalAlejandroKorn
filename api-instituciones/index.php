@@ -6,7 +6,7 @@
 	require_once 'model/PDORepository.php';
 	require_once 'model/InstitucionRepository.php';
 	require_once 'model/PartidoRepository.php';
-	require_once 'model/ReegionSanitariaRepository.php';
+	require_once 'model/RegionSanitariaRepository.php';
 	require_once 'model/TipoInstitucionRepository.php';
 
 	SlimController::startAPI();
