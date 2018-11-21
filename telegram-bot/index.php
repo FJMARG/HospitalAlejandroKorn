@@ -8,7 +8,6 @@ $cmd = $update['message']['text'];
 $chat_id = $update['message']['chat']['id'];
 $name = $update['message']['from']['first_name'];
 
-
 $comando=explode(':',$cmd);
 
 if (sizeof($comando)>1){
