@@ -1,2 +1,3 @@
 RewriteEngine On
+RewriteBase /api-instituciones/
 RewriteRule ^(.*)$ /api-instituciones/index.php/$1 [L]
