@@ -36,7 +36,7 @@ switch ($cmd) {
         }
         break;
 
-    case '/instituciones-region-sanitaria:':
+    case '/instituciones-region-sanitaria':
         $msg = "Las instituciones disponibles para la region sanitaria indicada son: ";
         $instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
         foreach ($instituciones as $institucion){
