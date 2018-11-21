@@ -19,31 +19,31 @@
 			});
 
 			$app->get('/instituciones', function ($request, $response, $args)   {
-				return $response->withJson(InstitucionRepository::getInstitucion(), 200);
+				return $response->withStatus(200)->withJson(InstitucionRepository::getInstitucion(), null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			});
 
 			$app->get('/instituciones/{id}', function ($request, $response, $args) {
-				return $response->withJson(InstitucionRepository::getInstitucionId($args['id']), 200);
+				return $response->withStatus(200)->withJson(InstitucionRepository::getInstitucionId($args['id']), null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			});
 
 			$app->get('/instituciones/region-sanitaria/{id}', function ($request, $response, $args) {
-				return $response->withJson(InstitucionRepository::getInstitucionRegion($args['id']), 200);
+				return $response->withStatus(200)->withJson(InstitucionRepository::getInstitucionRegion($args['id']), null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			});
 
 			$app->get('/partidos', function ($request, $response, $args) {
-				return $response->withJson(PartidoRepository::getPartido(), 200);
+				return $response->withStatus(200)->withJson(PartidoRepository::getPartido(), null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			});
 
 			$app->get('/instituciones/tipo-institucion/{id}', function ($request, $response, $args) {
-				return $response->withJson(InstitucionRepository::getInstitucionPorTipo($args['id']), 200);
+				return $response->withStatus(200)->withJson(InstitucionRepository::getInstitucionPorTipo($args['id']), null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			});
 
 			$app->get('/regiones-sanitarias', function ($request, $response, $args) {
-				return $response->withJson(RegionSanitariaRepository::getRegionSanitaria(), 200);
+				return $response->withStatus(200)->withJson(RegionSanitariaRepository::getRegionSanitaria(), null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			});
 
 			$app->get('/tipos-instituciones', function ($request, $response, $args) {
-				return $response->withJson(TipoInstitucionRepository::getTipoInstitucion(), 200);
+				return $response->withStatus(200)->withJson(TipoInstitucionRepository::getTipoInstitucion(), null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 			});
 
 			$app->run();
