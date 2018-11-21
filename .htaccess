@@ -1,3 +1,3 @@
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond /api-instituciones/%{REQUEST_FILENAME} -f
 RewriteRule ^(.*)$ /api-instituciones/index.php/$1 [L]
