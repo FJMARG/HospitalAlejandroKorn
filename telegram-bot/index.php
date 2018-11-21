@@ -40,7 +40,7 @@ switch ($cmd) {
         $msg = "Las instituciones disponibles para la region sanitaria indicada son: ";
         $instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
         foreach ($instituciones as $institucion){
-            $msg = ":heavy_minus_sign:".$msg.$institucion['nombre']."\n";
+            $msg = ":heavy_minus_sign:".$msg.$institucion['nombre'];
         }
         break;
  
