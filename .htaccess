@@ -1,4 +1,5 @@
 RewriteEngine On
+RewriteBase /wordpress/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^api-instituciones/index.php/$    /api-instituciones/$ [L]
+RewriteRule ^(.*)$ /index.php?/$1 [L]
