@@ -2,7 +2,6 @@
 
 include_once "/model/InstitucionesRepository.php";
 
-			define ('url',"https://api.telegram.org/bot<your_bot_code/");
             $update = json_decode(file_get_contents('php://input') , $returnArray);
             $chat_id = $update['message']['chat']['id'];
             $name = $update['message']['from']['first_name'];
@@ -17,7 +16,7 @@ include_once "/model/InstitucionesRepository.php";
             // Comandos
             switch ($cmd) {
                 case '/start':
-                    $msg  = 'Hola '.$update['message']['from']['first_name'].PHP_EOL;
+                    $msg  = 'Hola '.$name.PHP_EOL;
                     $msg .= '¿Como puedo ayudarte? Puedes ver una lista de las opciones disponibles con el comando /help';
                     break;
              
