@@ -31,7 +31,7 @@ switch ($cmd) {
         $msg = "Las instituciones disponibles son:";
         $instituciones = InstitucionesRepository::getInstitucion();
         foreach ($instituciones as $institucion){
-            $msg = ":heavy_minus_sign:".$msg.$institucion['nombre'];
+            $msg = " - ".$msg.$institucion['nombre'];
         }
         break;
 
