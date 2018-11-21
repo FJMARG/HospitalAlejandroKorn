@@ -2,6 +2,7 @@
 
 include_once "/model/InstitucionesRepository.php";
 
+$returnArray = true;
 $update = json_decode(file_get_contents('php://input') , $returnArray);
 $cmd = $update['message']['text'];
 $chat_id = $update['message']['chat']['id'];
@@ -41,10 +42,6 @@ switch ($cmd) {
         foreach ($instituciones as $institucion){
             $msg = $msg.$institucion['nombre']."\n";
         }
-        break;
- 
-    case '/info':
-        $msg  = json_encode($update);
         break;
  
     default:
