@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} "/api-instituciones/"
+RewriteRule ^(.*)$ /api-instituciones/index.php/$1 [L]
