@@ -3,9 +3,12 @@
 include_once "/model/InstitucionesRepository.php";
 
 $update = json_decode(file_get_contents('php://input') , $returnArray);
-$chat_id = $update['message']['chat']['id'];
-$name = $update['message']['from']['first_name'];
-$cmd = $update['message']['text'];
+
+if (isset ($update['message'])){
+	$cmd = $update['message']['text'];
+	$chat_id = $update['message']['chat']['id'];
+	$name = $update['message']['from']['first_name'];
+}
 
 /*$comando=explode(':',$cmd);
 
