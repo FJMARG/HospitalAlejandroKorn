@@ -44,7 +44,7 @@
                     break;
              
                 default:
-                    $msg  = 'Lo siento '.$update['message']['from']['first_name'].', pero ['.$cmd.'] no puedo ayudarte con lo que me solicitas. Escribi el comando /help para ver la lista de comandos disponibles (los que entiendo).';
+                    $msg  = 'Lo siento '.$update['message']['from']['first_name'].', pero no entiendo ['.$cmd.'], por lo que no puedo ayudarte con lo que me solicitas. Escribi el comando /help para ver la lista de comandos disponibles (los que entiendo).';
                     break;
             }
 
