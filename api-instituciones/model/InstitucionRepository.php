@@ -20,5 +20,13 @@ class InstitucionRepository {
 	    $stmt->execute();
 	    return $stmt->fetchAll(PDO::FETCH_OBJ);
 	}
+
+	public static function getInstitucionPorTipo($id){
+		$db = PDORepository::getConnection();
+	    $stmt = $db->prepare("Select * from institucion where tipo_institucion_id = :id;");
+	    $stmt->bindParam(':id',$id);
+	    $stmt->execute();
+	    return $stmt->fetchAll(PDO::FETCH_OBJ);
+	}
 }
 ?>
