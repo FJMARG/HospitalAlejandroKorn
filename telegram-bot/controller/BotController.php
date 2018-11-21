@@ -28,7 +28,7 @@
                     break;
              
                 case '/instituciones':
-                    $msg = "Las instituciones disponibles son:";
+                    $msg = "Las instituciones disponibles son: ";
                     $instituciones = InstitucionesRepository::getInstitucion();
                     foreach ($instituciones as $institucion){
                         $msg = $msg.$institucion['nombre']." - ";
@@ -42,7 +42,19 @@
                         $msg = $msg.$institucion['nombre']." - ";
                     }
                     break;
-             
+
+                case 'hola':
+                    $msg = "Hola!, en que puedo ayudarte?";
+                    break;
+
+                case 'gracias':
+                    $msg = "De nada!!!";
+                    break;
+             	
+                case 'chau':
+                    $msg = "Hasta la proxima!!!";
+                    break;
+
                 default:
                     $msg  = 'Lo siento '.$update['message']['from']['first_name'].', pero no entiendo ['.$cmd.'], por lo que no puedo ayudarte con lo que me solicitas. Escribi el comando /help para ver la lista de comandos disponibles (los que entiendo).';
                     break;
