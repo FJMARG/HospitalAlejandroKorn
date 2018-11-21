@@ -9,11 +9,11 @@ $chat_id = $update['message']['chat']['id'];
 $name = $update['message']['from']['first_name'];
 
 
-/*$comando=explode(':',$cmd);
+$comando=explode(':',$cmd);
 
 if (sizeof($comando)>1){
     $cmd=$comando[0];
-}*/
+}
 
 // Comandos
 
@@ -29,18 +29,18 @@ switch ($cmd) {
         break;
  
     case '/instituciones':
-        $msg = "Las instituciones disponibles son: \n";
+        $msg = "Las instituciones disponibles son:";
         $instituciones = InstitucionesRepository::getInstitucion();
         foreach ($instituciones as $institucion){
-            $msg = $msg.$institucion['nombre']."\n";
+            $msg = ":heavy_minus_sign:".$msg.$institucion['nombre'];
         }
         break;
 
     case '/instituciones-region-sanitaria:':
-        $msg = "Las instituciones disponibles para la region sanitaria indicada son: \n";
+        $msg = "Las instituciones disponibles para la region sanitaria indicada son: ";
         $instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
         foreach ($instituciones as $institucion){
-            $msg = $msg.$institucion['nombre']."\n";
+            $msg = ":heavy_minus_sign:".$msg.$institucion['nombre']."\n";
         }
         break;
  
