@@ -79,20 +79,8 @@
             }
 
             //Realizamos el envío
-            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage';
-
-            $options = array(
-                'http' => array(
-                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                    'method'  => 'POST',
-                    'content' => http_build_query($msg)
-                )
-            );
-                        
-            $context  = stream_context_create($options);
-            $result = file_get_contents($url, false, $context);
-             
-            exit(0);
+            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$msg['text'].'&chat_id='.$msg['chat_id'];
+            file_get_contents($url);
         }
     }
 ?>
