@@ -17,20 +17,20 @@ include_once "/model/InstitucionesRepository.php";
             // Comandos
             switch ($cmd) {
                 case '/start':
-                    $msg  = 'Hola ' . $update['message']['from']['first_name'] . " Usuario: " . $update['message']['from']['username'] . '!' . PHP_EOL;
+                    $msg  = 'Hola '.$update['message']['from']['first_name'].PHP_EOL;
                     $msg .= '¿Como puedo ayudarte? Puedes ver una lista de las opciones disponibles con el comando /help';
                     break;
              
                 case '/help':
-                    $msg = 'Los comandos disponibles son estos:' . PHP_EOL;
-                    $msg .= '/start Inicializa el bot' . PHP_EOL;
-                    $msg .= '/instituciones Muestra las instituciones disponibles.' . PHP_EOL;
-                    $msg .= '/instituciones-region-sanitaria: {region-sanitaria​​}: Muestra un listado de Instituciones a partir de una la región sanitaria indicada.' . PHP_EOL;
+                    $msg = 'Los comandos disponibles son estos: '.PHP_EOL;
+                    $msg .= '/start Inicializa el bot'.PHP_EOL;
+                    $msg .= '/instituciones Muestra las instituciones disponibles.'.PHP_EOL;
+                    $msg .= '/instituciones-region-sanitaria: {region-sanitaria​​} Muestra un listado de Instituciones a partir de una la región sanitaria indicada.'.PHP_EOL;
                     $msg .= '/help Muestra los comandos disponibles (Los que te estoy mostrando ahora).';
                     break;
              
                 case '/instituciones':
-                    $msg  = "Las instituciones disponibles son: \n";
+                    $msg  = 'Las instituciones disponibles son: '.PHP_EOL;
                     $instituciones = InstitucionesRepository::getInstitucion();
                     foreach ($instituciones as $institucion){
                         $msg .= $institucion['nombre']."\n ";
@@ -38,10 +38,10 @@ include_once "/model/InstitucionesRepository.php";
                     break;
 
                 case '/instituciones-region-sanitaria:':
-                    $msg  = "Las instituciones disponibles para la region sanitaria indicada son: \n";
+                    $msg  = 'Las instituciones disponibles para la region sanitaria indicada son: '.PHP_EOL;
                     $instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
                     foreach ($instituciones as $institucion){
-                        $msg .= $institucion['nombre']."\n ";
+                        $msg .= $institucion['nombre'].PHP_EOL;
                     }
                     break;
              
@@ -50,7 +50,7 @@ include_once "/model/InstitucionesRepository.php";
                     break;
              
                 default:
-                    $msg  = 'Lo siento ' . $update['message']['from']['first_name'] . ', pero [' . $cmd . '] no es un comando válido.' . PHP_EOL;
+                    $msg  = 'Lo siento '.$update['message']['from']['first_name'].', pero ['.$cmd.'] no es un comando válido.'. PHP_EOL;
                     $msg .= 'Prueba /help para ver la lista de comandos disponibles';
                     break;
             }
