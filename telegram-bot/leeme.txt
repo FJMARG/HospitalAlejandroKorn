@@ -1,0 +1,11 @@
+Url del bot: https://t.me/AlejandroKornBot
+
+Username del bot: AlejandroKornBot
+
+Nombre del  bot: AtencionAKorn
+
+Token: 794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0
+
+Hook web: https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/setWebhook?url=https://grupo11.proyecto2018.linti.unlp.edu.ar/telegram-bot/index.php
+
+Eliminar Web Hook: https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/deleteWebhook
