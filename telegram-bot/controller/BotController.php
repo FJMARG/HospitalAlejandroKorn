@@ -54,14 +54,16 @@
              
                 case '/instituciones':
                     $msg['text']  = "Las instituciones disponibles son: \n";
-                    foreach (InstitucionesRepository::getInstitucion() as $institucion){
+                    $instituciones = InstitucionesRepository::getInstitucion();
+                    foreach ($instituciones as $institucion){
                         $msg['text'] .= $institucion['nombre']."\n ";
                     }
                     break;
 
                 case '/instituciones-region-sanitaria:':
                     $msg['text']  = "Las instituciones disponibles para la region sanitaria indicada son: \n";
-                    foreach (InstitucionesRepository::getInstitucionRegionId($tmp[1]) as $institucion){
+                    $instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
+                    foreach ($instituciones as $institucion){
                         $msg['text'] .= $institucion['nombre']."\n ";
                     }
                     break;
