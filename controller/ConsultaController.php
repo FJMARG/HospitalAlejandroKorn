@@ -38,9 +38,21 @@ class ConsultaController extends DoctrineRepository {
           case 'verTodos':
               # Ver consultas del sistema
               $this->verConsultas($_GET['pag']);
-              break;     
+              break; 
+          case 'verConsultaPaciente': 
+              # Ver detalles de una consulta particular
+              if (!isset(($_GET['id']))) { $_GET['id'] = ""; }
+              $id = ($_GET['id']);
+              $this->verConsultaPaciente(($_GET['pag']),$id);
+              break;         
+          case 'verConsulta': 
+              # Ver detalles de una consulta particular
+              if (!isset(($_GET['id_consulta']))) { $_GET['id_consulta'] = ""; }
+              $id = ($_GET['id_consulta']);
+              $this->verConsulta($id);
+              break;         
           default:
-              # code...ERROR 
+              # code...ERROR consulta_verPacientes
               break;    
 	   }
     }   
@@ -164,5 +176,41 @@ class ConsultaController extends DoctrineRepository {
 
    }
 
+   public function verConsultaPaciente($pagActual,$id)
+   {
+       # User logueado
+       $user = ($_SESSION['sesion']);
+       $datos['user'] = $user;
+
+       $datos['consultas'] = ConsultaRepository::getInstance()->listarConsultasPaciente($id);
+
+       /* ++++++++++++++++++++++++++++++++++++ Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
+
+       $paginacion = FrontController::getInstance()->paginar($datos['consultas'], $pagActual);
+
+       /* ++++++++++++++++++++++++++++++++ Fin Paginado +++++++++++++++++++++++++++++++++++++++++++++ */
+
+       $datos['limite'] = $paginacion['limit'];
+       $datos['cantPags'] = $paginacion['cantDePags'];
+       $datos['pag'] = $pagActual;
+       $datos['despl'] = $paginacion['offset'];
+
+       $vista = TwigView::getTwig();
+       echo $vista->render('listaConsulta.html.twig',$datos);
+   }
+
+   public function verConsulta($id){
+
+
+        # Buscar los datos de la consulta que vamos a mostrar
+        $datos['consulta'] = DoctrineRepository::getConnection()->getRepository('Consulta')->find($id);
+
+        $user = ($_SESSION['sesion']);
+        $datos['user'] = $user;
+
+        $vista = TwigView::getTwig();
+        echo $vista->render('datosConsulta.html.twig',$datos);        
+
+    } 
 
 }    

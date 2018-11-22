@@ -12,6 +12,7 @@ Se setea de esta manera para crear las Entidades y los getters/setters
 
 */
 
+
 // database configuration parameters
 $conn = array(
     'driver' => 'pdo_mysql',
@@ -19,6 +20,15 @@ $conn = array(
     'password' => 'ZDc1MjY5MTBlNjQ2',
     'dbname' => 'grupo11',
 );
+
+/*
+$conn = array(
+    'driver' => 'pdo_mysql',
+    'user' => 'root',
+    'password' => 'alumno',
+    'dbname' => 'proyecto2018',
+);
+*/
 
 
 // obtaining the entity manager

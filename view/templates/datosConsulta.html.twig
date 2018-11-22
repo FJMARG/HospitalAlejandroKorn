@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+{% block Head %}
+    <!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Ver paciente</title>
+{% endblock %}
+{% block Script %}
+<!-- Librerias para el mata -->
+    <script src  ='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+    <link   href ='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+    <script defer type="text/javascript" src  ='mi_js/boxmaps.js'></script>
+{% endblock %}  
+{% block contenido %}
+<main>
+    <div class="container margin-space">
+    	<div class="col-sm-9"> 
+    		<input type="number" name="pac_id" id="pac_id" value="{{ consulta.getPaciente().getId() }}" hidden>  
+		    <div class="panel panel-primary">
+		      <div class="panel-heading">Informacion sobre la Consulta</div>
+		        	<div class="panel-body">
+		        	    <table class="table">
+		        	        <tbody>
+		        	           <tr>
+		        	    	       <td>Nro de Consulta Registrado:<td>
+		        	    	       <td>{{ consulta.getId() }}<td>
+		        	    	   </tr> 
+		        	    	   <tr>
+		        	    	       <td>Apellido de Paciente:<td>
+		        	    	       <td>{{ consulta.getPaciente().getApellido() }}<td>
+		        	    	   </tr>
+		        	    	   <tr>
+		        	    	       <td>Nombre del Paciente:<td>
+		        	    	       <td>{{ consulta.getPaciente().getNombre() }}<td>
+		        	    	   </tr> 
+		        	    	   <tr>
+		        	    	       <td>Fecha Consulta:<td>
+		        	    	       <td>{{ consulta.getFecha()|date('Y-m-d') }}<td>
+		        	    	   </tr> 
+		        	    	    <tr>
+		        	    	       <td>Articulacion con Instituciones:<td>
+		        	    	       <td>{{ consulta.getArticulacionConInstituciones() }}<td>
+		        	    	   </tr> 
+		        	    	   <tr>
+		        	    	       <td>Hubo Internacion ?<td>
+		        	    	       	{% if consulta.getInternacion() == 1 %}
+                                       <td>SI<td>
+				                    {% else %}
+				                       <td>NO<td>
+				                    {% endif %}          
+		        	    	   </tr>
+		        	    	   <tr>
+		        	    	   	  <td>Diagnostico:<td>
+		        	    	   	  <td>{{ consulta.getDiagnostico() }}<td>	
+		        	    	   </tr>
+		        	    	   <tr>
+		        	    	   	   <td>Observaciones:<td>
+		        	    	   	   <td>{{ consulta.getObservaciones() }}<td>	
+		        	    	   </tr>
+		        	    	   <tr>
+		        	    	   	   <td>Acompanamiento:<td>
+		        	    	   	   <td>{{ consulta.getAcompanamiento().getNombre }}<td>	
+		        	    	   </tr>
+		        	    	   <tr>
+		        	    	    	<td>Derivacion:<td>
+		        	    	   	    <td>{{ consulta.getDerivacion().getNombre }}<td>	
+		        	    	   </tr>
+		        	    	   <tr>
+		        	    	    	<td>Motivo:<td>
+		        	    	   	    <td>{{ consulta.getMotivo().getNombre }}<td>	
+		        	    	   </tr>
+		        	    	   <tr>
+		        	    	    	<td>Tratamiento Farmacologico:<td>
+		        	    	   	    <td>{{ consulta.getTratamientoFarmacologico().getNombre }}<td>	
+		        	    	   </tr> 
+		        	    	   <tr>		        	    	   	
+		        	    	   	    <td>
+		        	    	   	    	<br>
+	  								<td>
+	  								<td>
+	  									<!-- Linea de tabla -->
+	  								<td>	
+		        	    	   </tr>	
+		        	      </tbody>
+		        	  </table> 
+		        	  <div class="form-group">
+		                  <label for="map-container">Instituciones concurridas por el paciente</label>
+		                  <div id="map-container">
+		                       <div id='map'></div>
+		                  </div> 
+	                  </div>
+	                  <div class="text-center"> 
+			        	  <div style="margin:2%">
+		  	 				   <a href="javascript:history.back()" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Volver a lista de Consultas</a>
+		  				  </div>
+	  			      </div>
+	             </div> 
+            </div>
+       	</div>    
+      </div>  
+</main>
+{% endblock %} 

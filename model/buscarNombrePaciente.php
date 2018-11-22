@@ -67,28 +67,66 @@ class BuscarNombrePaciente
     }
 
 
-     public function buscarMapa($idInstitucion)
-     {
-             
-        /*
-        $pdo = $this->getConnection();
-
-        $query = $pdo->prepare("SELECT * FROM institucion WHERE id = ?");
-        $query->execute([$idInstitucion]);
+     public function buscarMapa($id)
+     {   
+        
+         // recuperar los datos del cliente
+         $pdo = $this->getConnection();
+         $query = $pdo->prepare("SELECT DISTINCT consulta.derivacion_id, institucion.nombre, institucion.director, institucion.lat, institucion.log
+                                 FROM consulta 
+                                 INNER JOIN institucion ON
+                                 consulta.derivacion_id = institucion.id
+                                 WHERE consulta.paciente_id = ? 
+                                 AND consulta.derivacion_id IS NOT NULL");
+         $query->execute([$id]);
+                   
          
-        $resultado = array(); 
+         // datos del arreglo   
+         //$linea['derivacion_id'] = $row['derivacion_id'];
+         //$linea['lat']           = $row['lat'];
+         //$linea['log']           = $row['log'];
+         //$linea['director']      = $row['director'];
+         //$linea['nombre']        = $row['nombre'];
+
+         //array_push($arrayName,$linea);
+         //echo json_encode($arrayName);
+     
+          
+
+          # Build GeoJSON feature collection array
+          # Crear una matriz de colección de características GeoJSON
+          $geojson = array(
+             'type'      => 'FeatureCollection',
+             'features'  => array()
+          );
+           
+          while ( $row = $query->fetch()) { 
         
-        while($row = $query->fetch())
-        {
-           $data['mapa'] = $row['mapa'];
-           array_push($resultado, $data);
-        }
+                    $feature = array(
+                                    'id' => $row['derivacion_id'],  
+                                    'type' => 'Feature', 
+                                    'geometry' => array (
+                                                          'type' => 'Point',
+                                                          # Pass Longitude and Latitude Columns here
+                                                          'coordinates' => array($row['log'],$row['lat']) 
+                                                        ),
+                                      # Pass other attribute columns here
+                                      'properties' => array (
+                                                              'name' => $row['director'],
+                                                              'description' => $row['nombre']
+                      )
+                  );
+
+                  # Add feature arrays to feature collection array  
+                  array_push($geojson['features'], $feature);  
+
+        }        
         
+        // devolver el geoJson  
+        echo json_encode($geojson, JSON_NUMERIC_CHECK);
         
-        //$resultado['unValor'] = 1; // para testeo
-        echo json_encode($resultado);
-        */
      }
+
 }
 
 

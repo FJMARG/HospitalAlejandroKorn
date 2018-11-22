@@ -21,14 +21,22 @@ class ConsultaRepository extends DoctrineRepository
     {
         
         $em = DoctrineRepository::getConnection(); 
-		$registros = $em->getRepository('Consulta')->findBy( array(), array('fecha' => 'DESC') );
-    	return $registros;
+		    $registros = $em->getRepository('Consulta')->findBy( array(), array('fecha' => 'DESC') );
+    	  return $registros;
 
     } 
+   
+   public function listarConsultasPaciente($id)
+   {
+        filter_var($id, FILTER_SANITIZE_SPECIAL_CHARS);
 
+        $em = DoctrineRepository::getConnection();
+        $registros = $em->getRepository('Consulta')->findBy( array('paciente' => $id), array('fecha' => 'DESC') );
+        return $registros;
 
+   }
 
-    public function crearConsulta($id,
+   public function crearConsulta($id,
 							      $fechaConsulta,
 							      $motivo,
 							      $articulacion,
@@ -86,35 +94,35 @@ class ConsultaRepository extends DoctrineRepository
        $cl_motivo      = $em->getRepository('MotivoConsulta')->find($motivo);
        $cl_derivacion  = $em->getRepository('Institucion')->find($institucion); 
        $cl_trata_farma = $em->getRepository('TratamientoFarmacologico')->find($farmacologico); 
-	   $cl_acompa      = $em->getRepository('Acompanamiento')->find($acompa); 
+	     $cl_acompa      = $em->getRepository('Acompanamiento')->find($acompa); 
 
        // Validar la existencia del paciente 
-	   if ($cl_paciente == NULL)
-	   {
-	   	  return "Paciente NO registrado en el sistema"; 
-	   }
+	     if ($cl_paciente == NULL)
+	     {
+	   	    return "Paciente NO registrado en el sistema"; 
+	     }
 
 
-	   // Guardar datos
-	   $consulta = new Consulta();
+	    // Guardar datos
+	    $consulta = new Consulta();
 
-	   $consulta->setFecha(date_create($fechaConsulta));
-	   $consulta->setArticulacionConInstituciones($articulacion);
-	   $consulta->setInternacion($internacion);
-	   $consulta->setDiagnostico($diagnostico);
-	   $consulta->setObservaciones($observaciones);
-	   $consulta->setAcompanamiento($cl_acompa);
-	   $consulta->setDerivacion($cl_derivacion);
-	   $consulta->setMotivo($cl_motivo);
-	   $consulta->setPaciente($cl_paciente);
-	   $consulta->setTratamientoFarmacologico($cl_trata_farma);
+	    $consulta->setFecha(date_create($fechaConsulta));
+	    $consulta->setArticulacionConInstituciones($articulacion);
+	    $consulta->setInternacion($internacion);
+	    $consulta->setDiagnostico($diagnostico);
+	    $consulta->setObservaciones($observaciones);
+	    $consulta->setAcompanamiento($cl_acompa);
+	    $consulta->setDerivacion($cl_derivacion);
+	    $consulta->setMotivo($cl_motivo);
+	    $consulta->setPaciente($cl_paciente);
+	    $consulta->setTratamientoFarmacologico($cl_trata_farma);
 
-	   // insertar datos
-	   $em->persist($consulta);
-       $em->flush();
+	    // insertar datos
+	    $em->persist($consulta);
+      $em->flush();
 
-       // return 0; # Se creo el paciente    
-       return 0;
+      // return 0; # Se creo el paciente    
+      return 0;
     
     }
 

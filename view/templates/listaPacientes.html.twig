@@ -19,14 +19,14 @@
                         <button onclick="location.href='./index.php?categoria=paciente&accion=paciente_crear'" type="button" class="btn btn-success btn-primary pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Crear Paciente </button>
                </div>
               </div> 
-          <div class="col-sm-12">  
-            {% if pacientes|length == 0 %}
+           <div class="col-sm-12">  
+           {% if pacientes|length == 0 %} 
                <div class="panel panel-info">
                    <div class="panel-heading"></div>
                    <div class="panel-body"><p>Sin resultados de busqueda</p></div>
                </div>
-            {% else %}
-            <div class="table-responsive">
+           {% else %}
+           <div class="table-responsive">
                   <table class="table table-hover">
                         <thead>
                           <tr>
@@ -59,11 +59,10 @@
                                      {% endif %}
                                 </td>
                                 <td>
-
                                     <a href="index.php?categoria=paciente&accion=paciente_ver&id={{ pacientes[i].id }}" title="Ver Paciente" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>   
                                     <a href="index.php?categoria=paciente&accion=paciente_pantallaEditar&id={{ pacientes[i].id }}" title="Editar Paciente" title="Editar datos" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                     <a href="index.php?categoria=paciente&accion=paciente_pantallaBorrado&id={{ pacientes[i].id }}" title="Eliminar Paciente" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-
+                                    <a href="index.php?categoria=consulta&accion=consulta_verPacientes&id={{ pacientes[i].id }}" title="Ver Consultas del Paciente" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a>
                                 </td>
                             </tr>
                           {% endfor %}
@@ -73,16 +72,16 @@
                         </tbody> 
                     </table> 
               </div>
-              {% endif %}
+            {% endif %}
             <div>  
             {% if cantPags != 0 %}
-              {% for i in 1..cantPags %}
-                   <ul class="pagination">
-                      <li><a {% if pag != i %} href="index.php?categoria=paciente&accion=paciente_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
-                   </ul>
-              {% endfor %}
+                {% for i in 1..cantPags %}
+                     <ul class="pagination">
+                        <li><a {% if pag != i %} href="index.php?categoria=paciente&accion=paciente_verTodos&pag={{ i }}" {% endif %}>{{ i }}</a></li>
+                     </ul>
+                {% endfor %}
             {% endif %} 
-          </div>
+            </div>
           </div>
         </main>
 {% endblock %}         

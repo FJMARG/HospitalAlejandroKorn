@@ -90,9 +90,16 @@ class Router {
 				elseif ($accion=='consulta_informeAlta') {
 					ConsultaController::getInstance()->realizaAccion("confirmacionAlta"); /* Consulta crearda OK */
 				}
-				elseif ($accion=='consultas_verTodos') {
-				  	ConsultaController::getInstance()->realizaAccion("verTodos"); /* Ver consultas del sistema*/ 
+				elseif ($accion=='consulta_verTodos') {
+				  	ConsultaController::getInstance()->realizaAccion("verTodos");   /* Ver consultas del sistema*/ 
 				}
+				elseif ($accion=='consulta_verPacientes') {
+				  	ConsultaController::getInstance()->realizaAccion("verConsultaPaciente"); /* Ver consultas del sistema*/
+				}
+				elseif ($accion=='consulta_ver') {		    	
+				  	ConsultaController::getInstance()->realizaAccion("verConsulta"); /* Ver detella de un paciente */	
+				}
+				# Sin permisos
 				else{
 		        	$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');
 			 		FrontController::getInstance()->mostrar('administracion',$msj,$_SESSION['sesion']->getUsername());
