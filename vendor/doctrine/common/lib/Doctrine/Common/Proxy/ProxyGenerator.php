@@ -290,7 +290,9 @@ class <proxyShortClassName> extends \<className> implements \<baseProxyInterface
 
         file_put_contents($tmpFileName, $proxyCode);
         @chmod($tmpFileName, 0664);
+        /* -------------------------------- */
         /* rename($tmpFileName, $fileName); */
+        /* -------------------------------- */
         copy($tmpFileName,$fileName); /* Se corrige un error de cache y permisos del server con la solucion de: */
         unlink($tmpFileName);		  /* https://github.com/doctrine/doctrine2/issues/6713#issuecomment-333375278 */
     }								  /* Volvio a fallar el 21/11/2018, no sabemos por que, ya que esta bien editado */
