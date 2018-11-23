@@ -43,9 +43,9 @@ class Paciente
     private $fechaNac;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="lugar_nac", type="string", nullable=false)
+     * @ORM\Column(name="lugar_nac", type="string", length=250, nullable=true)
      */
     private $lugarNac;
 
@@ -232,7 +232,7 @@ class Paciente
      *
      * @return Paciente
      */
-    public function setLugarNac($lugarNac)
+    public function setLugarNac($lugarNac = null)
     {
         $this->lugarNac = $lugarNac;
 

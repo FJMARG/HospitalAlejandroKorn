@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Localidad
  *
- * @ORM\Table(name="localidad", indexes={@ORM\Index(name="FK_partido_id", columns={"partido_id"})})
+ * @ORM\Table(name="localidad")
  * @ORM\Entity
  */
 class Localidad
@@ -29,14 +29,11 @@ class Localidad
     private $nombre;
 
     /**
-     * @var \Partido
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="Partido")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="partido_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="partido_id", type="integer", nullable=false)
      */
-    private $partido;
+    private $partidoId;
 
 
 
@@ -75,26 +72,26 @@ class Localidad
     }
 
     /**
-     * Set partido.
+     * Set partidoId.
      *
-     * @param \Partido|null $partido
+     * @param int $partidoId
      *
      * @return Localidad
      */
-    public function setPartido(\Partido $partido = null)
+    public function setPartidoId($partidoId)
     {
-        $this->partido = $partido;
+        $this->partidoId = $partidoId;
 
         return $this;
     }
 
     /**
-     * Get partido.
+     * Get partidoId.
      *
-     * @return \Partido|null
+     * @return int
      */
-    public function getPartido()
+    public function getPartidoId()
     {
-        return $this->partido;
+        return $this->partidoId;
     }
 }

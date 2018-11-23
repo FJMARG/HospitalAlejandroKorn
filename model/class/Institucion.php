@@ -43,6 +43,20 @@ class Institucion
     private $telefono;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="lat", type="string", length=250, nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="log", type="string", length=250, nullable=true)
+     */
+    private $log;
+
+    /**
      * @var \RegionSanitaria
      *
      * @ORM\ManyToOne(targetEntity="RegionSanitaria")
@@ -144,6 +158,54 @@ class Institucion
     public function getTelefono()
     {
         return $this->telefono;
+    }
+
+    /**
+     * Set lat.
+     *
+     * @param string|null $lat
+     *
+     * @return Institucion
+     */
+    public function setLat($lat = null)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat.
+     *
+     * @return string|null
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set log.
+     *
+     * @param string|null $log
+     *
+     * @return Institucion
+     */
+    public function setLog($log = null)
+    {
+        $this->log = $log;
+
+        return $this;
+    }
+
+    /**
+     * Get log.
+     *
+     * @return string|null
+     */
+    public function getLog()
+    {
+        return $this->log;
     }
 
     /**

@@ -43,6 +43,20 @@ class Institucion
     private $telefono;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="lat", type="string", length=250, nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="log", type="string", length=250, nullable=true)
+     */
+    private $log;
+
+    /**
      * @var \RegionSanitaria
      *
      * @ORM\ManyToOne(targetEntity="RegionSanitaria")
@@ -63,134 +77,4 @@ class Institucion
     private $tipoInstitucion;
 
 
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set nombre.
-     *
-     * @param string $nombre
-     *
-     * @return Institucion
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Get nombre.
-     *
-     * @return string
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * Set director.
-     *
-     * @param string $director
-     *
-     * @return Institucion
-     */
-    public function setDirector($director)
-    {
-        $this->director = $director;
-
-        return $this;
-    }
-
-    /**
-     * Get director.
-     *
-     * @return string
-     */
-    public function getDirector()
-    {
-        return $this->director;
-    }
-
-    /**
-     * Set telefono.
-     *
-     * @param string $telefono
-     *
-     * @return Institucion
-     */
-    public function setTelefono($telefono)
-    {
-        $this->telefono = $telefono;
-
-        return $this;
-    }
-
-    /**
-     * Get telefono.
-     *
-     * @return string
-     */
-    public function getTelefono()
-    {
-        return $this->telefono;
-    }
-
-    /**
-     * Set regionSanitaria.
-     *
-     * @param \RegionSanitaria|null $regionSanitaria
-     *
-     * @return Institucion
-     */
-    public function setRegionSanitaria(\RegionSanitaria $regionSanitaria = null)
-    {
-        $this->regionSanitaria = $regionSanitaria;
-
-        return $this;
-    }
-
-    /**
-     * Get regionSanitaria.
-     *
-     * @return \RegionSanitaria|null
-     */
-    public function getRegionSanitaria()
-    {
-        return $this->regionSanitaria;
-    }
-
-    /**
-     * Set tipoInstitucion.
-     *
-     * @param \TipoInstitucion|null $tipoInstitucion
-     *
-     * @return Institucion
-     */
-    public function setTipoInstitucion(\TipoInstitucion $tipoInstitucion = null)
-    {
-        $this->tipoInstitucion = $tipoInstitucion;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoInstitucion.
-     *
-     * @return \TipoInstitucion|null
-     */
-    public function getTipoInstitucion()
-    {
-        return $this->tipoInstitucion;
-    }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Partido
  *
- * @ORM\Table(name="partido", indexes={@ORM\Index(name="FK_partido_region_sanitaria_id", columns={"region_sanitaria_id"})})
+ * @ORM\Table(name="partido")
  * @ORM\Entity
  */
 class Partido
@@ -29,14 +29,11 @@ class Partido
     private $nombre;
 
     /**
-     * @var \RegionSanitaria
+     * @var int
      *
-     * @ORM\ManyToOne(targetEntity="RegionSanitaria")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="region_sanitaria_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="region_sanitaria_id", type="integer", nullable=false)
      */
-    private $regionSanitaria;
+    private $regionSanitariaId;
 
 
 
@@ -75,26 +72,26 @@ class Partido
     }
 
     /**
-     * Set regionSanitaria.
+     * Set regionSanitariaId.
      *
-     * @param \RegionSanitaria|null $regionSanitaria
+     * @param int $regionSanitariaId
      *
      * @return Partido
      */
-    public function setRegionSanitaria(\RegionSanitaria $regionSanitaria = null)
+    public function setRegionSanitariaId($regionSanitariaId)
     {
-        $this->regionSanitaria = $regionSanitaria;
+        $this->regionSanitariaId = $regionSanitariaId;
 
         return $this;
     }
 
     /**
-     * Get regionSanitaria.
+     * Get regionSanitariaId.
      *
-     * @return \RegionSanitaria|null
+     * @return int
      */
-    public function getRegionSanitaria()
+    public function getRegionSanitariaId()
     {
-        return $this->regionSanitaria;
+        return $this->regionSanitariaId;
     }
 }
