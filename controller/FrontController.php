@@ -51,7 +51,7 @@ class FrontController {
             $offset = ($pagActual-1) * $cantXPag;
             $limit = ($pagActual * $cantXPag)-1;
 
-            if ($limit > $cant){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
+            if ($limit >= $cant){ /* Si la ultima pagina no se completa de elementos, se hace esta operacion para no superar el limite */
                 $limit = $cant-1;
             }
         }
