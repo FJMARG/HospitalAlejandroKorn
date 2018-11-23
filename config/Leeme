@@ -1,1 +1,1 @@
-Utilizado para la creacion de la base de datos y actualizacion de getters/setters, ya que Doctrine reconoce esta gerarquia de carpetas con estos nombres de archivos.
+Utilizado para la creacion de la base de datos y actualizacion de getters/setters, ya que Doctrine reconoce esta jerarquia de carpetas con estos nombres de archivos.
