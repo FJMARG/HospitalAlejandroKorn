@@ -1,20 +1,21 @@
 $(function() {
       
      // logica press key paciente 
-     $("#paciente").on('keyup keydown',function(){
-         $("#id").val(-1); // valor por defecto en caso que no se selecion un paciente
-         document.getElementById("paciente").style.color = "red";
+     $("#paciente").keypress(function(e){
+         var keycode = (e.keyCode ? e.keyCode : e.which); // detectar el enter 
+         if (keycode != '13') {
+             $("#id").val(-1); // valor por defecto en caso que no se selecion un paciente
+             document.getElementById("paciente").style.color = "red";
+         }
      });
-
      
      // logica autocomplete
      $("#paciente").autocomplete({
         source: function (request, response) 
         {
-               // valor del input en --> request.term
-
-               $.ajax({
-               	    url: "./controller/ScriptController.php", 
+          // valor del input en --> request.term
+          $.ajax({
+          url: "./controller/ScriptController.php", 
  					type: "get",
                	    dataType: "json",
                	    data: {

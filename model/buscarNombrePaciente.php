@@ -23,8 +23,8 @@ class BuscarNombrePaciente
         $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
         return new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
 
-        #$dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
-        #return new PDO($dsn, 'root', 'alumno');
+        //$dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
+        //return new PDO($dsn, 'root', 'alumno');
 
     }  
 

@@ -46,7 +46,9 @@
                               <td>{{ consultas[i].getPaciente().getNombre() }} </td>
                               <td>{{ consultas[i].getPaciente().getApellido() }}</td>
                               <td>
-                                  <a href="index.php?categoria=consulta&accion=consulta_ver&id_consulta={{ consultas[i].id }}" title="Ver Datelle Consulta" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a> 
+                                  <a href="index.php?categoria=consulta&accion=consulta_ver&id_consulta={{ consultas[i].id }}" title="Ver Datelle Consulta" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a>
+                                  <a href="index.php?categoria=consulta&accion=consulta_pantallaEditar&id_consulta={{ consultas[i].id }}" title="Editar Paciente" title="Editar datos" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> 
+                                  <a href="index.php?categoria=consulta&accion=consulta_pantallaBorrado&id_consulta={{ consultas[i].id }}" title="Eliminar Consulta" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> 
                               </td>
                            </tr> 
                           {% endfor %}

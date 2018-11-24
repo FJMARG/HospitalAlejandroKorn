@@ -94,12 +94,24 @@ class Router {
 				  	ConsultaController::getInstance()->realizaAccion("verTodos");   /* Ver consultas del sistema*/ 
 				}
 				elseif ($accion=='consulta_verPacientes') {
-				  	ConsultaController::getInstance()->realizaAccion("verConsultaPaciente"); /* Ver consultas del sistema*/
+				  	ConsultaController::getInstance()->realizaAccion("verConsultaPaciente"); /* Ver consultas de los paciente en el sistema*/
 				}
 				elseif ($accion=='consulta_ver') {		    	
 				  	ConsultaController::getInstance()->realizaAccion("verConsulta"); /* Ver detella de un paciente */	
 				}
-				# Sin permisos
+				elseif ($accion=='consulta_pantallaBorrado') {		    	
+				  	ConsultaController::getInstance()->realizaAccion("verBorrado"); /* pantalla de borrado de un paciente */	
+				}
+				elseif ($accion=='consulta_borrar') {		    	
+				  	ConsultaController::getInstance()->realizaAccion("borrar"); /* borrar consulta de base de datos */	
+				}
+				elseif ($accion=='consulta_informeBaja') {		    	
+				  	ConsultaController::getInstance()->realizaAccion("confirmacionBaja"); /* confirmar baja de consulta */	
+				}
+				elseif ($accion=='consulta_pantallaEditar') {		    	
+				  	ConsultaController::getInstance()->realizaAccion("pantallaEditar"); /* confirmar baja de consulta */
+				}
+				# Sin permisos   
 				else{
 		        	$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');
 			 		FrontController::getInstance()->mostrar('administracion',$msj,$_SESSION['sesion']->getUsername());

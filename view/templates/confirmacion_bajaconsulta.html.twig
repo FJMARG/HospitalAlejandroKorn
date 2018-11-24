@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block Head %}
+    <!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Confirmacion Baja Paciente</title>
+{% endblock %}
+{% block Script %}
+{% endblock %}  
+{% block contenido %}
+<main>
+    <div class="container text-center">
+	  <div class="form-group">
+	    <div class="panel panel-primary">
+           <div class="panel-heading" style="background-color:red;">Borrado Paciente</div>
+           <div class="panel-body"><p>La consulta fue eliminada del sistema</p></div>
+       </div>
+       <a href="./index.php?categoria=consulta&accion=consulta_verTodos" class="btn btn-danger"><span class="glyphicon glyphicon-share-alt"></span> Volver a pagina Consultas</a>
+     </div>
+  </div>   
+</main>
+{% endblock %}

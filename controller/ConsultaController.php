@@ -1,6 +1,7 @@
 <?php
 
-class ConsultaController extends DoctrineRepository {
+class ConsultaController extends DoctrineRepository 
+{
     
     private static $instance;
 
@@ -23,22 +24,22 @@ class ConsultaController extends DoctrineRepository {
        	  case 'crear':
               # Llamar a Pagina de buscar Pacientes
               $this->pantallaCrearConsulta(null);
-              break;
+          break;
           case 'insertar':
               # Insertar la consulta creada
               $this->insertarConsulta(null);
-              break;   
+          break;   
           case 'confirmacionAlta':
               # Informar que la consulta fue creada
               $user = ($_SESSION['sesion']);
               $datos['user'] = $user;
               # Confirmar la creacion de paciente confirmacionBaja
               echo TwigView::getTwig()->render('confirmacion_altaconsulta.html.twig',$datos);
-              break;     
+          break;     
           case 'verTodos':
               # Ver consultas del sistema
               $this->verConsultas($_GET['pag']);
-              break; 
+          break; 
           case 'verConsultaPaciente': 
               # Ver detalles de una consulta particular
               if (!isset(($_GET['id']))) { $_GET['id'] = ""; }
@@ -50,15 +51,39 @@ class ConsultaController extends DoctrineRepository {
               if (!isset(($_GET['id_consulta']))) { $_GET['id_consulta'] = ""; }
               $id = ($_GET['id_consulta']);
               $this->verConsulta($id);
-              break;         
+          break;
+          case 'verBorrado':
+              if (!isset(($_GET['id_consulta']))) { $_GET['id_consulta'] = ""; }
+              $id = ($_GET['id_consulta']);
+              $this->verConsultaPantallaBorrado($id);
+          break;   
+          case 'borrar':
+              if (!isset(($_GET['id_consulta']))) { $_GET['id_consulta'] = ""; }
+              $id = ($_GET['id_consulta']);
+              $this->borrarConsulta($id);
+          break;    
+          case 'confirmacionBaja':
+              $user = ($_SESSION['sesion']);
+              $datos['user'] = $user;
+              # Confirmar el borrado de la consulta
+              echo TwigView::getTwig()->render('confirmacion_bajaconsulta.html.twig',$datos);
+          break;        
+          case 'pantallaEditar':
+              if (!isset(($_GET['id_consulta']))) { $_GET['id_consulta'] = ""; }
+              $id = ($_GET['id_consulta']);
+              $this->pantallaEditarConsulta($id,null);
+          break;  
           default:
-              # code...ERROR consulta_verPacientes
-              break;    
+              # code...ERROR "borrar 
+          break;    
 	   }
     }   
 
 
    public function pantallaCrearConsulta($mensaje) {
+      
+         # levantar datos para pantalla  
+         $datos =  ConsultaRepository::getInstance()->datosPantalla();
 
          # Mensaje de error del servidor
          if ($mensaje != null) 
@@ -69,25 +94,6 @@ class ConsultaController extends DoctrineRepository {
          # User logueado
          $user = ($_SESSION['sesion']);
          $datos['user'] = $user;
-
-         # Levantar datos para mostrar en pantalla  
-         $em = DoctrineRepository::getConnection(); 
-
-         # Motivo de consulta    
-         $motivoRepository = $em->getRepository('MotivoConsulta');
-         $datos['motivos'] = $motivoRepository->findAll();
-
-         # Tratamiento Farmacologico
-         $farmacologicoRepository = $em->getRepository('TratamientoFarmacologico');
-         $datos['farmacologicos'] = $farmacologicoRepository->findAll();
-
-         # Acompañamiento
-         $acompanamientoRepository = $em->getRepository('Acompanamiento');
-         $datos['acompas'] = $acompanamientoRepository->findAll();
-
-
-         $acompanamientoRepository = $em->getRepository('Institucion');
-         $datos['instituciones'] = $acompanamientoRepository->findAll();
 
          $vista = TwigView::getTwig();
          echo $vista->render('crearConsulta.html.twig',$datos);
@@ -179,6 +185,7 @@ class ConsultaController extends DoctrineRepository {
    public function verConsultaPaciente($pagActual,$id)
    {
        # User logueado
+       
        $user = ($_SESSION['sesion']);
        $datos['user'] = $user;
 
@@ -213,4 +220,64 @@ class ConsultaController extends DoctrineRepository {
 
     } 
 
-}    
+    public function verConsultaPantallaBorrado($id)
+    {
+
+        # Recupero los datos de la consula
+        $consulta = DoctrineRepository::getConnection()->getRepository('Consulta')->find($id);
+
+        if ( $consulta != NULL )
+        { 
+
+            $datos['consulta'] = $consulta;
+
+            $user = ($_SESSION['sesion']);
+            $datos['user'] = $user;
+
+            $vista = TwigView::getTwig();
+            echo $vista->render('borradoConsulta.html.twig',$datos);        
+
+        }
+       
+    }
+
+    public function borrarConsulta($id)
+    {
+        
+          $respuesta = ConsultaRepository::getInstance()->borrarConsulta($id);
+          if ($respuesta == 0) // consulta creada
+          {
+              header("Location: ./index.php?categoria=consulta&accion=consulta_informeBaja");
+          } 
+          else  // error en la consulta, id de consulta invalido
+          {
+
+          } 
+    }
+
+    public function pantallaEditarConsulta($id,$mensaje)
+    {
+
+         # levantar datos para pantalla  
+         $datos =  ConsultaRepository::getInstance()->datosPantalla();
+
+         # Mensaje de error del servidor
+         if ($mensaje != null) 
+         {
+            $datos['mensaje'] = $mensaje;
+         }
+         
+         # User logueado
+         $user = ($_SESSION['sesion']);
+         $datos['user'] = $user;
+
+         # Recupero los datos de la consula
+         $datos['consulta'] = DoctrineRepository::getConnection()->getRepository('Consulta')->find($id);
+
+         $vista = TwigView::getTwig();
+         echo $vista->render('editarConsulta.html.twig',$datos);
+
+    }
+
+
+} # final de clase    

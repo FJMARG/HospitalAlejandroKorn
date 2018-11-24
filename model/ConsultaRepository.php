@@ -126,4 +126,51 @@ class ConsultaRepository extends DoctrineRepository
     
     }
 
+
+    public function borrarConsulta($id)
+    {  
+       $em = DoctrineRepository::getConnection();
+
+       # Verificar si el ID pasado por parametro es valido
+       $consulta  = $em->getRepository('Consulta')->find($id);              
+       if ($consulta == NULL )
+       {
+            # No es un ID VALIDO
+            return "No se encontro el ID del paciente";  
+       }
+       else
+       { 
+           # Borramos la consulta
+           $em->remove($consulta);
+           $em->flush();
+
+           return 0;  
+       }
+    }
+
+    public function datosPantalla()
+    {
+       
+         # Levantar datos para mostrar en pantalla  
+         $em = DoctrineRepository::getConnection(); 
+
+         # Motivo de consulta    
+         $motivoRepository = $em->getRepository('MotivoConsulta');
+         $datos['motivos'] = $motivoRepository->findAll();
+
+         # Tratamiento Farmacologico
+         $farmacologicoRepository = $em->getRepository('TratamientoFarmacologico');
+         $datos['farmacologicos'] = $farmacologicoRepository->findAll();
+
+         # Acompañamiento
+         $acompanamientoRepository = $em->getRepository('Acompanamiento');
+         $datos['acompas'] = $acompanamientoRepository->findAll();
+
+          
+         $institutosRepository = $em->getRepository('Institucion');
+         $datos['instituciones'] = $institutosRepository->findAll();
+
+         return $datos; 
+
+    }
 }

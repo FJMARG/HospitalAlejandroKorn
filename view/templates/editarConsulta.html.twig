@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+{% block Head %}
+    <!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Editar paciente</title>
+{% endblock %}
+{% block Script %}
+	<!-- Script de -->
+	<script type= "text/javascript" src="mi_js/autocompletePaciente.js"></script>
+{% endblock %}  
+{% block contenido %}
+<main>
+	<div class="container margin-space">
+		  <div class="col-sm-offset-2 col-sm-8 text-center">
+             <h4>Editar Consulta</h4>
+             <hr>
+         </div>
+         <div class="col-sm-offset-2 col-sm-8">
+         	   <form id="consultaForm" role="form" method="post" action="./index.php?categoria=consulta&accion=consulta_insertar">
+         	   <div class="form-group">
+                    <div class = "ui-widget">
+                         <input class="form-control" id="paciente" placeholder="Ingrese Apellido, Nombre o Numero de Idetificacion de Paciente" value="{{ consulta.getPaciente().getApellido() }}" style="color:green" />
+                    </div>
+                    <div id="selection"></div>
+                    <div class="form-group">
+                         <input type="text" class="form-control" name="id" id="id" required size="20" value="{{ consulta.getPaciente().getId() }}" readonly>
+                    </div> 
+                    <div class="form-group text-center">
+                         <hr>
+                    </div>
+                    <div class="form-group"> <!-- Fecha Consulta -->
+                         <label for="fechaConsulta">Fecha Consulta</label>
+                         <input type="date" class="form-control" name="fechaConsulta" id="fechaConsulta" value="{{ consulta.getFecha()|date('Y-m-d') }}" required>
+                    </div>
+                    <div class="form-group"> <!-- Motivo -->
+                         <label for="genero">Motivo</label>
+                         <select class="form-control" name="motivo" id="motivo" required> 
+                         {% for motivo in motivos %}
+                               {% if consulta.getMotivo().getId() == motivo.getId() %} 
+                               	  <option value="{{motivo.getId()}}" selected>{{motivo.getNombre()}}</option>
+                               {% else %}
+                               	  <option value="{{motivo.getId()}}">{{motivo.getNombre()}}</option>
+                               {% endif %}  
+                         {% endfor %} 
+                         </select>
+                    </div>
+                    <div class="form-group"> <!-- Articulacion con otros Instituciones -->
+                         <label for="articulacion">Articulacion con otros Instituciones</label>
+                         <input type="text" class="form-control" name="articulacion" id="articulacion" value="{{ consulta.getArticulacionConInstituciones() }}">
+                    </div>
+                    <div class="form-group"> <!-- Internacion -->
+                           <label for="internacion">Irternación</label>
+                           <select class="form-control" name="internacion" id="internacion" required>
+                           	   {% if consulta.getInternacion() == 1 %} 
+	                           	    <option value="1" selected>SI</option> 
+	                     	   {% else %}
+	                           	    <option value="1">SI</option>
+	                     	   {% endif %} 
+	                     	   {% if consulta.getInternacion() == 0 %}
+	                           		<option value="0" selected>NO</option> 
+	                     	   {% else %}
+	                           		<option value="0">NO</option>
+	                     	   {% endif %}
+                     	  </select>
+                    </div> 
+                    <div class="form-group"> <!-- Diagnostico -->
+                         <label for="diagnostico">Diagnostico</label>
+                         <input type="text" class="form-control" name="diagnostico" id="diagnostico" required size="100" value="{{ consulta.getDiagnostico() }}">
+                    </div>
+                    <div class="form-group"> <!-- Observaciones -->
+                         <label for="observaciones">Observaciones</label>
+                         <input type="text" class="form-control" name="observaciones" id="observaciones" required size="100" value="{{ consulta.getObservaciones() }}">
+                    </div>  
+                    <div class="form-group"> <!-- Tratamiento Farmacologico -->
+                        <label for="farmacologico">Tratamiento Farmacológico</label>
+                        <select class="form-control" name="farmacologico" id="farmacologico"> 
+                              <option value="NULL" selected>Sin tratamiento Farmacologico</option> 
+                              {% for farmacologico in farmacologicos %}
+                              	  {% if consulta.getTratamientoFarmacologico().getId() == farmacologico.getId() %} 
+                                  	 <option value="{{farmacologico.getId()}}" selected>{{ farmacologico.getNombre() }}</option>
+                                  {% else %}
+                                  	 <option value="{{farmacologico.getId()}}" selected>{{ farmacologico.getNombre() }}</option>
+                                  {% endif %}
+                              {% endfor %} 
+                        </select>
+                    </div> 
+                    <div class="form-group"> <!-- Acompañamiento -->
+                         <label for="farmacologico">Acompañamiento</label>
+                         <select class="form-control" name="acompa" id="acompa"> 
+                               {% for acompa in acompas %}
+                                  {% if consulta.getAcompanamiento().getId() == acompa.getId() %} 
+                                  	 <option value="{{ acompa.getId()}}" selected>{{ acompa.getNombre() }}</option>
+                                  {% else %} 	
+                                  	 <option value="{{ acompa.getId()}}">{{ acompa.getNombre() }}</option>
+                                  {% endif %} 
+                               {% endfor %} 
+                         </select>
+                    </div> 
+                    <div class="form-group"> <!-- Institucion -->
+                        <label for="institucion">Institución</label>
+                        <select class="form-control" name="institucion" id="institucion"> 
+                             {% for institucion in instituciones %}
+                                 {% if consulta.getDerivacion().getId() == institucion.getId() %} 
+                                 	<option value="{{ institucion.getId() }}" selected>{{ institucion.getNombre() }}</option>
+                                 {% else %} 
+                                 	<option value="{{ institucion.getId() }}">{{ institucion.getNombre() }}</option>
+                                 {% endif %} 	
+                             {% endfor %} 
+                        </select> 
+                    </div> 
+                </div> 
+                <!-- Boton Guardado/ Cancelar-->
+		        <div class="form-group">
+		             <div class="col-sm-offset-3">
+		                  <button type="submit" class="btn btn-primary">Guardar</button>
+		                  <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
+		                  <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
+		             </div>
+		        </div>
+         	  </form>	
+         </div>	
+	</div>	
+</main>
+{% endblock %} 	

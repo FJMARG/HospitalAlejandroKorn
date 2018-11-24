@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block Head %}
+	<!-- Titulo Pagina -->
+    <title>Hospital Dr. Alejandro Korn - Borrar consulta de Paciente</title>
+{% endblock %}
+{% block Script %}
+{% endblock %}  
+{% block contenido %}
+<main>
+    <div class="container">
+	    <div class="row">
+		    <div class="panel panel-primary">
+		      <div class="panel-heading" style="background-color:red;">Se Procedera a borrar la siguiente Consulta</div>
+		        	<div class="panel-body">
+		        	    <table class="table">
+		        	        <tbody>
+		        	           <tr>
+		        	    	       <td>Nro Interno de Consulta:<td>
+		        	    	       <td>{{ consulta.getId() }}<td>
+		        	    	   <tr> 
+		        	    	   <tr>
+		        	    	       <td>Paciente:<td>
+		        	    	       <td>{{ consulta.getPaciente().getApellido() }} {{ consulta.getPaciente().getNombre() }}<td>
+		        	    	   <tr>
+		        	    	   <tr>
+		        	    	       <td>Fecha Consulta<td>
+		        	    	       <td>{{ consulta.getFecha()|date('Y-m-d') }}<td>
+		        	    	   <tr> 
+		        	    	</tbody>
+		        	   	</table> 	
+		        	</div>
+		      </div>   
+	    </div>
+		 <div class="row justify-content-center">
+	          <form name=tuformulario action="./index.php?categoria=consulta&accion=consulta_borrar&id_consulta={{ consulta.getId() }}" role="form" method="post"> 
+	          	 <div class="form-group col-sm-offset-4">	
+	                <button type="submit" class="btn btn-primary btn-danger">
+	                <span class="glyphicon glyphicon-trash"></span> Borrar Consulta</button>
+	                 <a href="javascript:history.back()" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
+	         	</div>
+	         </form> 
+		 </div> 	
+    </div>
+</main>
+{% endblock %} 
