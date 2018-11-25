@@ -137,6 +137,12 @@ class Router {
 					FrontController::getInstance()->mostrar('administracion',$msj,$_SESSION['sesion']);
 				}
 			}
+			elseif($categoria=='estadistica'){
+				if($accion =='grafico_ver'){
+					EstadisticoController::getInstance()->mostrarGrafico();
+				}
+
+			}
 			# ++++++++++++++++++++++++  fin configuracion ++++++++++++++++++++++++ #
 			# ++++++++++++++++++++++++  Inicio Seccion Usuarios ++++++++++++++++++++++++ #
 			elseif(($categoria=='usuarios')&&(SessionController::haveRol('Administrador'))){ 
