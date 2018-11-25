@@ -1,4 +1,4 @@
-<<?php 
+<?php 
 /**
  * 
  */
@@ -22,13 +22,31 @@ class EstadisticoController extends DoctrineRepository
 
 
     public function mostrarGrafico (){
-    	$datos = EstadisticoRepository::getInstance()->estadisticaPacienteXGenero();
+
+        $datos = EstadisticoRepository::getInstance()->estadisticaPacienteXGenero();
+        $result = $this->convertirArray($datos);
+
+        $motivo =EstadisticoRepository::getInstance()->estadisticaConsultaXMotivo();
+        $re = $this->convertirArray($motivo);
+
+        $localidad =EstadisticoRepository::getInstance()->estadisticaConsultaXLocalidad();
+            $loc = $this->convertirArray($localidad);
+
+             $vista = TwigView::getTwig();            
+            echo $vista->render('estadistica.html.twig', array('data'=>$result , 'motivo'=>$re , 'loca'=>$loc));
+        
+
+    }
 
 
 
-
-        $vista = TwigView::getTwig();
-         echo $vista->render('estadistica.html.twig', $datos);
+    public function convertirArray($datos){
+        $result = array();
+            foreach ($datos as $valor) {
+                array_push($result, array('name' => $valor[1],'y' => $valor[0]));
+                    }
+              $result = json_encode( $result, JSON_NUMERIC_CHECK );  
+              return $result; 
     }
 
 }
