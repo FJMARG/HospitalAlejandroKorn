@@ -1,7 +1,6 @@
  {% extends 'base.html.twig' %}
   {% block Head %}
     <title>Hospital Dr. Alejandro Korn - Estadisticas</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="highcharts/highcharts.js"></script>
 	<script src="highcharts/exporting.js"></script>
@@ -10,8 +9,17 @@
 
 {% block contenido %}
 
+
+<form>
+    <input hidden="true" type="text" id="datos" value= {{  data }}>
+    <input hidden="true" type="text" id="motivo" value= '{{ motivo }}'>
+    <input hidden="true" type="text" id="locali" value= '{{ loca }}'>
+</form>
+
+
 <div id="container" style="width: 450px; height: 400px; margin: 0 auto" class="col-sm-3" ></div>
 <script src="highcharts/estaditico.js"></script>
+
 
 
 <div id="motivoconsulta" style="width: 450px; height: 400px; margin: 0 auto" class="col-sm-6"></div>

@@ -27,17 +27,7 @@ Highcharts.chart('motivoconsulta', {
     series: [{
         name: 'Brands',
         colorByPoint: true,
-        data: [{
-            name: 'diarrea',
-            y: 14.41,
-            sliced: true,
-            selected: true
-        }, {
-            name: 'heridas',
-            y: 11.84
-        }, {
-            name: 'Otros',
-            y: 2.61
-        }]
+        data: 
+        JSON.parse(document.getElementById("motivo").value)
     }]
 });

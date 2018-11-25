@@ -1,4 +1,4 @@
-<<?php 
+<?php 
 
  /**
   * 
@@ -23,11 +23,8 @@
 
 
     public function estadisticaPacienteXGenero(){
-        
-        
-           /*  $dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
+          /*$dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
               $pdo = new PDO($dsn, 'root', 'root');*/
-
 
               $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
               $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
@@ -39,34 +36,45 @@
                         ");
               $query-> execute();
                $resultado = $query->fetchAll();
-              return $resultado;
-
-
-
-         /* $em = DoctrineRepository::getConnection();
-          $qb = $em->createQueryBuilder();
-          $result = $qb->select('COUNT(p.id)')
-                        ->from('paciente', 'p')
-                        ->innerJoin('p', 'genero', 'g', 'g.id = p.genero_id')
-                          ->groupBy('g.nombre');
-
-          return $result;*/
+               return $resultado;
         
 
     }
 
     public function estadisticaConsultaXMotivo(){
-        $dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
-              $pdo = new PDO($dsn, 'root', 'root');
+                 $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
+              $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
 
                 $query = $pdo->prepare("SELECT COUNT(consulta.id) as CANTIDAD, motivo_consulta.nombre
-  FROM consulta  JOIN motivo_consulta
-    ON consulta.motivo_id = motivo_consulta.id
- GROUP BY motivo_consulta.nombre
+                        FROM consulta  JOIN motivo_consulta
+                    ON consulta.motivo_id = motivo_consulta.id
+                    GROUP BY motivo_consulta.nombre
                         ");
+                $query-> execute();
+               $resultado = $query->fetchAll();
+               return $resultado;
+
+
+    }
+
+    public function estadisticaConsultaXLocalidad(){
+          $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
+              $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
+
+
+        $query = $pdo->prepare("SELECT COUNT(consulta.id) as CANTIDAD, localidad.nombre
+         FROM consulta  JOIN institucion
+         ON consulta.derivacion_id = institucion.id
+            JOIN region_sanitaria
+          ON institucion.region_sanitaria_id = region_sanitaria.id
+             JOIN partido
+           ON partido.region_sanitaria_id = region_sanitaria.id
+         JOIN localidad
+              ON localidad.partido_id = partido.id
+            GROUP BY localidad.nombre");
               $query-> execute();
                $resultado = $query->fetchAll();
-              var_dump($resultado);
+               return $resultado;
 
 
     }

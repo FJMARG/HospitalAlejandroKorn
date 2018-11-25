@@ -27,17 +27,8 @@ Highcharts.chart('localidad', {
     series: [{
         name: 'Brands',
         colorByPoint: true,
-        data: [{
-            name: 'chascomus',
-            y: 10.41,
-            sliced: true,
-            selected: true
-        }, {
-            name: 'Necochea',
-            y: 11.84
-        }, {
-            name: 'La Plata',
-            y: 2.61
-        }]
+        data: 
+        JSON.parse(document.getElementById("locali").value)
+
     }]
 });
