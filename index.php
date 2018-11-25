@@ -111,6 +111,12 @@ class Router {
 				elseif ($accion=='consulta_pantallaEditar') {		    	
 				  	ConsultaController::getInstance()->realizaAccion("pantallaEditar"); /* confirmar baja de consulta */
 				}
+			    elseif ($accion=='consulta_guardar') {		    	
+				  	ConsultaController::getInstance()->realizaAccion("guardar"); /* confirmar edicion */
+				}
+			    elseif ($accion=='consulta_informeEditar') {		    	
+				  	ConsultaController::getInstance()->realizaAccion("confirmacionEditar"); /* pantalla de edicion confirmarda */
+				}
 				# Sin permisos   
 				else{
 		        	$msj = new ClaseMensaje ('danger','No tienes permisos para acceder a esta funcionalidad.','Error: ');

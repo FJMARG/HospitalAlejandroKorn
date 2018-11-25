@@ -91,8 +91,7 @@ class BuscarNombrePaciente
          //array_push($arrayName,$linea);
          //echo json_encode($arrayName);
      
-          
-
+        
           # Build GeoJSON feature collection array
           # Crear una matriz de colección de características GeoJSON
           $geojson = array(

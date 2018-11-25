@@ -206,7 +206,15 @@ class PacienteRepository extends DoctrineRepository {
            # No es un ID VALIDO
            return 1;  
        }
+
+       $consulta = ConsultaRepository::getInstance()->listarConsultasPaciente($id);
         
+       if ( $consulta != NULL )
+       {
+           # tiene consultas activas
+           return 2;  
+       }
+
        # Borramos Paciente
        $em->remove($paciente);
        $em->flush();

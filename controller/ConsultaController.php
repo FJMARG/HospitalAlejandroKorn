@@ -73,6 +73,17 @@ class ConsultaController extends DoctrineRepository
               $id = ($_GET['id_consulta']);
               $this->pantallaEditarConsulta($id,null);
           break;  
+          case 'guardar':
+              if (!isset(($_GET['id_consulta']))) { $_GET['id_consulta'] = ""; }
+              $id = ($_GET['id_consulta']);
+              $this->guardarConsulta($id,null);
+          break;
+          case 'confirmacionEditar':
+              $user = ($_SESSION['sesion']);
+              $datos['user'] = $user;
+              # Confirmar el borrado de la consulta
+              echo TwigView::getTwig()->render('confirmacion_guardadoconsulta.html.twig',$datos);
+          break;
           default:
               # code...ERROR "borrar 
           break;    
@@ -103,38 +114,10 @@ class ConsultaController extends DoctrineRepository
    public function insertarConsulta($mensaje)
    {
        
-      //leer parametros de entrada
-      
-      //ID paciente
-      if (!isset(($_POST['id']))) { $_POST['id'] = -1; }  
+      //leer parametros de entrada y validarlos
 
-      // fecha cosulta
-      if (!isset(($_POST['fechaConsulta']))) { $_POST['fechaConsulta'] = ""; } 
+      $this->validarInstanciaParametros(); 
 
-      //  motivo de consulta
-      if (!isset(($_POST['motivo']))) { $_POST['motivo'] = ""; } 
-
-      // Articulacion con otros Instituciones
-      if (!isset(($_POST['articulacion']))) { $_POST['articulacion'] = ""; } 
-
-      // Internacion  
-      if (!isset(($_POST['internacion']))) { $_POST['internacion'] = ""; } 
-
-      // Diagnostico 
-      if (!isset(($_POST['diagnostico']))) { $_POST['diagnostico'] = ""; } 
-      
-      // Observaciones
-      if (!isset(($_POST['observaciones']))) { $_POST['observaciones'] = ""; } 
-
-      // Tratamiento Farmacologico
-      if (!isset(($_POST['farmacologico']))) { $_POST['farmacologico'] = ""; } 
-      
-      // Acompañamiento
-      if (!isset(($_POST['acompa']))) { $_POST['acompa'] = ""; }   
-
-      // Institucion  
-      if (!isset(($_POST['institucion']))) { $_POST['institucion'] = ""; }    
-      
       $resp = ConsultaRepository::getInstance()->crearConsulta( ($_POST['id']),
                                                                 ($_POST['fechaConsulta']),
                                                                 ($_POST['motivo']),
@@ -150,7 +133,7 @@ class ConsultaController extends DoctrineRepository
      {
         header("Location: ./index.php?categoria=consulta&accion=consulta_informeAlta");
      } 
-     else  // error en la consulta
+        else  // error en la consulta
      {
 
      }
@@ -276,6 +259,73 @@ class ConsultaController extends DoctrineRepository
 
          $vista = TwigView::getTwig();
          echo $vista->render('editarConsulta.html.twig',$datos);
+
+    }
+
+    public function guardarConsulta($id_consulta,$mensaje)
+    { 
+
+      $this->validarInstanciaParametros();
+
+      $resp = ConsultaRepository::getInstance()->guardarConsulta( $id_consulta,
+                                                                  ($_POST['id']),
+                                                                  ($_POST['fechaConsulta']),
+                                                                  ($_POST['motivo']),
+                                                                  ($_POST['articulacion']),
+                                                                  ($_POST['internacion']),
+                                                                  ($_POST['diagnostico']),
+                                                                  ($_POST['observaciones']),
+                                                                  ($_POST['farmacologico']),
+                                                                  ($_POST['acompa']),
+                                                                  ($_POST['institucion']) ); // institucion = deviracion
+
+     if ($resp == 0) // consulta creada
+     {
+        header("Location: ./index.php?categoria=consulta&accion=consulta_informeEditar");
+     } 
+        else  // error en la consulta
+     {
+
+     }
+
+
+
+    }
+
+    public function validarInstanciaParametros()
+    {
+
+        //leer parametros de entrada
+        
+        //ID paciente
+        if (!isset(($_POST['id']))) { $_POST['id'] = -1; }  
+
+        // fecha cosulta
+        if (!isset(($_POST['fechaConsulta']))) { $_POST['fechaConsulta'] = ""; } 
+
+        //  motivo de consulta
+        if (!isset(($_POST['motivo']))) { $_POST['motivo'] = ""; } 
+
+        // Articulacion con otros Instituciones
+        if (!isset(($_POST['articulacion']))) { $_POST['articulacion'] = ""; } 
+
+        // Internacion  
+        if (!isset(($_POST['internacion']))) { $_POST['internacion'] = ""; } 
+
+        // Diagnostico 
+        if (!isset(($_POST['diagnostico']))) { $_POST['diagnostico'] = ""; } 
+        
+        // Observaciones
+        if (!isset(($_POST['observaciones']))) { $_POST['observaciones'] = ""; } 
+
+        // Tratamiento Farmacologico
+        if (!isset(($_POST['farmacologico']))) { $_POST['farmacologico'] = ""; } 
+        
+        // Acompañamiento
+        if (!isset(($_POST['acompa']))) { $_POST['acompa'] = ""; }   
+
+        // Institucion  
+        if (!isset(($_POST['institucion']))) { $_POST['institucion'] = ""; }    
 
     }
 
