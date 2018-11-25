@@ -23,8 +23,14 @@
 
 
     public function estadisticaPacienteXGenero(){
-          $dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
-              $pdo = new PDO($dsn, 'root', 'root');
+        
+        
+           /*  $dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
+              $pdo = new PDO($dsn, 'root', 'root');*/
+
+
+              $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
+              $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
 
                 $query = $pdo->prepare("SELECT COUNT(paciente.id) as CANTIDAD, genero.nombre
                         FROM paciente  JOIN genero
