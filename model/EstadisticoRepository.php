@@ -23,11 +23,8 @@
 
 
     public function estadisticaPacienteXGenero(){
-          /*$dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
-              $pdo = new PDO($dsn, 'root', 'root');*/
-
-              $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
-              $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
+  
+              $pdo = PdoRepository::getInstance()->getConnection();
 
                 $query = $pdo->prepare("SELECT COUNT(paciente.id) as CANTIDAD, genero.nombre
                         FROM paciente  JOIN genero
@@ -42,8 +39,7 @@
     }
 
     public function estadisticaConsultaXMotivo(){
-                 $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
-              $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
+            $pdo = PdoRepository::getInstance()->getConnection();
 
                 $query = $pdo->prepare("SELECT COUNT(consulta.id) as CANTIDAD, motivo_consulta.nombre
                         FROM consulta  JOIN motivo_consulta
@@ -58,9 +54,7 @@
     }
 
     public function estadisticaConsultaXLocalidad(){
-          $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
-              $pdo = new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
-
+      $pdo = PdoRepository::getInstance()->getConnection();
 
         $query = $pdo->prepare("SELECT COUNT(consulta.id) as CANTIDAD, localidad.nombre
          FROM consulta  JOIN institucion
