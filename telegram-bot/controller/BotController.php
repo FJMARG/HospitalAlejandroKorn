@@ -32,19 +32,31 @@
                     break;
              
                 case '/instituciones':
-                    $msg = "Las instituciones disponibles son: ";
                     $instituciones = InstitucionesRepository::getInstitucion();
-                    foreach ($instituciones as $institucion){
-                        $msg = $msg.$institucion['nombre']." - ";
-                    }
+                    if (!empty($instituciones)){
+                    	$msg = "Las instituciones disponibles son: -> ";
+	                    foreach ($instituciones as $institucion){
+	                        $msg = $msg.$institucion['nombre'];
+	                        $msg = $msg."-> ";
+	                    }
+	                }
+	                else{
+	                	$msg = "No hay instituciones disponibles.";
+	                }
                     break;
 
                 case '/instituciones-region-sanitaria':
-                    $msg = "Las instituciones disponibles para la region sanitaria ".$comando[1]." son: ";
-                    $instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
-                    foreach ($instituciones as $institucion){
-                        $msg = $msg.$institucion['nombre']." - ";
-                    }
+                	$instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
+                    if (!empty($instituciones)){
+	                    $msg = "Las instituciones disponibles para la region sanitaria ".$comando[1]." son: -> ";
+	                    foreach ($instituciones as $institucion){
+	                        $msg = $msg.$institucion['nombre'];
+	                        $msg = $msg."-> ";
+	                    }
+                	}
+                	else{
+                		$msg = "No hay instituciones disponibles para la region sanitaria indicada.";
+                	}
                     break;
 
                 case ($cmd == 'hola' || $cmd == 'holaa' || $cmd == 'holaaa' || $cmd == 'hola!' || $cmd == 'holaa!' || $cmd == 'holaaa!'):
@@ -165,10 +177,10 @@
                 			$msg = "Disculpame, pero no entiendo o no te puedo ayudar con eso. Escribe /help para ver los comandos disponibles.";
                 			break;
                 		case 3:
-                			$msg = "Que quiso decir?";
+                			$msg = "Que quiso decir?. Escribi /help y te mostrare los comandos que entiendo.";
                 			break;
                 		case 4:
-                			$msg = "eh? perdon, pero no entendi.";
+                			$msg = "eh? perdon, pero no entendi. Escribi /help y te muestro los comandos disponibles.";
                 			break;
                 		case 5:
                 			$msg = "Mil disculpas, pero mi funcionalidad es limitada a los comandos que aparecen al escribir el comando /help y a tener buenos modales!";
@@ -180,13 +192,13 @@
                 			$msg = "Disculpa, solo te puedo brindar informacion de las instituciones disponibles dada una region sanitaria (/instituciones-region-sanitaria: {region-sanitaria​​}), o sobre todas las instituciones en general (/instituciones).";
                 			break;
                 		case 8:
-                			$msg = "Por el momento no puedo ayudarte con lo que solicitas.";
+                			$msg = "Por el momento no puedo ayudarte con lo que solicitas. Escribi /help para conocer los comandos que entiendo.";
                 			break;
                 		case 9:
-                			$msg = "No tengo la informacion de lo que me pides. Quizas en algun futuro la tengamos!";
+                			$msg = "No tengo la informacion de lo que me pides. Quizas en algun futuro la tengamos! Escribe /help para que sepas que comandos entiendo actualmente.";
                 			break;
                 		case 10:
-                			$msg = "Comando incorrecto o inexistente!";
+                			$msg = "Comando incorrecto o inexistente! Escribe /help para que sepas que comandos entiendo.";
                 			break;
                 	}
                     break;
