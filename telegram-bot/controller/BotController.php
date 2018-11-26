@@ -34,10 +34,10 @@
                 case '/instituciones':
                     $instituciones = InstitucionesRepository::getInstitucion();
                     if (!empty($instituciones)){
-                    	$msg = "Las instituciones disponibles son: -> ";
+                    	$msg = "Las instituciones disponibles son:";
 	                    foreach ($instituciones as $institucion){
+	                    	$msg = $msg." -> ";
 	                        $msg = $msg.$institucion['nombre'];
-	                        $msg = $msg."-> ";
 	                    }
 	                }
 	                else{
@@ -48,10 +48,10 @@
                 case '/instituciones-region-sanitaria':
                 	$instituciones = InstitucionesRepository::getInstitucionRegionId($comando[1]);
                     if (!empty($instituciones)){
-	                    $msg = "Las instituciones disponibles para la region sanitaria ".$comando[1]." son: -> ";
+	                    $msg = "Las instituciones disponibles para la region sanitaria ".$comando[1]." son:";
 	                    foreach ($instituciones as $institucion){
+	                    	$msg = $msg." -> ";
 	                        $msg = $msg.$institucion['nombre'];
-	                        $msg = $msg."-> ";
 	                    }
                 	}
                 	else{
