@@ -39,10 +39,12 @@ function seleccionarInfoPartido()
               {
                    // obtener el Response
                    var myObj  = JSON.parse(xmlhttp.responseText);
+                   //var myObj  = xmlhttp.responseText;
+                   //console.log(myObj);
                  
                    // actualizar los datos de region sanitaria
                    var region = myObj['region'];   
-                   document.getElementById('regionSanitaria').value = region["1"];
+                   document.getElementById('regionSanitaria').value = region[1];
 
                    // actualizar los datos de localidad
                    var selectLoc = document.getElementsByName('localidad')[0];

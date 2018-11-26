@@ -46,7 +46,7 @@
                       <select class="form-control" name="partido" id="partido" onchange='seleccionarInfoPartido();'>
                           <option value="0" selected>Vacio</option>
                           {% for partido in partidos %}
-                          <option value="{{partido.getId()}}">{{partido.getNombre()}}</option>
+                          <option value="{{ partido.id }}">{{ partido.nombre }}</option>
                           {% endfor %} 
                       </select>
                 </div>

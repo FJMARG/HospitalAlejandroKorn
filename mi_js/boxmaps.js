@@ -12,34 +12,34 @@
     map.addControl(new mapboxgl.NavigationControl());
 
     $.ajax({
-               	url: "./controller/ScriptController.php", 
- 			    type: "get",
-               	dataType: "json",
-               	data: {
+              url: "./controller/ScriptController.php", 
+ 			        type: "get",
+              dataType: "json",
+              data: {
                	      act: "mapaInstitucion", 	
                	      valor: document.getElementById("pac_id").value
-               	      },	
-			    contentType: "application/json; charset=utf-8",
-				success: function(data) {
-                          // datos de respuesta
-                          // console.log(data);
-						  // add markers to map
-						
-						  data.features.forEach(function(marker) {
+               	    },	
+			        contentType: "application/json; charset=utf-8",
+      				success: function(data) {
+                                // datos de respuesta
+                                // console.log(data);
+      						  // add markers to map
+      						
+      						  data.features.forEach(function(marker) {
 
-						  // create a HTML element for each feature
-						  var el = document.createElement('div');
-						  el.className = 'marker';
+      						  // create a HTML element for each feature
+      						  var el = document.createElement('div');
+      						  el.className = 'marker';
 
-						  // make a marker for each feature and add to the map
-						  new mapboxgl.Marker(el)
-						  .setLngLat(marker.geometry.coordinates)
-						  .addTo(map);
-						});
+      						  // make a marker for each feature and add to the map
+      						  new mapboxgl.Marker(el)
+      						  .setLngLat(marker.geometry.coordinates)
+      						  .addTo(map);
+      						});
 
-					},
-				error: function() {
-				        console.log("No se encontraron mapas");
+      					},
+        				error: function() {
+        				        console.log("No se encontraron mapas");
 		  }
  });	
 

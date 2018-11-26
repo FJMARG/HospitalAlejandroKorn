@@ -107,10 +107,6 @@ class PacienteController extends DoctrineRepository {
 
        $datos['documentos'] = ReferenciasRepository::getTipoDocumento();
        
-       /* $em = DoctrineRepository::getConnection();
-       $docuRepository = $em->getRepository('TipoDocumento'); 
-       $datos['documentos'] = $docuRepository->findAll(); */
-
        
        # Llamar planilla de documentos
        $vista = TwigView::getTwig(); /*var_dump($documentos);*/
@@ -211,15 +207,13 @@ class PacienteController extends DoctrineRepository {
               echo $vista->render('listaPacientes.html.twig',array('pacientes' => $Pacientes,'user' => ($_SESSION['sesion']), 'limite' => $limit, 'cantPags' => $cantDePags, 'pag' => $pagActual, 'despl' => $offset));
           }
                                             
-          /*
-          $arrayPacientes = PacienteRepository::getInstance()->recuperarPacientes($name, $apellido, $nro_clinica);
-          $vista = TwigView::getTwig();
-          echo $vista->render('listaPacientes.html.twig', array('pacientes' => $arrayPacientes)); */
     }
 
      
     public function crearPaciente($mensaje) {
           
+          $datos = $this->datosDePantalla(); 
+
           # Mensaje de error del servidor
           if ($mensaje != null) 
           {
@@ -228,32 +222,6 @@ class PacienteController extends DoctrineRepository {
 
           $user = ($_SESSION['sesion']);
           $datos['user'] = $user;
-
-          # Levantar datos para mostrar en pantalla  
-          $em = DoctrineRepository::getConnection(); 
-
-          $partidoRepository = $em->getRepository('Partido');
-          $datos['partidos'] = $partidoRepository->findAll();
-
-          $localidadRepository = $em->getRepository('Localidad');
-          $datos['localidades'] = $localidadRepository->findAll();
-
-          $generoRepository = $em->getRepository('Genero');
-          $datos['generos'] = $generoRepository->findAll();
-
-          /*   # No andan por el momentos las APIS
-          $json = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/obra-social");
-          $datos['obraSociales'] = json_decode($json,true); */
-
-          /* $json1 = ApiRequest::getInstance()->sendGet("https://api-referencias.proyecto2018.linti.unlp.edu.ar/tipo-documento");
-          $datos['documentos'] = json_decode($json1,true); */
-
-          $obraSocialRepository = $em->getRepository('ObraSocial'); 
-          $datos['obraSociales'] = $obraSocialRepository->findAll();
-
-          $docuRepository = $em->getRepository('TipoDocumento'); 
-          $datos['documentos'] = $docuRepository->findAll();
-          
 
           $vista = TwigView::getTwig();
           echo $vista->render('crearPaciente.html.twig',$datos);
@@ -265,13 +233,18 @@ class PacienteController extends DoctrineRepository {
       /* Instanciar Campos */
       $this->instanciarPost();
 
+      
+      $partido = ReferenciasRepository::getPartidoId(($_POST["partido"]));
+      $region = $partido["region_sanitaria_id"];  
+        
+
       /* procesar las variables */
       $respuesta = PacienteRepository::getInstance()->crearPaciente(($_POST["nombre"]),
                                                                     ($_POST["apellido"]),
                                                                     ($_POST["fechaNacimineto"]),
                                                                     ($_POST["lugarNacimineto"]),
                                                                     ($_POST["partido"]),
-                                                                    ($_POST["regionSanitaria"]),
+                                                                    $region,
                                                                     ($_POST["localidad"]),
                                                                     ($_POST["domicilio"]),
                                                                     ($_POST["genero"]),
@@ -289,9 +262,48 @@ class PacienteController extends DoctrineRepository {
 
     public function verPaciente($id){
 
-
         # Buscar los datos del paciente a mostrar
-        $datos['paciente'] = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
+        $paciente = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
+
+        // datos desde api para documento
+        if ( $paciente->getTipoDoc() != NULL ) 
+        {
+           
+             $id = $paciente->getTipoDoc()->getId();
+             $array =  ReferenciasRepository::getTipoDocumentoId($id);
+             $paciente->getTipoDoc()->setNombre($array['nombre']); 
+        }
+
+         
+        // datos desde api para obra social
+        if ( $paciente->getObraSocial() != NULL ) 
+        {
+        
+             $id = $paciente->getObraSocial()->getId();
+             $array =  ReferenciasRepository::getObraSocialId($id);
+             $paciente->getObraSocial()->setNombre($array['nombre']);
+        }  
+
+
+        // datos desde api para Region Sanitaria
+        if ( $paciente->getRegionSanitaria() != NULL )
+        {
+             $id = $paciente->getRegionSanitaria()->getId(); 
+             $array =  ReferenciasRepository::getRegionSanitariaId($id);
+             $paciente->getRegionSanitaria()->setNombre($array['nombre']);
+        }  
+
+        // datos desde api para Region Sanitaria
+        if ( $paciente->getLocalidad() != NULL )
+        {
+             $id = $paciente->getLocalidad()->getId(); 
+             $array =  ReferenciasRepository::getLocalidadId($id);
+             $paciente->getLocalidad()->setNombre($array['nombre']);
+        }  
+
+
+        // asignar datos en salida de pantalla 
+        $datos['paciente'] = $paciente;
 
         $user = ($_SESSION['sesion']);
         $datos['user'] = $user;
@@ -331,6 +343,11 @@ class PacienteController extends DoctrineRepository {
  
   public function verPacienteEditar($id,$mensaje)
   {
+        
+     $datos = $this->datosDePantalla(); 
+
+     $datos['localidades'] = ReferenciasRepository::getLocalidad();
+
      # Mensaje de error del servidor, lo instancia NULL
      if ($mensaje != null) 
      {
@@ -339,8 +356,7 @@ class PacienteController extends DoctrineRepository {
 
      # Buscar los datos del paciente a mostrar
      $paciente = DoctrineRepository::getConnection()->getRepository('Paciente')->find($id);
-
-    
+     
      if ( $paciente != NULL )
      {
         
@@ -348,25 +364,6 @@ class PacienteController extends DoctrineRepository {
 
         $user = ($_SESSION['sesion']);
         $datos['user'] = $user;
-
-
-        # Levantar datos para mostrar en pantalla  correspondiente paciente
-        $em = DoctrineRepository::getConnection(); 
-
-        $partidoRepository = $em->getRepository('Partido');
-        $datos['partidos'] = $partidoRepository->findAll();
-
-        $localidadRepository = $em->getRepository('Localidad');
-        $datos['localidades'] = $localidadRepository->findAll();
-
-        $generoRepository = $em->getRepository('Genero');
-        $datos['generos'] = $generoRepository->findAll();
-
-        $obraSocialRepository = $em->getRepository('ObraSocial'); 
-        $datos['obraSociales'] = $obraSocialRepository->findAll();
-
-        $docuRepository = $em->getRepository('TipoDocumento'); 
-        $datos['documentos'] = $docuRepository->findAll();
 
         $vista = TwigView::getTwig();
         echo $vista->render('editardoPaciente.html.twig',$datos);      
@@ -377,6 +374,9 @@ class PacienteController extends DoctrineRepository {
 
   public function pacienteGuardar($id)
   {
+
+       $partido = ReferenciasRepository::getPartidoId(($_POST["partido"]));
+       $region = $partido["region_sanitaria_id"];  
      
        /* Leer las variables */
        $respuesta = PacienteRepository::getInstance()->guardarPaciente($id,
@@ -385,7 +385,7 @@ class PacienteController extends DoctrineRepository {
                                                        ($_POST["fechaNacimineto"]),
                                                        ($_POST["lugarNacimineto"]),
                                                        ($_POST["partido"]),
-                                                       ($_POST["regionSanitaria"]),
+                                                        $region,
                                                        ($_POST["localidad"]),
                                                        ($_POST["domicilio"]),
                                                        ($_POST["genero"]),
@@ -497,6 +497,33 @@ class PacienteController extends DoctrineRepository {
         if ((!(isset($_POST["obraSocial"]))) || (empty(($_POST["obraSocial"]))) )
          { $_POST["obraSocial"] = ""; } 
        
+  }
+
+  public function datosDePantalla()
+  {
+
+        # Levantar datos para mostrar en pantalla  correspondiente paciente
+        $em = DoctrineRepository::getConnection(); 
+
+        //$partidoRepository = $em->getRepository('Partido');
+        //$datos['partidos'] = $partidoRepository->findAll();
+
+        //$obraSocialRepository = $em->getRepository('ObraSocial'); 
+        //$datos['obraSociales'] = $obraSocialRepository->findAll();
+
+        //$docuRepository = $em->getRepository('TipoDocumento'); 
+        //$datos['documentos'] = $docuRepository->findAll();
+
+        $datos['partidos'] = ReferenciasRepository::getPartido();
+
+        $generoRepository = $em->getRepository('Genero');
+        $datos['generos'] = $generoRepository->findAll();
+
+        $datos['obraSociales'] = ReferenciasRepository::getObraSocial();
+
+        $datos['documentos'] = ReferenciasRepository::getTipoDocumento();
+
+        return $datos; 
   }
 
 } # FIN DE CLASE

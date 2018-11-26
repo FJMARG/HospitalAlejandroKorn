@@ -87,7 +87,6 @@ class BuscarNombrePaciente
          //$linea['log']           = $row['log'];
          //$linea['director']      = $row['director'];
          //$linea['nombre']        = $row['nombre'];
-
          //array_push($arrayName,$linea);
          //echo json_encode($arrayName);
      
@@ -126,6 +125,18 @@ class BuscarNombrePaciente
         
      }
 
+     public function buscarConsultas($id)
+     {
+
+         $pdo = $this->getConnection();
+         $query = $pdo->prepare("SELECT count(*) FROM consulta WHERE paciente_id = ?");
+         $query->execute([$id]);
+         $count = $query->fetchColumn();
+
+         $array['cantidad'] = $count;
+         echo json_encode($array);
+
+     }
 }
 
 

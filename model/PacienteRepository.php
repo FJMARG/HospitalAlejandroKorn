@@ -30,7 +30,13 @@ class PacienteRepository extends DoctrineRepository {
     }
 
     public function recuperarPacientes($nombre, $apellido, $tipoDni, $nroDni, $nro_hist_clinica)
-    {
+    {   
+
+        filter_var($nombre, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($apellido, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($tipoDni, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($nroDni, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($nro_hist_clinica, FILTER_SANITIZE_SPECIAL_CHARS);
 
         $array = array();   
         # Filtro para nombre 
@@ -78,6 +84,23 @@ class PacienteRepository extends DoctrineRepository {
                                   $telefono,
                                   $obraSocial)
     {
+
+        # Sinitizar consultas
+        filter_var($nombre, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($apellido, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($fechaNac, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($lugarNac, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($regionSanitaria, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($localidad, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($domicilio, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($tieneDoc, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($tipoDoc, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($nroDoc, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($nro_hist_clinica, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($nro_carpeta, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($telefono, FILTER_SANITIZE_SPECIAL_CHARS);
+        filter_var($obraSocial, FILTER_SANITIZE_SPECIAL_CHARS);
+
         # preparo filtros
         # Validar los campos que son obligatorios
         if ( (empty($nombre)) || (empty($apellido)) || (empty($fechaNac)) ||
@@ -166,8 +189,7 @@ class PacienteRepository extends DoctrineRepository {
         # Buscar objeto Obra Social
         $tipoSocial          = $em->getRepository('ObraSocial')->find($obraSocial);
         # Buscar objeto Region Sanitaria
-        $arrayRegion['nombre'] = $regionSanitaria;   
-        $tipoRegion          = $em->getRepository('RegionSanitaria')->findOneBy($arrayRegion);
+        $tipoRegion          = $em->getRepository('RegionSanitaria')->find($regionSanitaria);
 
         $paciente = new Paciente();
               
@@ -241,6 +263,21 @@ class PacienteRepository extends DoctrineRepository {
                                     $nro_carpeta,
                                     $telefono,
                                     $obraSocial)  {
+
+      filter_var($nombre, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($apellido, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($fechaNac, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($lugarNac, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($regionSanitaria, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($localidad, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($domicilio, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($tieneDoc, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($tipoDoc, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($nroDoc, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($nro_hist_clinica, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($nro_carpeta, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($telefono, FILTER_SANITIZE_SPECIAL_CHARS);
+      filter_var($obraSocial, FILTER_SANITIZE_SPECIAL_CHARS);
       
       $em = DoctrineRepository::getConnection(); 
 
@@ -358,8 +395,7 @@ class PacienteRepository extends DoctrineRepository {
       # Buscar objeto Obra Social
       $tipoSocial            = $em->getRepository('ObraSocial')->find($obraSocial);
       # Buscar objeto Region Sanitaria
-      $arrayRegion['nombre'] = $regionSanitaria;   
-      $tipoRegion            = $em->getRepository('RegionSanitaria')->findOneBy($arrayRegion);
+      $tipoRegion            = $em->getRepository('RegionSanitaria')->find($regionSanitaria);
 
       # Si pasa todas la validacion procedemos 
       # Setar los parametros para la creacion

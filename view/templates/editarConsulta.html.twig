@@ -6,6 +6,7 @@
 {% block Script %}
 	<!-- Script de -->
 	<script type= "text/javascript" src="mi_js/autocompletePaciente.js"></script>
+  <script type= "text/javascript" src="mi_js/validarEdicionConsulta.js"></script>
 {% endblock %}  
 {% block contenido %}
 <main>
@@ -18,11 +19,11 @@
          	   <form id="consultaForm" role="form" method="post" action="./index.php?categoria=consulta&accion=consulta_guardar&id_consulta={{ consulta.getId() }}">
          	   <div class="form-group">
                     <div class = "ui-widget">
-                         <input class="form-control" id="paciente" placeholder="Ingrese Apellido, Nombre o Numero de Idetificacion de Paciente" value="{{ consulta.getPaciente().getApellido() }}" style="color:green" />
+                         <input class="form-control" id="paciente" placeholder="Ingrese Apellido, Nombre o Numero de Idetificacion de Paciente" value="{{ consulta.getPaciente().getApellido() }}" style="color:green" required>
                     </div>
                     <div id="selection"></div>
                     <div class="form-group">
-                         <input type="text" class="form-control" name="id" id="id" required size="20" value="{{ consulta.getPaciente().getId() }}" readonly>
+                         <input type="text" class="form-control" name="id" id="id" required size="20" value="{{ consulta.getPaciente().getId() }}" readonly required>
                     </div> 
                     <div class="form-group text-center">
                          <hr>

@@ -215,6 +215,7 @@ class ConsultaRepository extends DoctrineRepository
     {  
        
        $em = DoctrineRepository::getConnection();
+       filter_var($id, FILTER_SANITIZE_SPECIAL_CHARS);
 
        # Verificar si el ID pasado por parametro es valido
        $consulta  = $em->getRepository('Consulta')->find($id);              

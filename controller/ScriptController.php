@@ -24,6 +24,10 @@ switch ($opcion) {
         $valor = ($_GET['valor']); 
         BuscarNombrePaciente::getInstance()->buscarMapa($valor); 
      break;
+     case 'cantidadConsultas':
+        $id = ($_GET['valor']);  
+        BuscarNombrePaciente::getInstance()->buscarConsultas($id);
+     break;
      default:
      
      break;

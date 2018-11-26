@@ -45,12 +45,12 @@
         <div class="form-group">
             <label for="partido">Partido</label> <!-- Partido -->
             <select class="form-control" name="partido" id="partido" onchange='seleccionarInfoPartido();'>
-                 <option value="0">Vacio</option>
+                 <option value="0">vacio</option>
                  {% for partido in partidos %}
-                     {% if partido.getId() == paciente.getLocalidad().getPartido().getId() %}
-                         <option value="{{ partido.getId() }}" selected>{{partido.getNombre()}}</option>
+                     {% if partido.id == paciente.getLocalidad().getId() %}
+                         <option value="{{ partido.id }}" selected>{{ partido.nombre }}</option>
                      {% else %}
-                         <option value="{{ partido.getId() }}">{{partido.getNombre()}}</option>
+                         <option value="{{ partido.id }}">{{ partido.nombre }}</option>
                      {% endif %}    
                  {% endfor %} 
             </select>
@@ -64,10 +64,8 @@
                 <select class="form-control" name="localidad" id="localidad" value="{{ paciente.getLocalidad().getNombre() }}">
                          <option value="0">Vacio</option> 
                          {% for localidad in localidades %}
-   					                {% if localidad.getId() == paciente.getLocalidad().getId() %}
-      					            <option value="{{ localidad.getId() }}" selected>{{localidad.getNombre()}}</option>
-   					                {% else %}
-      					            <option value="{{ localidad.getId() }}">{{localidad.getNombre()}}</option>
+   					                {% if localidad.id == paciente.getLocalidad().getId() %}
+      					               <option value="{{ localidad.id }}" selected>{{ localidad.nombre }}</option>
    					                {% endif %}   
 					               {% endfor %} 
                 </select>
@@ -137,7 +135,7 @@
                 <select class="form-control" name="obraSocial" id="obraSocial">
                 <option value="0">Vacio</option>
                 {% for obraSocial in obraSociales %}
-                    {% if documento.getId() == paciente.getObraSocial().getId() %}
+                    {% if obraSocial.id == paciente.getObraSocial().getId() %} 
                        <option value="{{ obraSocial.id }}" selected>{{ obraSocial.nombre }}</option>
                     {% else %}
                        <option value="{{ obraSocial.id }}">{{ obraSocial.nombre }}</option>

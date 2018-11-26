@@ -81,40 +81,40 @@ class Router {
 			# ++++++++++++++++++++++++  fin pacientes  ++++++++++++++++++++++++ #
 			# ++++++++++++++++++++++++  comienzo consultas ++++++++++++++++++++++++ #
 			elseif($categoria=='consulta') {
-				if ($accion=='consulta_crear') {
+				if (($accion=='consulta_crear') && (SessionController::havePermission('consulta_new'))){
 					ConsultaController::getInstance()->realizaAccion("crear"); /* Pantalla Crear consulta para un paciente */
 				}
-				elseif ($accion=='consulta_insertar') {
+				elseif (($accion=='consulta_insertar') && (SessionController::havePermission('consulta_new'))) {
 					ConsultaController::getInstance()->realizaAccion("insertar"); /* Crear consulta para un paciente */
 				}
-				elseif ($accion=='consulta_informeAlta') {
+				elseif (($accion=='consulta_informeAlta') && (SessionController::havePermission('consulta_new'))) {
 					ConsultaController::getInstance()->realizaAccion("confirmacionAlta"); /* Consulta crearda OK */
 				}
-				elseif ($accion=='consulta_verTodos') {
+				elseif (($accion=='consulta_verTodos') && (SessionController::havePermission('consulta_index')) ) {
 				  	ConsultaController::getInstance()->realizaAccion("verTodos");   /* Ver consultas del sistema*/ 
 				}
-				elseif ($accion=='consulta_verPacientes') {
+				elseif (($accion=='consulta_verPacientes') && (SessionController::havePermission('consulta_index'))) {
 				  	ConsultaController::getInstance()->realizaAccion("verConsultaPaciente"); /* Ver consultas de los paciente en el sistema*/
 				}
-				elseif ($accion=='consulta_ver') {		    	
+				elseif ( ($accion=='consulta_ver') && (SessionController::havePermission('consulta_show')) ){		    	
 				  	ConsultaController::getInstance()->realizaAccion("verConsulta"); /* Ver detella de un paciente */	
 				}
-				elseif ($accion=='consulta_pantallaBorrado') {		    	
+				elseif (($accion=='consulta_pantallaBorrado') && (SessionController::havePermission('consulta_destroy'))) {		    	
 				  	ConsultaController::getInstance()->realizaAccion("verBorrado"); /* pantalla de borrado de un paciente */	
 				}
-				elseif ($accion=='consulta_borrar') {		    	
+				elseif (($accion=='consulta_borrar') && (SessionController::havePermission('consulta_destroy'))) {		    	
 				  	ConsultaController::getInstance()->realizaAccion("borrar"); /* borrar consulta de base de datos */	
 				}
-				elseif ($accion=='consulta_informeBaja') {		    	
+				elseif (($accion=='consulta_informeBaja') && (SessionController::havePermission('consulta_destroy'))) {		    	
 				  	ConsultaController::getInstance()->realizaAccion("confirmacionBaja"); /* confirmar baja de consulta */	
 				}
-				elseif ($accion=='consulta_pantallaEditar') {		    	
+				elseif (($accion=='consulta_pantallaEditar') && (SessionController::havePermission('consulta_update'))){		    	
 				  	ConsultaController::getInstance()->realizaAccion("pantallaEditar"); /* confirmar baja de consulta */
 				}
-			    elseif ($accion=='consulta_guardar') {		    	
+			    elseif (($accion=='consulta_guardar') && (SessionController::havePermission('consulta_update'))) {		    	
 				  	ConsultaController::getInstance()->realizaAccion("guardar"); /* confirmar edicion */
 				}
-			    elseif ($accion=='consulta_informeEditar') {		    	
+			    elseif (($accion=='consulta_informeEditar') && (SessionController::havePermission('consulta_update'))) {		    	
 				  	ConsultaController::getInstance()->realizaAccion("confirmacionEditar"); /* pantalla de edicion confirmarda */
 				}
 				# Sin permisos   

@@ -5,6 +5,7 @@
 {% endblock %}
 {% block Script %}
     <script type= "text/javascript" src="mi_js/autocompletePaciente.js"></script>
+    <script type= "text/javascript" src="mi_js/validarCreacionConsulta.js"></script>
 {% endblock %}    
 {% block contenido %}
 {% if mensaje is defined %}
@@ -25,12 +26,12 @@
                     <form id="consultaForm" role="form" method="post" action="./index.php?categoria=consulta&accion=consulta_insertar" accept-charset="ISO-8859-1">
                         <div class="form-group">
                             <div class = "ui-widget">
-                                 <input class="form-control" id="paciente" placeholder="Ingrese Apellido, Nombre o Numero de Idetificacion de Paciente"/>
+                                 <input class="form-control" id="paciente" placeholder="Ingrese Apellido, Nombre o Numero de Idetificacion de Paciente" required>
                             </div>
                         </div> 
                         <div id="selection"></div>
-                        <div class="form-group">
-                             <input type="text" class="form-control" name="id" id="id" required size="20" readonly>
+                        <div class="form-group"> <!-- ID de persona -->
+                             <input type="text" class="form-control" name="id" id="id" size="20" readonly required>
                         </div> 
                         <div class="form-group text-center">
                              <hr>
@@ -100,7 +101,7 @@
                                  <button type="submit" class="btn btn-info" >
                                  <span class="glyphicon glyphicon-user"></span> Crear Consulta</button>
                                  <button type="reset" class="btn btn-secondary"><span>&#x21B6;</span> Reiniciar campos</button>
-                                 <a href="./index.php?categoria=paciente&accion=paciente_verTodos" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
+                                 <a href="./index.php?categoria=consulta&accion=consulta_verTodos" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Cancelar</a>
                              </div>
                         </div> 
                     </form>   

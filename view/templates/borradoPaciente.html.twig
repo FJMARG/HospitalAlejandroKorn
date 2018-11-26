@@ -4,6 +4,7 @@
     <title>Hospital Dr. Alejandro Korn - Borrar paciente</title>
 {% endblock %}
 {% block Script %}
+<script src="mi_js/validarBorradoPaciente.js"></script>
 {% endblock %}  
 {% block contenido %}
 <main>
@@ -40,7 +41,8 @@
 		      </div>   
 	    </div>
 		 <div class="row justify-content-center">
-	          <form name=tuformulario action="./index.php?categoria=paciente&accion=paciente_borrar&id={{ paciente.getId }}" role="form" method="post"> 
+	          <form id="pacienteBorrado" name="pacienteBorrado" action="./index.php?categoria=paciente&accion=paciente_borrar&id={{ paciente.getId }}" role="form" method="post"> 
+	          	 <input id="idPaciente" value="{{ paciente.getId }}" hidden>
 	          	 <div class="form-group col-sm-offset-4">	
 	                <button type="submit" class="btn btn-primary btn-danger">
 	                <span class="glyphicon glyphicon-trash"></span> Borrar Paciente</button>
