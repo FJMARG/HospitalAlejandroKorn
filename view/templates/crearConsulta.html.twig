@@ -4,6 +4,10 @@
     <title>Hospital Dr. Alejandro Korn - Administracion</title>
 {% endblock %}
 {% block Script %}
+<!-- Librerias para el mapa -->
+    <script src  ='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+    <link   href ='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+ <!-- validaciones -->   
     <script type= "text/javascript" src="mi_js/autocompletePaciente.js"></script>
     <script type= "text/javascript" src="mi_js/validarCreacionConsulta.js"></script>
 {% endblock %}    
@@ -36,6 +40,16 @@
                         <div class="form-group text-center">
                              <hr>
                         </div>
+                        <!-- Mapa -->
+                        <div class="form-group">
+                           <label for="map-container">Instituciones concurridas por el paciente</label>
+                           <div id="map-container">
+                               <div id='map'></div>
+                           </div> 
+                        </div>
+                        <div class="form-group text-center">
+                             <hr>
+                        </div> 
                         <div class="form-group"> <!-- Fecha Consulta -->
                             <label for="fechaConsulta">Fecha Consulta</label>
                             <input type="date" class="form-control" name="fechaConsulta" id="fechaConsulta" required>
