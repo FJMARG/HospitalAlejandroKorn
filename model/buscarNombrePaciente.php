@@ -72,10 +72,12 @@ class BuscarNombrePaciente
         
          // recuperar los datos del cliente
          $pdo = $this->getConnection();
-         $query = $pdo->prepare("SELECT DISTINCT consulta.derivacion_id, institucion.nombre, institucion.director, institucion.lat, institucion.log
+         $query = $pdo->prepare("SELECT DISTINCT consulta.derivacion_id, institucion.nombre, institucion.director, institucion.lat, institucion.log, tipo_institucion.nombre as tipo
                                  FROM consulta 
                                  INNER JOIN institucion ON
                                  consulta.derivacion_id = institucion.id
+                                 INNER JOIN tipo_institucion ON
+                                 institucion.id  = tipo_institucion.id
                                  WHERE consulta.paciente_id = ? 
                                  AND consulta.derivacion_id IS NOT NULL");
          $query->execute([$id]);
@@ -110,7 +112,7 @@ class BuscarNombrePaciente
                                                         ),
                                       # Pass other attribute columns here
                                       'properties' => array (
-                                                              'name' => $row['director'],
+                                                              'name' => $row['tipo'],
                                                               'description' => $row['nombre']
                       )
                   );
