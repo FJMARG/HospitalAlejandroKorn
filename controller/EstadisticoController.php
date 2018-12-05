@@ -21,19 +21,24 @@ class EstadisticoController extends DoctrineRepository
     }
 
 
-    public function mostrarGrafico (){
+    public function mostrarGrafico ($mostrar){
 
-        $datos = EstadisticoRepository::getInstance()->estadisticaPacienteXGenero();
-        $result = $this->convertirArray($datos);
+        if ($mostrar == 'genero') {
+            $datos = EstadisticoRepository::getInstance()->estadisticaPacienteXGenero();
+            $result = $this->convertirArray($datos);
+        }
+        elseif ($mostrar == 'consulta') {
+            $datos =EstadisticoRepository::getInstance()->estadisticaConsultaXMotivo();
+             $result = $this->convertirArray($datos);
+        }
+        else{
+            $datos =EstadisticoRepository::getInstance()->estadisticaConsultaXLocalidad();
+            $result = $this->convertirArray($datos);
+        }
 
-        $motivo =EstadisticoRepository::getInstance()->estadisticaConsultaXMotivo();
-        $re = $this->convertirArray($motivo);
-
-        $localidad =EstadisticoRepository::getInstance()->estadisticaConsultaXLocalidad();
-            $loc = $this->convertirArray($localidad);
 
              $vista = TwigView::getTwig();            
-            echo $vista->render('estadistica.html.twig', array('data'=>$result , 'motivo'=>$re , 'loca'=>$loc));
+           echo $vista->render('estadistica.html.twig', array('data'=>$result , 'sobre'=>$mostrar));
         
 
     }

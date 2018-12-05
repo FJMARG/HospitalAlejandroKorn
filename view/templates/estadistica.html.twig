@@ -1,6 +1,7 @@
  {% extends 'base.html.twig' %}
   {% block Head %}
     <title>Hospital Dr. Alejandro Korn - Estadisticas</title>
+            <link rel="stylesheet" href="css/highcharts.css"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="highcharts/highcharts.js"></script>
 	<script src="highcharts/exporting.js"></script>
@@ -10,24 +11,30 @@
 {% block contenido %}
 
 
-<form>
+{% if sobre == 'genero' %}
+	<form>
     <input hidden="true" type="text" id="datos" value= {{  data }}>
-    <input hidden="true" type="text" id="motivo" value= '{{ motivo }}'>
-    <input hidden="true" type="text" id="locali" value= '{{ loca }}'>
 </form>
-
-
-<div id="container" style="width: 450px; height: 400px; margin: 0 auto" class="col-sm-3" ></div>
+   <div id="container" style="width: 50%; height: 50%; margin: 0 auto " ></div>
 <script src="highcharts/estaditico.js"></script>
 
+{% elseif sobre == 'consulta' %}
 
-
-<div id="motivoconsulta" style="width: 450px; height: 400px; margin: 0 auto" class="col-sm-6"></div>
+	<form>
+    <input hidden="true" type="text" id="datos" value= '{{  data }}''>
+	</form>
+  <div id="motivoconsulta" style="width: 50%; height: 50%; margin: 0 auto"></div>
 <script src="highcharts/estadisticoMotivoConsultas.js"></script>
 
+{% else %}
 
-<div id="localidad" style="width: 450px; height: 400px; margin: 0 auto " class="col-sm-3"></div>
+	<form>
+    <input hidden="true" type="text" id="datos" value= '{{  data }}'>
+</form>
+  <div id="localidad" style="width: 50%; height: 50%; margin: 0 auto "></div>
 <script src="highcharts/estadisticoXLocalidad.js"></script>
+
+{% endif %}
 
 
 

@@ -25,7 +25,7 @@ Highcharts.chart('container', {
         }
     },
     series: [{
-        name: 'Brands',
+        name: 'Cantidad',
         colorByPoint: true,
         data: 
 
@@ -34,16 +34,3 @@ Highcharts.chart('container', {
     }]
 });
 
-
-/*data: [{     
-            name: 'Masculino',
-            y: 11.84,
-            sliced: true,
-            selected: true
-        }, {
-            name: 'Femenino',
-            y: 11.84
-        }, {
-            name: 'Otros',
-            y: 2.61
-        }]*/

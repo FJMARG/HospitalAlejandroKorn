@@ -138,8 +138,14 @@ class Router {
 				}
 			}
 			elseif($categoria=='estadistica'){
-				if($accion =='grafico_ver'){
-					EstadisticoController::getInstance()->mostrarGrafico();
+				if($accion =='grafico_genero'){
+					EstadisticoController::getInstance()->mostrarGrafico('genero');
+				}
+				elseif ($accion =='grafico_consulta') {
+					EstadisticoController::getInstance()->mostrarGrafico('consulta');
+				}
+				elseif ($accion == 'grafico_localidad') {
+					EstadisticoController::getInstance()->mostrarGrafico('localidad');
 				}
 
 			}

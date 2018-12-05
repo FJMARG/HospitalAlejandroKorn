@@ -25,9 +25,9 @@ Highcharts.chart('motivoconsulta', {
         }
     },
     series: [{
-        name: 'Brands',
+        name: 'Cantidad',
         colorByPoint: true,
         data: 
-        JSON.parse(document.getElementById("motivo").value)
+        JSON.parse(document.getElementById("datos").value)
     }]
 });
