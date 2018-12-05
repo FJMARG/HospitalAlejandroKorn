@@ -23,7 +23,7 @@ class BuscarNombrePaciente
         $dsn = 'mysql:host=localhost;dbname=grupo11;charset=utf8';
         return new PDO($dsn, 'grupo11', 'ZDc1MjY5MTBlNjQ2');
 
-        //$dsn = 'mysql:host=localhost;dbname=proyecto2018;charset=utf8';
+        //$dsn = 'mysql:host=localhost;dbname=proyecto2019;charset=utf8';
         //return new PDO($dsn, 'root', 'alumno');
 
     }  
@@ -77,7 +77,7 @@ class BuscarNombrePaciente
                                  INNER JOIN institucion ON
                                  consulta.derivacion_id = institucion.id
                                  INNER JOIN tipo_institucion ON
-                                 institucion.id  = tipo_institucion.id
+                                 institucion.tipo_institucion_id  = tipo_institucion.id
                                  WHERE consulta.paciente_id = ? 
                                  AND consulta.derivacion_id IS NOT NULL");
          $query->execute([$id]);

@@ -21,18 +21,14 @@ $conn = array(
     'dbname' => 'grupo11',
 );
 
-
 /*
 $conn = array(
     'driver' => 'pdo_mysql',
     'user' => 'root',
     'password' => 'alumno',
-    'dbname' => 'proyecto2018',
+    'dbname' => 'proyecto2019',
 );
 */
-
-
-
 
 // obtaining the entity manager
 $entityManager = EntityManager::create($conn, $config);

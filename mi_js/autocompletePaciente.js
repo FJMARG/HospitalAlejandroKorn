@@ -69,7 +69,6 @@ $(function() {
                       contentType: "application/json; charset=utf-8",
                       success: function(data) {
 
-
                               var map = new mapboxgl.Map({
                               container: 'map', // container id
                               style: 'mapbox://styles/mapbox/streets-v9',
