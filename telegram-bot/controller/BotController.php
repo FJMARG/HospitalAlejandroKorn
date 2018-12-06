@@ -21,15 +21,15 @@
             // Comandos que responde el bot
 
             $msg=array();
-            $msg[0]='';
+            $msg[0]="";
 
             switch ($cmd) {
                 case '/start':
-                    $msg[0] = 'Hola '.$name.'¿Que necesita? Si escribis /help te listare todos los comandos disponibles. Recuerda que los comandos deben escribirse tal cual como se indican (excepto por las mayusculas o minusculas que no importan).';
+                    $msg[0] = "Hola ".$name."¿Que necesita? Si escribis /help te listare todos los comandos disponibles. Recuerda que los comandos deben escribirse tal cual como se indican (excepto por las mayusculas o minusculas que no importan).";
                     break;
              
                 case '/help':
-                    $msg[0] = 'Los comandos disponibles son los siguientes: /start Inicializa el bot. /instituciones Muestra las instituciones disponibles. /instituciones-region-sanitaria: {region-sanitaria​​} Muestra un listado de Instituciones a partir de una la región sanitaria indicada. /help Muestra los comandos disponibles (Los que te estoy mostrando ahora). Espero tu comando!!!';
+                    $msg[0] = "Los comandos disponibles son los siguientes: /start Inicializa el bot. /instituciones Muestra las instituciones disponibles. /instituciones-region-sanitaria: {region-sanitaria​​} Muestra un listado de Instituciones a partir de una la región sanitaria indicada. /help Muestra los comandos disponibles (Los que te estoy mostrando ahora). Espero tu comando!!!";
                     break;
              
                 case '/instituciones':
@@ -40,7 +40,7 @@
 	                    foreach ($instituciones as $institucion){
 	                    	if ( ((strlen($msg[$i])) + (strlen($institucion['nombre'])) + 4) > 4096 ){
 	                    		$i = $i + 1;
-                                $msg[$i] = '';
+                                $msg[$i] = "";
 	                    	}
 	                    	$msg[$i] .= " -> ";
 	                        $msg[$i] .= $institucion['nombre'];
@@ -59,7 +59,7 @@
 	                    foreach ($instituciones as $institucion){
 	                    	if ( ((strlen($msg[$i])) + (strlen($institucion['nombre'])) + 4) > 4096 ){
 	                    		$i = $i + 1;
-                                $msg[$i] = '';
+                                $msg[$i] = "";
 	                    	}
 	                    	$msg[$i] .= " -> ";
 	                        $msg[$i] .= $institucion['nombre'];
@@ -182,7 +182,7 @@
                 	$opcion=rand(1,10);
                 	switch($opcion){
                 		case 1:
-                			$msg[0]  = 'Lo siento '.$name.', pero no entiendo el comando ['.$cmdOriginal.'], por lo que no puedo ayudarte con lo que me solicitas. Escribi el comando /help para ver la lista de comandos disponibles (los que entiendo).';
+                			$msg[0]  = "Lo siento ".$name.", pero no entiendo el comando [".$cmdOriginal."], por lo que no puedo ayudarte con lo que me solicitas. Escribi el comando /help para ver la lista de comandos disponibles (los que entiendo).";
                 			break;
                 		case 2:
                 			$msg[0] = "Disculpame, pero no entiendo o no te puedo ayudar con eso. Escribe /help para ver los comandos disponibles.";
@@ -218,7 +218,7 @@
             //Envio de respuesta
             foreach ($msg as $x){
                 $m = strval($x);
-	            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$m.'&chat_id='.$chat_id;
+	            $url = "https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text=".$m."&chat_id=".$chat_id;
 	            file_get_contents($url);
 	        }
         }
