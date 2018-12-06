@@ -57,7 +57,7 @@
                     if (!empty($instituciones)){
 	                    $msg[$i] = "Las instituciones disponibles para la region sanitaria {$comando[1]} son:";
 	                    foreach ($instituciones as $institucion){
-	                    	if ( ((strlen(utf8_encode($msg[$i]))) + (strlen(utf8_encode($institucion['nombre'])))) > 4096 ){
+	                    	if ( ((strlen($msg[$i])) + (strlen($institucion['nombre']))) > 4096 ){
 	                    		$i = $i + 1;
                                 $msg[$i] = '';
 	                    	}
@@ -217,7 +217,7 @@
 
             //Envio de respuesta
             foreach ($msg as $m){
-	            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$m.'&chat_id='.$chat_id;
+	            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$m.''.$chat_id.'&chat_id='.$chat_id;
 	            file_get_contents($url);
 	        }
         }
