@@ -57,7 +57,7 @@
                     if (!empty($instituciones)){
 	                    $msg[$i] = "Las instituciones disponibles para la region sanitaria {$comando[1]} son:";
 	                    foreach ($instituciones as $institucion){
-	                    	if ( ((strlen($msg[$i])) + (strlen($institucion['nombre']))) > 4096 ){
+	                    	if ( ((strlen(utf8_encode($msg[$i]))) + (strlen(utf8_encode($institucion['nombre'])))) > 4096 ){
 	                    		$i = $i + 1;
                                 $msg[$i] = '';
 	                    	}
