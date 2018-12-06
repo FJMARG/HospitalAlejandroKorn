@@ -40,6 +40,7 @@
 	                    foreach ($instituciones as $institucion){
 	                    	if ( ((sizeof($msg[$i])) + (sizeof($institucion['nombre']))) > 4096 ){
 	                    		$i = $i + 1;
+                                $msg[$i] = '';
 	                    	}
 	                    	$msg[$i] = $msg[$i]." -> ";
 	                        $msg[$i] = $msg[$i].$institucion['nombre'];
@@ -58,6 +59,7 @@
 	                    foreach ($instituciones as $institucion){
 	                    	if ( ((sizeof($msg[$i])) + (sizeof($institucion['nombre']))) > 4096 ){
 	                    		$i = $i + 1;
+                                $msg[$i] = '';
 	                    	}
 	                    	$msg[$i] = $msg[$i]." -> ";
 	                        $msg[$i] = $msg[$i].$institucion['nombre'];
