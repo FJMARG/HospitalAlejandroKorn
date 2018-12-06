@@ -42,8 +42,8 @@
 	                    		$i = $i + 1;
                                 $msg[$i] = '';
 	                    	}
-	                    	$msg[$i] = "{$msg[$i]} -> ";
-	                        $msg[$i] = "{$msg[$i]}{$institucion['nombre']}";
+	                    	$msg[$i] .= " -> ";
+	                        $msg[$i] .= $institucion['nombre'];
 	                    }
 	                }
 	                else{
@@ -61,8 +61,8 @@
 	                    		$i = $i + 1;
                                 $msg[$i] = '';
 	                    	}
-	                    	$msg[$i] = "{$msg[$i]} -> ";
-	                        $msg[$i] = "{$msg[$i]}{$institucion['nombre']}";
+	                    	$msg[$i] .= " -> ";
+	                        $msg[$i] .= $institucion['nombre'];
 	                    }
                 	}
                 	else{
@@ -217,7 +217,7 @@
 
             //Envio de respuesta
             foreach ($msg as $m){
-	            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$m.''.$chat_id.'&chat_id='.$chat_id;
+	            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$m.'&chat_id='.$chat_id;
 	            file_get_contents($url);
 	        }
         }
