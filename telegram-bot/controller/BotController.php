@@ -23,7 +23,7 @@
             $msg=array();
             $msg[0]='';
 
-           /* switch ($cmd) {
+            switch ($cmd) {
                 case '/start':
                     $msg[0] = 'Hola '.$name.'¿Que necesita? Si escribis /help te listare todos los comandos disponibles. Recuerda que los comandos deben escribirse tal cual como se indican (excepto por las mayusculas o minusculas que no importan).';
                     break;
@@ -213,34 +213,12 @@
                 			break;
                 	}
                     break;
-            }*/
-
-
-
-
-            $instituciones = InstitucionesRepository::getInstitucion();
-                    $i=0;
-                    if (!empty($instituciones)){
-                        $msg[$i] = "Las instituciones disponibles son:";
-                        foreach ($instituciones as $institucion){
-                            if ( ((strlen($msg[$i])) + (strlen($institucion['nombre'])) + 4) > 4096 ){
-                                $i = $i + 1;
-                                $msg[$i] = '';
-                            }
-                            $msg[$i] .= " -> ";
-                            $msg[$i] .= $institucion['nombre'];
-                        }
-                    }
-                    else{
-                        $msg[$i] = "No hay instituciones disponibles.";
-                    }
-
-
-
+            }
 
             //Envio de respuesta
-            foreach ($msg as $m){
-	            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$m.'&chat_id=730593124'/*.$chat_id*/;
+            foreach ($msg as $x){
+                $m = strval($x);
+	            $url = 'https://api.telegram.org/bot794469660:AAFzyw5Ue3NfYqwtE15_H5F0ba2NDPyoKs0/sendMessage?text='.$m.'&chat_id='.$chat_id;
 	            file_get_contents($url);
 	        }
         }
