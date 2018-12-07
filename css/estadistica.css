@@ -1,0 +1,16 @@
+.tabla{
+
+width: 50% ;
+ float:left; 
+ overflow: scroll;
+
+
+
+
+}
+
+
+.grafico{
+
+	width: 50%; height: 50%; margin: 0 auto ; float: right;
+}

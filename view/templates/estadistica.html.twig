@@ -1,11 +1,12 @@
- {% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
   {% block Head %}
     <title>Hospital Dr. Alejandro Korn - Estadisticas</title>
-            <link rel="stylesheet" href="css/highcharts.css"> 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="highcharts/highcharts.js"></script>
-	<script src="highcharts/exporting.js"></script>
-	<script src="highcharts/export-data.js"></script>
+            <link rel="stylesheet" href="css/highcharts.css">
+            <link rel="stylesheet"  href="css/estadistica.css"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="highcharts/highcharts.js"></script>
+  <script src="highcharts/exporting.js"></script>
+  <script src="highcharts/export-data.js"></script>
   <script src="highcharts/export.js"></script>
 {% endblock %}
 
@@ -14,7 +15,7 @@
 
 {% if sobre == 'genero' %}
 
- <div id="HTMLtoPDF" style="width: 50% ; float:left">
+ <div id="HTMLtoPDF" class="tabla">
                 <table class="table table-hover">
                         <thead>
                           <tr>
@@ -49,17 +50,17 @@
 
 
 
-	<form>
+  <form>
     <input hidden="true" type="text" id="datos" value= {{  data }}>
 </form>
-   <div id="container" style="width: 50%; height: 50%; margin: 0 auto ; float: right " ></div>
+   <div id="container"  class="grafico" ></div>
 <script src="highcharts/estaditico.js"></script>
 
 {% elseif sobre == 'consulta' %}
 
 
 
- <div id="HTMLtoPDF" style="width: 50% ; float:left">
+ <div id="HTMLtoPDF" class="tabla">
                 <table class="table table-hover">
                         <thead>
                           <tr>
@@ -84,20 +85,25 @@
                 </table>
              </div>
                <form>
-    <input hidden="true" type="text" id="datos" value= '{{  data }}''>
-  </form>
-  <div id="motivoconsulta" style="width: 40%; height: 40%; margin: 0 auto; float: right"></div>
-<script src="highcharts/estadisticoMotivoConsultas.js"></script>
-
 
   <a href="#" onclick="HTMLtoPDF()">Descargar tabla</a>
   <script src="highcharts/jspdf.js"></script>
   <script src="highcharts/jquery-2.1.3.js"></script>
   <script src="highcharts/pdfFromHTML.js"></script>
 
+
+
+                
+    <input hidden="true" type="text" id="datos" value= '{{  data }}''>
+  </form>
+  <div id="motivoconsulta" class="grafico"></div>
+<script src="highcharts/estadisticoMotivoConsultas.js"></script>
+
+
+
 {% else %}
 
- <div id="HTMLtoPDF" style="width: 50% ; float:left">
+ <div id="HTMLtoPDF" class="tabla">
                 <table class="table table-hover">
                         <thead>
                           <tr>
@@ -133,10 +139,10 @@
 
 
 
-	<form>
+  <form>
     <input hidden="true" type="text" id="datos" value= '{{  data }}'>
 </form>
-  <div id="localidad" style="width: 50%; height: 50%; margin: 0 auto ;float: right; "></div>
+  <div id="localidad" class="grafico"></div>
 <script src="highcharts/estadisticoXLocalidad.js"></script>
 
 {% endif %}
