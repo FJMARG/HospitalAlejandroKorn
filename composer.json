@@ -1,7 +1,7 @@
 {
     "require": {
         "doctrine/orm": "^2.6",
-        "twig/twig": "^2.5",
+        "twig/twig": "^3.11",
         "nategood/httpful": "*"
     },
     "autoload": {
